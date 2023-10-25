@@ -167,15 +167,58 @@ function viewDatatable(){
             },
         ],
             "createdRow": function (row, data, index) {
-                $(row).attr('data-value', encodeURIComponent(JSON.stringify(data))).serialize();
+                $(row).attr('data-value', encodeURIComponent(JSON.stringify(data)));
                 $("thead").css({ "vertical-align": "middle", "text-align": "center", });
                 $("td", row).css({ "vertical-align": "middle", padding: "0.5em", 'cursor': 'pointer' });
                 $("td", row).first().css({ width: "3%", "text-align": "center", });
                 //Default
                 $('td', row).eq(1).css({ 'text-align': 'left', 'font-weight': 'normal' });
-               console.log(data);
-               modal.find
-            }
+                console.log(data);
+                $("#card").html(data);
+                $("#card").text(data);
+                $("#card").append("<p>",data.id,"</p>");
+                $("#card").text(JSON.stringify(data));
+
+                // data.serializeArray()
+
+
+                // var texts = data.map(function(item) {
+                //     return item.nama + " - " + item.harga;
+                // });
+                
+                // $("#card").html(texts.join("<br>"));
+                
+                // var isi = "";
+                // data.forEach(function(item) {
+                //     isi += item.nama + " - " + item.harga + "<br>";
+                // });
+                // $("#card").text(isi);
+
+
+
+               //--------------------------------------------------------------------
+            //    function(){
+            //    var text = "";
+
+            //     data.forEach(function(data) {
+            //         text += item.nama + " - " + item.harga + "<br>";
+            //     });
+
+            //     $("#card").html(text);
+            // }
+            //==================================================================
+            //-----------------------------------------------------------------
+            //    $(data).serializeArray().forEach((data) => $("#card").text(data.nama,data.harga));
+            //=========================================================================
+
+               //---------------------------------------------------
+            //    var formData = new FormData();
+            //    formData.append("filename", $("#filename").prop("files")[0]);
+            //    $(this)
+            //      .serializeArray()
+            //      .forEach((item) => formData.append(item.name, item.value));
+               //-----------------------------------------------------
+            },
 
     }).on( 'click', 'tr', function () {
 		if ($(this).hasClass('selected')) {
@@ -186,6 +229,7 @@ function viewDatatable(){
 			$('#btn-delete').addClass("disabled");
         }
 	});
+
 }
 
 function resetErrors() {

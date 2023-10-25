@@ -63,6 +63,9 @@
 							</thead>
 						
 						</table>
+						<div id="card"></div>
+						<input type="text" name="dhar">
+						<p id="namae"></p>
 					</div>
 
 				</div>
