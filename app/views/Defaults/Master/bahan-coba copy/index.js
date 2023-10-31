@@ -1,9 +1,10 @@
-window.defaultUrl = `${baseUrl}/master/voucher/`;
+window.defaultUrl = `${baseUrl}/master/kasir/`;
 var table;
+
 $(document).ready(function() {
     let modal = $('#formModal');
     viewDatatable();
-
+    select2data();
 
     $("#btn-refresh-data").click(function () {
         $('#filterModal').find('input[type=checkbox]').prop("checked", false);
@@ -21,11 +22,9 @@ $(document).ready(function() {
     });
 
     $('#btn-add').click(function() {
-        modal.find('input[name=kode]').val('');
-        modal.find('input[name=diskon]').val('');
-        modal.find('input[name=qty]').val('');
-        modal.find('input[name=active_at]').val('');
-        modal.find('input[name=expired_at]').val('');
+        modal.find('input[name=nama]').val('');
+        modal.find("select[name=kategori_id]").val('').trigger('change');
+        modal.find('input[name=hpp]').val('');
         modal.find('input[name=_type]').val('create');
         resetErrors();
         $('#formModal').modal('show');
@@ -42,12 +41,10 @@ $(document).ready(function() {
         if (selected) {
             modal.find('input[name=_type]').val('edit');
             modal.find('input[name=id]').val(selected.id);
-            modal.find('input[name=kode]').val(selected.kode);
-            modal.find('input[name=diskon]').val(selected.diskon);
-            modal.find('input[name=qty]').val(selected.qty);
-            modal.find('input[name=active_at]').val(selected.active_at);
-            modal.find('input[name=expired_at]').val(selected.expired_at);
-            
+            modal.find('input[name=nama]').val(selected.nama);
+            modal.find('input[name=hpp').val(selected.hpp);
+            $("select[name=kategori_id]").select2("trigger", "select", { data: { id: selected.kategori_id, text : selected.kategori} });
+            convertRupiah();
             resetErrors();
             modal.modal('show');
         }
@@ -144,23 +141,16 @@ function viewDatatable(){
                 },
             },
             {
+                data: 'nama'
+            },
+            {
                 data: 'kode'
             },
             {
-                data: 'diskon'
-            },
-            {
-                data: 'qty'
-            },
-            {
-                data: 'active_at'
-            },
-            {
-                data: 'expired_at'
-            },
-            {
-                data: 'status'
-            },
+                data: 'password',
+                
+            }, 
+            
         ],
             "createdRow": function (row, data, index) {
                 $(row).attr('data-value', encodeURIComponent(JSON.stringify(data)));
@@ -210,3 +200,93 @@ function confirmDelete() {
     });
 }
 
+function select2data(){
+    $('.select2produk').select2({
+        allowClear: true,
+        theme: "bootstrap4",
+        width: 'auto',
+        ajax: {
+            url: "{{ url('panel/referensi/getProduk') }}",
+            data: function (params) {
+                return {
+                    q: params.term,
+                    page: params.page || 1
+                };
+            },
+            processResults: function (response) {
+                var data = JSON.parse(response);
+                console.log(data);
+                return {
+                    results: data.data.map(function (i) {
+                        i.id = i.id;
+                        i.text = i.nama;
+                    
+                        return i;
+                    }),
+                    pagination: {
+                        more: data.has_more
+                    }
+                }
+            }
+        }
+    });
+
+    $('.select2kategori').select2({
+        allowClear: true,
+        theme: "bootstrap4",
+        width: 'auto',
+        ajax: {
+            url: "{{ url('panel/referensi/getKategori') }}",
+            data: function (params) {
+                return {
+                    q: params.term,
+                    page: params.page || 1
+                };
+            },
+            processResults: function (response) {
+                var data = JSON.parse(response);
+                console.log(data);
+                return {
+                    results: data.data.map(function (i) {
+                        i.id = i.id;
+                        i.text = i.nama;
+                    
+                        return i;
+                    }),
+                    pagination: {
+                        more: data.has_more
+                    }
+                }
+            }
+        }
+    });
+}
+
+function formatRupiah(angka, prefix) {
+    var number_string = angka.replace(/[^,\d]/g, "").toString(),
+        split = number_string.split(","),
+        sisa = split[0].length % 3,
+        rupiah = split[0].substr(0, sisa),
+        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+    if (ribuan) {
+        separator = sisa ? "." : "";
+        rupiah += separator + ribuan.join(".");
+    }
+
+    rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+    return prefix == undefined ? rupiah : prefix + rupiah;
+}
+rupiahFields.forEach(function (field) {
+    var element = document.getElementById(field);
+    element.addEventListener("keyup", function (e) {
+      element.value = formatRupiah(this.value, "Rp. ");
+    });
+  });
+
+function convertRupiah(){
+    rupiahFields.forEach(function (field) {
+      var element = document.getElementById(field);
+      element.value = formatRupiah(element.value, "Rp. ");
+    });
+}

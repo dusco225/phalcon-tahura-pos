@@ -12,7 +12,7 @@ class Model extends BaseModel
 {
     public function initialize()
     {
-        // $this->setConnectionService('db.simak');
-        // $this->setSource('vw_surat_masuk');
+        $this->setConnectionService('db');
+        $this->setSource('vw_produk');
     }
 }

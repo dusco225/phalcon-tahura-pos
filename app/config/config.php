@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'appName'      => 'TAHURA',
+    'appName'      => 'TAHURA CAFE',
     'appLongName'  => 'Sistem Informasi Cafe Tahura',
     'appDescription' => 'Sistem Informasi Untuk Cafe Tahura',
     'appVersion'     => 'v1.0',

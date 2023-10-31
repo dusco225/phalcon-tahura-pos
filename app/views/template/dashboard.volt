@@ -95,8 +95,7 @@
 
 							<a
 								class="navbar-brand ml-2 text-white" href="#">
-								<!-- {{ config.appName }} {{ session.tahun }} -->
-								TAHURA
+								{{ config.appName }} 
 							</a>
 						</div>
 

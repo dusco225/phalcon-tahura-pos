@@ -1,5 +1,6 @@
-window.defaultUrl = `${baseUrl}/master/bahan/`;
-var table;
+window.defaultUrl = `${baseUrl}kasir/`;
+
+
 var rupiahFields = [
     "harga",
   ];
@@ -7,8 +8,12 @@ var rupiahFields = [
 
 $(document).ready(function() {
     let modal = $('#formModal');
-    viewDatatable();
-    select2data();
+
+//---------------------------------------------------------------------------------------------
+viewDatacard();//panggil funsi
+//=============================================================================================
+
+    dhar();
 
     $("#btn-refresh-data").click(function () {
         $('#filterModal').find('input[type=checkbox]').prop("checked", false);
@@ -25,58 +30,7 @@ $(document).ready(function() {
         $('#filterModal').modal('show');
     });
 
-    $('#btn-add').click(function() {
-        modal.find('input[name=nama]').val('');
-        modal.find('input[name=jumlah]').val('');
-        modal.find("select[name=satuan_id]").val('').trigger('change');
-        modal.find('input[name=harga]').val('');
-        modal.find('input[name=_type]').val('create');
-        resetErrors();
-        $('#formModal').modal('show')
-    });
-
-    $('#btn-edit').click(function () {
-        let selected = table.row({
-            selected: true
-        }).data();
-        if(_.isEmpty(selected)) {
-            notification("warning", "Pilih Data Terlebih Dahulu");
-            return false;
-        };
-        if (selected) {
-            modal.find('input[name=_type]').val('edit');
-            modal.find('input[name=id]').val(selected.id);
-            modal.find('input[name=nama]').val(selected.nama);
-            modal.find('input[name=jumlah').val(selected.jumlah);
-            $("select[name=satuan]").select2("trigger", "select", { data: { id: selected.id_satuan, text : selected.nama_satuan} });
-            modal.find('input[name=harga').val(selected.harga);
-            convertRupiah();
-            resetErrors();
-            modal.modal('show');
-        }
-    });
-
-    $('#btn-delete').on('click', async function() {
-        let selected = table.row({
-            selected: true
-        }).data();
-        if(_.isEmpty(selected)) {
-            notification("warning", "Pilih Data Terlebih Dahulu");
-            return false;
-        };
-        if (selected && (await confirmDelete()).value) {
-            $.post(defaultUrl + "delete?id=" + selected.id)
-                .done(function() {
-                    notification('success', "Data berhasil dihapus");
-                    table.ajax.reload();
-                    $('#btn-edit').addClass('disabled');
-                    $('#btn-delete').addClass('disabled');
-                })
-                .fail(function() {
-                    notification('danger', "Data gagal dihapus");
-                });
-        }
-    });
+    
 
     modal.find('form').on('submit', function(ev) {
         ev.preventDefault();
@@ -119,71 +73,153 @@ $(document).ready(function() {
             });
     });
 
+
+    
+
     
 });
 
-function viewDatatable(){
-    table = $("#datatable").DataTable({
-        ajax: {
-            url: defaultUrl + "datatable",
-            "type": "post",
-			"data": function (d) {
-				var formData = $("#form-filter").serializeArray();
-                $.each(formData, function (key, val) {
-					d[val.name] = val.value;
-				});
-			}
-        },
-        serverSide: true,
-        processing: true,
-        responsive: true,
-        selected: false,
-        aaSorting: [],
-        columnDefs: [{
-            searchable: false,
-            targets: [0]
-        }],
-        columns: [{
-                data: 'id',
-                orderable: false,
-                render: function(data, index, row, meta) {
-                    return meta.row + meta.settings._iDisplayStart + 1 + ".";
-                },
-            },
-            {
-                data: 'nama'
-            },
-
-            {
-                data: 'kategori'
-            }, 
-            {
-                data: 'harga_',
-                render: function(data){
-                    return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
+//---------------------------------------------------------------------------------------------
+//index.js
+    //funsi mengambil data server melalui permintaan ajax
+    function viewDatacard(){
+    
+        $.ajax({
+            url: defaultUrl + "datacard", // Ganti dengan URL aksi yang sesuai
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                // console.log(data); // Menampilkan data dalam konsol
+                // Selanjutnya, Anda dapat melakukan apa yang Anda inginkan dengan data ini
+                if(data.message){
+                    //menampilkan pesan dari aksi datacardAction
+                    console.log("pemberitahuan", data.message,"success");
+                }
+                if(data.data && data.data.length > 0) {
+                    for (var i = 0; i < data.data.length; i++) {
+                        var cardWrap = createCard(data.data[i]);
+                        //tambahkan kartu ke elemen dengan ID
+                        $("#card-field").append(cardWrap); //di elemen ID "card-field"
+                    }
                 }
             },
-        ],
-            "createdRow": function (row, data, index) {
-                $(row).attr('data-value', encodeURIComponent(JSON.stringify(data)));
-                $("thead").css({ "vertical-align": "middle", "text-align": "center", });
-                $("td", row).css({ "vertical-align": "middle", padding: "0.5em", 'cursor': 'pointer' });
-                $("td", row).first().css({ width: "3%", "text-align": "center", });
-                //Default
-                $('td', row).eq(1).css({ 'text-align': 'left', 'font-weight': 'normal' });
-                
+            //menampilkan pesan kesalahan
+            error: function(xhr, status, error) {
+                console.error('Error:', error);
+                console.error('Status:', status);
+                console.error('XHR Response:', xhr.responseText);
+                // Tampilkan pesan kesalahan atau tindakan lain yang sesuai
             }
+        });
+        //membuat kartu/card
+        function createCard(data) {
+            var cardWrap = $(`<div class='card-wrapper p-2 col-3'  data-card='${JSON.stringify(data)}' ></div>`); //bungkus kartu
+            var card = $("<div class='card card-data p-2 bg-warning'></div>"); //kartu
+            var cardImgWrap = $("<div class='card-data-img-wrapper'></div>"); //bungkus gambar
+            var cardImg = $("<img class='image' src='' alt='Gambar Produk'></img>"); //bungkus gambar
+            var cardBody = $("<div class='card-body card-data-body'></div>");
+            var cardTextWrap = $("<div class='card-text-wrapper'></div>"); // bungkus text
+            var cardTitle = $("<h5 class='card-title'></h5>").text(data.nama); //judul 
+            var cardCategories = $("<h6 class='card-categories'></h6>").text(data.kategori); //kategori
+            var cardPrice = $("<h5 class='card-title'></h5>").text(formatRupiah(data.harga, "Rp. ")); //harga
+    
+            //pengelompokan kartu
+            cardImgWrap.append(cardImg);
+            cardTextWrap.append(cardTitle);
+            cardTextWrap.append(cardCategories);
+            cardTextWrap.append(cardPrice);
+            cardBody.append(cardTextWrap);
+            card.append(cardImgWrap);
+            card.append(cardBody);
+            cardWrap.append(card);
+    
+            
 
-    }).on( 'click', 'tr', function () {
-		if ($(this).hasClass('selected')) {
-			$('#btn-edit').removeClass("disabled");
-			$('#btn-delete').removeClass("disabled");
-		} else {
-			$('#btn-edit').addClass("disabled");
-			$('#btn-delete').addClass("disabled");
+            console.log(data);
+            //klik untuk tambah kartu
+            cardWrap.on('click',function(){
+                console.log('KARTU DI CLICK BRO');
+                var selectedCard = $(this).data('card');
+                console.log(selectedCard)
+                onCardClick(selectedCard);
+                console.log('KARTU BERES DI TAMBAHIN BRO');
+
+                
+                // var rCard = $('cart').data[selectedCard];
+                // return rCard;
+            });
+            return cardWrap;
+
         }
-	});
-}
+        
+    }
+
+    //----------------
+        //fungsi saat kartu di klik
+        
+        function onCardClick(cardData) {
+            console.log('MASUK FUNGI ON CARD CLICK');
+            var cart = $('.cart');
+            var existCard = cart.find(`[data-card='${JSON.stringify(cardData)}']`);
+            console.log('CEK JIKA ADA KARTU YANG SAMA' + existCard);
+            if (existCard.length === 0) {
+                var newCard = newCreateCard(cardData); //memanggil fungsi cetak kartu
+        
+                newCard.attr('data-card', JSON.stringify(cardData)); //menambah atribut pada kartu yang dicetak
+                newCard.insertBefore(cart.find('.payment')); //mencetak kartu baru
+            }else{
+                console.log('KARTUNYA DUPLIKAT BRO');
+            }
+        }
+        
+        
+    //================
+    //---------------
+    function newCreateCard(data) {
+        console.log('MASUK FUNGSI TAMBAH KARTU BARU');
+        
+        var cardWrap = $(`<div class='card-wrapper container-fluid p-2   row'></div>`); //bungkus kartu
+        var card = $("<div class='card card-data container-fluid row p-2 bg-dark'></div>"); //kartu
+        var cardImgWrap = $("<div class='card-data-img-wrapper bg-light container-fluid col-4'></div>"); //bungkus gambar
+        var cardImg = $("<img class='image' src='' alt='Gambar'></img>"); //bungkus gambar
+        var cardBody = $("<div class='card-body  container-fluid card-data-body col-8'></div>");
+        var cardTextWrap = $("<div class='card-text-wrapper bg-warning container-fluid'></div>"); // bungkus text
+        var cardTitle = $("<h5 class='card-title'></h5>").text(data.nama); //judul 
+        var cardCategories = $("<h6 class='card-categories'></h6>").text(data.jumlah); //kategori
+        var cardPrice = $("<h5 class='card-title'></h5>").text(formatRupiah(data.harga, "Rp. ")); //harga
+        var cardQty = $(`<input type='number' id='qty' name='qty' class='container-fluid'>`);
+        
+        
+        console.log(data);
+        
+        //pengelompokan kartu
+        cardImgWrap.append(cardImg);
+        cardTextWrap.append(cardTitle);
+        cardTextWrap.append(cardCategories);
+        cardTextWrap.append(cardPrice);
+        cardTextWrap.append(cardQty);
+        cardBody.append(cardTextWrap);
+        card.append(cardImgWrap);
+        card.append(cardBody);
+        cardWrap.append(card);
+
+        
+        
+        // if(!){}
+        console.log('KARTU BARU BERES DIBUAT');
+        return cardWrap;
+
+    }
+    
+    
+    $('.qty').onchange(function(){
+        console.log('NAMBAH EUYY');
+        harga = $('#qty'.value);
+        console.log(harga);
+    });
+    
+    //===============
+    //=================================================================================================
 
 function resetErrors() {
     $('.form-control').each(function(i, el) {
@@ -208,68 +244,6 @@ function confirmDelete() {
         customClass: {
             confirmButton: 'btn btn-success mx-2 px-3 radius-2',
             cancelButton: 'btn btn-danger mx-2 px-3 radius-2'
-        }
-    });
-}
-
-function select2data(){
-    $('.select2produk').select2({
-        allowClear: true,
-        theme: "bootstrap4",
-        width: 'auto',
-        ajax: {
-            url: "{{ url('panel/referensi/getProduk') }}",
-            data: function (params) {
-                return {
-                    q: params.term,
-                    page: params.page || 1
-                };
-            },
-            processResults: function (response) {
-                var data = JSON.parse(response);
-                console.log(data);
-                return {
-                    results: data.data.map(function (i) {
-                        i.id = i.id;
-                        i.text = i.nama;
-                    
-                        return i;
-                    }),
-                    pagination: {
-                        more: data.has_more
-                    }
-                }
-            }
-        }
-    });
-
-    $('.select2satuan').select2({
-        allowClear: true,
-        theme: "bootstrap4",
-        width: 'auto',
-        ajax: {
-            url: "{{ url('panel/referensi/getSatuan') }}",
-            data: function (params) {
-                return {
-                    q: params.term,
-                    page: params.page || 1
-                };
-            },
-            processResults: function (response) {
-                var data = JSON.parse(response);
-                console.log(data);
-                return {
-                    results: data.data.map(function (i) {
-                        i.id = i.id;
-                        i.text = i.nama;
-                    
-                        return i;
-                    }),
-                    pagination: {
-                        more: data.has_more
-                    }
-                }
-            }
         }
     });
 }
@@ -301,4 +275,9 @@ function convertRupiah(){
       var element = document.getElementById(field);
       element.value = formatRupiah(element.value, "Rp. ");
     });
+}
+
+
+function dhar(){
+    console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaa');
 }

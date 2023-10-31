@@ -12,6 +12,6 @@ class VwModel extends BaseModel
     public function initialize()
     {
         $this->setConnectionService('db');
-        $this->setSource('vw_master_tahura_produk');
+        $this->setSource('vw_produk');
     }
 }

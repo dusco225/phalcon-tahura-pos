@@ -1,19 +1,22 @@
 <?php
-
+//Controller.php
 declare(strict_types=1);
 
 namespace App\Modules\Defaults\Kasir;
 
+use App\Libraries\Log;
 use Phalcon\Mvc\Controller as BaseController;
 use App\Modules\Defaults\Master\Hakakses\Model as RoleModel;
 use Core\Facades\Response;
-use Core\Facades\Request;
 use App\Modules\Defaults\Middleware\Controller as MiddlewareHardController;
+use Core\Facades\Request;
+use Core\Paginator\DataTables\DataTable;
+use App\Modules\Defaults\Kasir\Model as Model;
 
 /**
  * @routeGroup("/kasir")
  */
-class Controller extends MiddlewareHardController
+class Controller extends BaseController
 {
     /**
      * @routeGet("/")
@@ -21,304 +24,158 @@ class Controller extends MiddlewareHardController
     public function indexAction($id)
     {
         $this->view->setVar('module', $id);
-        $this->view->tahun = $this->session->user['tahun'];
     }
 
+    
+    //controller.php
     /**
-     * @routeGet("/proyeksi-laba-rugi")
+     * @routeGet("/datacard")
+     * @routePost("/datacard")
      */
-    public function proyeksiLabaRugiAction()
+    public function datacardAction()
     {
-        $tahunSekarang = $this->session->user['tahun'];
         $pdam_id = $this->session->user['pdam_id'];
-        $jenis = Request::get("jenis");
-        if($jenis == "RKA"){
-            $sql = "CALL sp_dashboard_proyeksi_laba_rugi($pdam_id, $tahunSekarang,'RKA')";
-        }
-        else if($jenis == "RKAP"){
-            $sql = "CALL sp_dashboard_proyeksi_laba_rugi($pdam_id, $tahunSekarang,'RKAP')";
-        }
+    
+        $builder = $this->modelsManager->createBuilder()
+            ->columns('*')
+            ->from(Model::class)
+            ->where("1=1")
+            ->andWhere("pdam_id = '$pdam_id'");
+    
+        $result = $builder->getQuery()->execute();
+    
+        $jsonResult = [
+            'message' => 'Aksi datacardAction berhasil dipanggil.',
+            'data'=> $result->toArray(),
+        ];
+    
+        return $this->response->setJsonContent($jsonResult);
+    }
+    
+
+    /**
+     * @routeGet("/datatable")
+     * @routePost("/datatable")
+     */
+    public function datatableAction()
+    {
+        // var_dump(Request::getPost());exit;
+        $pdam_id = $this->session->user['pdam_id'];
+        $search_nama = Request::getPost('search_nama');
+        $search_kode = Request::getPost('search_kode');
+        $kategori_id_search = Request::getPost('kategori_id_search');
+        $barang_kategori_id_id = Request::getPost('barang_kategori_id_id');
+        $nama_barang = Request::getPost('nama_barang');
         
-        $result = $this->db->fetchAll($sql);
+        $builder = $this->modelsManager->createBuilder()
+                        ->columns('*')
+                        ->from(VwModel::class)
+                        ->where("1=1")
+                        ->andWhere("pdam_id = '$pdam_id'");
 
-        return Response::setJsonContent([
-            'data' => $result
-        ]);
+        if($nama_barang) {
+            $builder->andWhere("nama LIKE '%$nama_barang%'");
+        }
+        if($search_nama) {
+            $builder->andWhere("nama LIKE '%$search_nama%'");
+        }
+        if($search_kode) {
+            $builder->andWhere("kode = '$search_kode'");
+        }
+
+        if($kategori_id_search) {
+            $builder->andWhere("id_kategori = '$kategori_id_search'");
+        }
+        if($barang_kategori_id_id) {
+            $builder->andWhere("id_kategori = '$barang_kategori_id_id   '");
+        }
+
+
+
+        $dataTables = new DataTable();
+        $dataTables->fromBuilder($builder)->sendResponse();
     }
 
     /**
-     * @routeGet("/jumlah-investasi")
+     * @routeGet("/detail")
      */
-    public function jumlahInvestasiAction()
+    public function detailAction()
     {
-        $tahunSekarang = $this->session->user['tahun'];
+
+    }
+
+    /**
+     * @routePost("/store")
+     */
+    public function storeAction()
+    {
         $pdam_id = $this->session->user['pdam_id'];
-        $jenis = Request::get("jenis");
-        // var_dump($jenis);exit;
-        if($jenis == "RKA"){
-            $sql = "CALL sp_dashboard_jumlah_investasi($pdam_id, $tahunSekarang,'RKA')";
-        }
-        else if($jenis == "RKAP"){
-            $sql = "CALL sp_dashboard_jumlah_investasi($pdam_id, $tahunSekarang,'RKAP')";
-        }
+        $sessUser = $this->session->user['nama'];
         
-        $result = $this->db->fetchOne($sql);
+        $data = [
+            'nama'          => Request::getPost('nama'),
+            'jumlah'        => Request::getPost('jumlah'),
+            'satuan_id'        => Request::getPost('satuan'),
+            'harga'         => Request::getPost('harga'),
+            'created_at'    => date ('Y-m-d H:i:s'),
+            'pdam_id'       => $pdam_id,
+        ];
+        $create = new Model($data);
+        $result = $create->save();
 
+        $log = new Log(); 
+        $log->write("Insert Data Master-Referensi Barang-Kategori", $data, $result, "App\Modules\Defaults\Master\ReferensiBarang\Kategori\Controller", "INSERT");
         return Response::setJsonContent([
-            'data' => $result
+            'message' => 'Success',
         ]);
     }
 
     /**
-     * @routeGet("/jumlah-biaya")
+     * @routePost("/update")
      */
-    public function jumlahBiayaAction()
+    public function updateAction()
     {
-        $tahunSekarang = $this->session->user['tahun'];
+        $id = Request::getPost('id');
         $pdam_id = $this->session->user['pdam_id'];
-        $jenis = Request::get('jenis');
-        if($jenis == "RKA"){
-            $sql = "CALL sp_dashboard_jumlah_biaya($pdam_id, $tahunSekarang,'RKA')";
-        }
-        else if($jenis == "RKAP"){
-            $sql = "CALL sp_dashboard_jumlah_biaya($pdam_id, $tahunSekarang,'RKAP')";
-        }
-        
-        $result = $this->db->fetchOne($sql);
+        $data = [
+            'nama'          => Request::getPost('nama'),
+            'jumlah'          => Request::getPost('jumlah'),
+            'satuan_id'        => Request::getPost('satuan'),
+            'harga'         => Request::getPost('harga'),
+            'updated_at'    => date('Y-m-d H:i:s'),
+            'pdam_id'       => $pdam_id,
+        ];
+        $update = Model::findFirst($id);
+        $update->assign($data);
 
+        $result = $update->save();
+        $log = new Log(); 
+        $log->write("Update Data Master-Referensi Barang-Kategori", $data, $result, "App\Modules\Defaults\Master\ReferensiBarang\Kategori\Controller", "UPDATE");
         return Response::setJsonContent([
-            'data' => $result
+            'message' => 'Success',
         ]);
     }
 
-    /**
-     * @routeGet("/jumlah-sl")
-     */
-    public function jumlahSLAction()
-    {
-        $tahunSekarang = $this->session->user['tahun'];
-        $pdam_id = $this->session->user['pdam_id'];
-        $jenis = Request::get('jenis');
-        $sql = "CALL sp_dashboard_sl($pdam_id, $tahunSekarang,'$jenis')";
-        $result = $this->db->fetchAll($sql);
-        return Response::setJsonContent($result);
-    }
 
     /**
-     * @routeGet("/data-terverifikasi")
+     * @routePost("/delete")
      */
-    public function dataTerverifikasiAction()
+    public function deleteAction()
     {
-        $tahunSekarang = $this->session->user['tahun'];
-        $pdam_id = $this->session->user['pdam_id'];
-        $jenis = Request::get('jenis');
-        if($jenis == "RKA"){
-            $sql = "CALL sp_dashboard_data_terverifikasi($pdam_id, $tahunSekarang,'RKA')";
-        }
-        else if($jenis == "RKAP"){
-            $sql = "CALL sp_dashboard_data_terverifikasi($pdam_id, $tahunSekarang,'RKAP')";
-        }
-        
-        $result = $this->db->fetchAll($sql);
+        $id = Request::get('id');
+        $data = [
+            'id'            => Request::get('id')
+        ];
+        $delete = Model::findFirst($id);
+
+        $result = $delete->delete();
+
+        $log = new Log(); 
+        $log->write("Delete Data Master-Referensi Barang-Barang", $data, $result, "App\Modules\Defaults\Master\ReferensiBarang\Barang\Controller", "DELETE");
 
         return Response::setJsonContent([
-            'data' => $result
+            'message' => 'Success',
         ]);
     }
-
-    /**
-     * @routeGet("/pendapatan")
-     */
-    public function pendapatanAction()
-    {
-        $tahunSekarang = $this->session->user['tahun'];
-        $pdam_id = $this->session->user['pdam_id'];
-        $jenis = Request::get('jenis');
-        if($jenis == "RKA"){
-            $sql = "CALL sp_dashboard_pendapatan($pdam_id, $tahunSekarang, 'RKA')";
-        }
-        else if($jenis == "RKAP"){
-            $sql = "CALL sp_dashboard_pendapatan($pdam_id, $tahunSekarang, 'RKAP')";
-        }
-
-        $result = $this->db->fetchAll($sql);
-
-        $tmp_header = array();
-        $mainData = array();
-        foreach ($result as $head) {
-            if (!in_array($head['kode_kelompok'], $tmp_header)) {
-                $data["total"] = 0;
-                $data["kode_kelompok"]  = $head['kode_kelompok'];
-                $data["kelompok"]       = $head['kelompok'];
-                $data["data"]           = array();
-                foreach ($result as $pendapatan) {
-                    if($head['kode_kelompok'] == $pendapatan["kode_kelompok"]){
-                        array_push($data["data"], $pendapatan);
-                        $data["total"]         += $pendapatan['jumlah'];
-                    }
-                }
-                array_push($tmp_header, $head['kode_kelompok']);
-                array_push($mainData, $data);
-            }
-        }
-        return Response::setJsonContent($mainData);
-    }
-
-    /**
-     * @routeGet("/bar-biaya-pendapatan")
-     */
-    public function barBiayaPendapatanAction()
-    {
-        $tahunSekarang = $this->session->user['tahun'];
-        $pdam_id = $this->session->user['pdam_id'];
-        $jenis = Request::get('jenis');
-        if($jenis == "RKA"){
-            $sql = "CALL sp_dashboard_biaya_pendapatan($pdam_id, $tahunSekarang, 'RKA')";
-        }
-        else if($jenis == "RKAP"){
-            $sql = "CALL sp_dashboard_biaya_pendapatan($pdam_id, $tahunSekarang, 'RKAP')";
-        }
-
-        $result = $this->db->fetchAll($sql);
-
-        return Response::setJsonContent([
-            'data' => $result
-        ]);
-    }
-
-    /**
-     * @routeGet("/pie-anggaran-biaya-per-satker")
-     */
-    public function pieAnggaranBiayaPerSatkerAction()
-    {
-        $tahunSekarang = $this->session->user['tahun'];
-        $pdam_id = $this->session->user['pdam_id'];
-        $jenis = Request::get('jenis');
-        if($jenis == "RKA"){
-            $sql = "CALL sp_dashboard_alokasi_anggaran_satker($pdam_id, $tahunSekarang, 'RKA')";
-        }
-        else if($jenis == "RKAP"){
-            $sql = "CALL sp_dashboard_alokasi_anggaran_satker($pdam_id, $tahunSekarang, 'RKAP')";
-        }
-        $result = $this->db->fetchAll($sql);
-
-        return Response::setJsonContent([
-            'data' => $result
-        ]);
-    }
-
-    /**
-     * @routeGet("/estimasi-anggaran-biaya")
-     */
-    public function estimasiAnggaranBiayaAction()
-    {
-        $tahunSekarang = $this->session->user['tahun'];
-        $pdam_id = $this->session->user['pdam_id'];
-        $jenis = Request::get('jenis');
-        if($jenis == "RKA"){
-            $sql = "CALL sp_dashboard_anggaran_biaya($pdam_id, $tahunSekarang,'RKA')";
-        }
-        else if($jenis == "RKAP"){
-            $sql = "CALL sp_dashboard_anggaran_biaya($pdam_id, $tahunSekarang, 'RKAP')";
-        }
-
-        $result = $this->db->fetchAll($sql);
-
-        return Response::setJsonContent([
-            'data' => $result
-        ]);
-    }
-
-    /**
-     * @routeGet("/produksi-distribusi")
-     */
-    public function produksiDistribusiAction()
-    {
-        $tahunSekarang = $this->session->user['tahun'];
-        $pdam_id = $this->session->user['pdam_id'];
-        $jenis = Request::get('jenis');
-        if($jenis == "RKA"){
-            $sql = "CALL sp_dashboard_produksi_distribusi($pdam_id, $tahunSekarang,'RKA')";
-        }
-        else if($jenis == "RKAP"){
-            $sql = "CALL sp_dashboard_produksi_distribusi($pdam_id, $tahunSekarang, 'RKAP')";
-        }
-
-        $result = $this->db->fetchOne($sql);
-
-        return Response::setJsonContent([
-            'data' => $result
-        ]);
-    }
-
-    /**
-     * @routePost("/produksi-distribusi-bulan")
-     */
-    public function produksiDistribusiBulanAction()
-    {
-        $tahunSekarang = $this->session->user['tahun'];
-        $pdam_id = $this->session->user['pdam_id'];
-        $bulan = Request::getPost('bulan');
-        $jenis = Request::getPost('jenis');
-        if($jenis == "RKA"){
-            $sql = "CALL sp_dashboard_produksi_distribusi_bulan($pdam_id, $tahunSekarang, $bulan,'RKA')";
-        }
-        else if($jenis == "RKAP"){
-            $sql = "CALL sp_dashboard_produksi_distribusi_bulan($pdam_id, $tahunSekarang, $bulan,'RKAP')";
-        }
-
-        $result = $this->db->fetchOne($sql);
-
-        return Response::setJsonContent([
-            'data' => $result
-        ]);
-    }
-
-    /**
-     * @routePost("/arus-kas-tahun")
-     */
-    public function arusKasTahunAction()
-    {
-        $tahunSekarang = $this->session->user['tahun'];
-        $pdam_id = $this->session->user['pdam_id'];
-        $bulan = Request::getPost('bulan');
-        $jenis = Request::get('jenis');
-
-        if($jenis == "RKA"){
-            $sql = "CALL sp_dashboard_arus_kas_tahun($tahunSekarang, $pdam_id,'RKA')";
-        }
-        else if($jenis == "RKAP"){
-            $sql = "CALL sp_dashboard_arus_kas_tahun($tahunSekarang, $pdam_id,'RKAP')";
-        }
-       
-        $result = $this->db->fetchOne($sql);
-
-        return Response::setJsonContent([
-            'data' => $result
-        ]);
-    }
-
-    /**
-     * @routePost("/arus-kas-bulan")
-     */
-    public function arusKasBulanAction()
-    {
-        $tahunSekarang = $this->session->user['tahun'];
-        $pdam_id = $this->session->user['pdam_id'];
-        $bulan = Request::getPost('bulan');
-        $jenis = Request::getPost('jenis');
-
-        if($jenis == "RKA"){
-            $sql = "CALL sp_dashboard_arus_kas_bulan($tahunSekarang, $pdam_id, $bulan, 'RKA')";
-        }
-        else if($jenis == "RKAP"){
-            $sql = "CALL sp_dashboard_arus_kas_bulan($tahunSekarang, $pdam_id, $bulan, 'RKAP')";
-        }
-
-        $result = $this->db->fetchOne($sql);
-        // var_dump($result["penerimaan_kas"]);exit;
-        return Response::setJsonContent([
-            'data' => $result
-        ]);
-    }
+    
 }

@@ -1,5 +1,5 @@
 <?php
-
+//Controller.php
 declare(strict_types=1);
 
 namespace App\Modules\Defaults\Master\Produk;
@@ -11,10 +11,10 @@ use Core\Facades\Response;
 use App\Modules\Defaults\Middleware\Controller as MiddlewareHardController;
 use Core\Facades\Request;
 use Core\Paginator\DataTables\DataTable;
-use App\Modules\Defaults\Master\Tahura\Produk\Model as Model;
+use App\Modules\Defaults\Master\Produk\Model as Model;
 
 /**
- * @routeGroup("/master/tahura/produk")
+ * @routeGroup("/master/produk")
  */
 class Controller extends BaseController
 {
@@ -25,6 +25,33 @@ class Controller extends BaseController
     {
         $this->view->setVar('module', $id);
     }
+
+    
+    //controller.php
+    /**
+     * @routeGet("/datacard")
+     * @routePost("/datacard")
+     */
+    public function datacardAction()
+    {
+        $pdam_id = $this->session->user['pdam_id'];
+    
+        $builder = $this->modelsManager->createBuilder()
+            ->columns('*')
+            ->from(VwModel::class)
+            ->where("1=1")
+            ->andWhere("pdam_id = '$pdam_id'");
+    
+        $result = $builder->getQuery()->execute();
+    
+        $jsonResult = [
+            'message' => 'Aksi datacardAction berhasil dipanggil.',
+            'data'=> $result->toArray(),
+        ];
+    
+        return $this->response->setJsonContent($jsonResult);
+    }
+    
 
     /**
      * @routeGet("/datatable")
@@ -84,22 +111,19 @@ class Controller extends BaseController
     {
         $pdam_id = $this->session->user['pdam_id'];
         $sessUser = $this->session->user['nama'];
+        
         $data = [
-            'kategori_id'   => Request::getPost('kategori_id'),
-            'kode'          => Request::getPost('kode'),
             'nama'          => Request::getPost('nama'),
-            'satuan'        => Request::getPost('satuan'),
-            'harga'         => Request::getPost('harga'),
-            'created_at'    => date('Y-m-d H:i:s'),
-            'created_by'    => $sessUser,
+            'kategori_id'        => Request::getPost('kategori_id'),
+            'hpp'         => Request::getPost('hpp'),
+            'created_at'    => date ('Y-m-d H:i:s'),
             'pdam_id'       => $pdam_id,
         ];
         $create = new Model($data);
         $result = $create->save();
 
         $log = new Log(); 
-        $log->write("Insert Data Master-Referensi Barang-Barang", $data, $result, "App\Modules\Defaults\Master\ReferensiBarang\Barang\Controller", "INSERT");
-
+        $log->write("Insert Data Master-Referensi Barang-Kategori", $data, $result, "App\Modules\Defaults\Master\ReferensiBarang\Kategori\Controller", "INSERT");
         return Response::setJsonContent([
             'message' => 'Success',
         ]);
@@ -111,26 +135,24 @@ class Controller extends BaseController
     public function updateAction()
     {
         $id = Request::getPost('id');
+        $pdam_id = $this->session->user['pdam_id'];
         $data = [
-            'kategori_id'   => Request::getPost('kategori_id'),
-            'kode'          => Request::getPost('kode'),
             'nama'          => Request::getPost('nama'),
-            'satuan'        => Request::getPost('satuan'),
-            'harga'         => Request::getPost('harga'),
-            'updated_at'    => date('Y-m-d H:i:s')
+            'kategori_id'        => Request::getPost('kategori_id'),
+            'hpp'         => Request::getPost('hpp'),
+            'pdam_id'       => $pdam_id,
         ];
         $update = Model::findFirst($id);
         $update->assign($data);
 
         $result = $update->save();
-
         $log = new Log(); 
-        $log->write("Update Data Master-Referensi Barang-Barang", $data, $result, "App\Modules\Defaults\Master\ReferensiBarang\Barang\Controller", "UPDATE");
-
+        $log->write("Update Data Master-Referensi Barang-Kategori", $data, $result, "App\Modules\Defaults\Master\ReferensiBarang\Kategori\Controller", "UPDATE");
         return Response::setJsonContent([
             'message' => 'Success',
         ]);
     }
+
 
     /**
      * @routePost("/delete")

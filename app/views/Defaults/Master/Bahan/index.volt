@@ -63,9 +63,9 @@
 							</thead>
 						
 						</table>
-						<div id="card"></div>
-						<input type="text" name="dhar">
-						<p id="namae"></p>
+						<div id="card-field">
+							{# hasil dari ajax cardata disini #}
+						</div>
 					</div>
 
 				</div>

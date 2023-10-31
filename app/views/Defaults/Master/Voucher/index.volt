@@ -54,11 +54,11 @@
 									<tr class="bgc-info text-white text-center brc-black-tp10">
 										<th style="vertical-align: middle;">#</th>
 										<th style="vertical-align: middle;">Kode</th>
-										<th style="vertical-align: middle;">Produk</th>
 										<th style="vertical-align: middle;">Diskon</th>
 										<th style="vertical-align: middle;">Tersedia</th>
 										<th style="vertical-align: middle;">mulai_saat</th>
 										<th style="vertical-align: middle;">berakhir_saat</th>
+										<th style="vertical-align: middle;">status</th>
 									</tr>
 								</thead>
 								<tbody></tbody>
@@ -74,8 +74,7 @@
 
 	<!-- Modal Form -->
 	<div id="formModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
-		<div
-			class="modal-dialog radius-4">
+		<div class="modal-dialog radius-4">
 
 			<!-- Modal content-->
 			<div class="modal-content radius-4">
@@ -88,74 +87,64 @@
 					<div class="modal-body">
 						<input type="hidden" name="_type" value="create">
 						<input type="hidden" name="id" value="">
-						<div class="row form-group">
-							<div class="col-sm-12" style="margin-bottom : 5px;">
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text" style="width: 150px;">Kode Voucher</span>
-									</div>
-									<input type="text" id="kode" name="kode" class="form-control" required>
-								</div>
-							</div>
-						</div>
+
+                   
+
+                        <div class="row form-group">
+                            <div class="col-sm-12" style="margin-bottom : 5px;">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="width: 150px;">kode</span>
+                                    </div>
+                                    <input type="text" id="kode" name="kode" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row form-group">
+                            <div class="col-sm-12" style="margin-bottom : 5px;">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="width: 150px;">Diskon</span>
+                                    </div>
+                                    <input type="text" id="diskon" name="diskon" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
 
 						<div class="row form-group">
-							<div class="col-sm-12" style="margin-bottom : 5px;">
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text" style="width: 150px;">Produk</span>
-									</div>
-									{# <input type="text" id="produk_id" name="produk_id" class="form-control" required> #}
-									<select type="text" id="produk_id" name="produk_id" class="select2 select2produk" ></select>
-								</div>
-							</div>
-						</div>
+                            <div class="col-sm-12" style="margin-bottom : 5px;">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="width: 150px;">Jumlah</span>
+                                    </div>
+                                    <input type="text" id="qty" name="qty" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
 
 
-						<div class="row form-group">
-							<div class="col-sm-12" style="margin-bottom : 5px;">
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text" style="width: 150px;">Diskon</span>
-									</div>
-									<input type="text" id="diskon" name="diskon" class="form-control" required>
-								</div>
-							</div>
-						</div>
+                        <div class="row form-group">
+                            <div class="col-sm-12" style="margin-bottom : 5px;">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="width: 150px;">Mulai Saat</span>
+                                    </div>
+                                    <input type="date" id="active_at" name="active_at" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
 
-						<div class="row form-group">
-							<div class="col-sm-12" style="margin-bottom : 5px;">
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text" style="width: 150px;">Jumlah</span>
-									</div>
-									<input type="text" id="jumlah" name="jumlah" class="form-control" required>
-								</div>
-							</div>
-						</div>
-
-						<div class="row form-group">
-							<div class="col-sm-12" style="margin-bottom : 5px;">
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text" style="width: 150px;">Mulai Saat</span>
-									</div>
-									<input type="date" id="mulai_saat" name="mulai_saat" class="form-control" required>
-								</div>
-							</div>
-						</div>
-
-						<div class="row form-group">
-							<div class="col-sm-12" style="margin-bottom : 5px;">
-								<div class="input-group">
-									<div class="input-group-prepend">
-										<span class="input-group-text" style="width: 150px;">Berakhir Saat</span>
-									</div>
-									<input type="date" id="berakhir_saat" name="berakhir_saat" class="form-control" required>
-								</div>
-							</div>
-						</div>
-
+                        <div class="row form-group">
+                            <div class="col-sm-12" style="margin-bottom : 5px;">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="width: 150px;">Berakhir_saat</span>
+                                    </div>
+                                    <input type="date" id="expired_at" name="expired_at" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
 
 					</div>
 					<div class="modal-footer  radius-b-4">
@@ -183,7 +172,7 @@
 			<div class="modal-content radius-4">
 				<div class="modal-header bgc-primary radius-t-4">
 					<h4 class="modal-title text-white">
-						<i class="fa fa-search text-white"></i>&nbsp;&nbsp; Pencarian - Barang</h4>
+						<i class="fa fa-search text-white"></i>&nbsp;&nbsp; Filter - Voucher</h4>
 					<button type="button" class="close text-white" data-dismiss="modal">&times;</button>
 				</div>
 				<div class="modal-body">
@@ -198,38 +187,10 @@
 							</div>
 							<div class="input-group-prepend">
 								<span class="input-group-text">
-									Kode
+									Statis
 								</span>
 							</div>
-							<input type="text" name="search_kode" class="form-control" disabled="">
-						</div>
-
-						<div class="input-group mb-2 input-filter">
-							<div class="input-group-prepend" style="width : 10% !important">
-								<span class="input-group-text">
-									<input type="checkbox" class="ace-switch">
-								</span>
-							</div>
-							<div class="input-group-prepend">
-								<span class="input-group-text">
-									Nama
-								</span>
-							</div>
-							<input type="text" name="search_nama" class="form-control" disabled="">
-						</div>
-
-						<div class="input-group mb-2 input-filter">
-							<div class="input-group-prepend" style="width : 10% !important">
-								<span class="input-group-text">
-									<input type="checkbox" class="ace-switch">
-								</span>
-							</div>
-							<div class="input-group-prepend">
-								<span class="input-group-text">
-									Kategori
-								</span>
-							</div>
-							<select type="text" id="kategori_id_search" name="kategori_id_search" class="select2 select2kategori" disabled=""></select>
+							<input type="text" name="status" class="form-control" disabled="">
 						</div>
 
 
@@ -246,3 +207,4 @@
 	<script>
 		{% include 'Defaults/Master/Voucher/index.js' %}</script>
 {% endblock %}
+

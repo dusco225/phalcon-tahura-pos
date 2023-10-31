@@ -1,5 +1,5 @@
 <?php
-
+//Controller.php
 declare(strict_types=1);
 
 namespace App\Modules\Defaults\Master\Bahan;
@@ -25,6 +25,33 @@ class Controller extends BaseController
     {
         $this->view->setVar('module', $id);
     }
+
+    
+    //controller.php
+    /**
+     * @routeGet("/datacard")
+     * @routePost("/datacard")
+     */
+    public function datacardAction()
+    {
+        $pdam_id = $this->session->user['pdam_id'];
+    
+        $builder = $this->modelsManager->createBuilder()
+            ->columns('*')
+            ->from(VwModel::class)
+            ->where("1=1")
+            ->andWhere("pdam_id = '$pdam_id'");
+    
+        $result = $builder->getQuery()->execute();
+    
+        $jsonResult = [
+            'message' => 'Aksi datacardAction berhasil dipanggil.',
+            'data'=> $result->toArray(),
+        ];
+    
+        return $this->response->setJsonContent($jsonResult);
+    }
+    
 
     /**
      * @routeGet("/datatable")

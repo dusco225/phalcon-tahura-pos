@@ -13,6 +13,7 @@ use App\Modules\Defaults\Master\ReferensiData\KodePerkiraanKelompok\ModelView as
 use App\Modules\Defaults\Master\ReferensiData\KodePerkiraan\ModelView as ViewModelPerkiraan;
 use App\Modules\Defaults\Master\Produk\Model as ModelProduk;
 use App\Modules\Defaults\Master\Satuan\Model as ModelSatuan;
+use App\Modules\Defaults\Master\Kategori\Model as ModelKategori;
 use App\Modules\Defaults\Master\ReferensiData\SatuanKerja\Model as ModelSatuanKerja;
 use App\Modules\Defaults\Master\ReferensiData\KodePerkiraanSatuanKerja\ModelView as ViewModelPerkiraanSatuanKerja;
 use App\Modules\Defaults\Auth\Model\RolesModel as ModelRole;

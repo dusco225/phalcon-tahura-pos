@@ -1,10 +1,8 @@
 window.defaultUrl = `${baseUrl}/master/produk/`;
 var table;
 var rupiahFields = [
-    "harga",
+    "hpp",
   ];
-
-
 $(document).ready(function() {
     let modal = $('#formModal');
     viewDatatable();
@@ -26,14 +24,12 @@ $(document).ready(function() {
     });
 
     $('#btn-add').click(function() {
-        modal.find('input[name=kode]').val('');
         modal.find('input[name=nama]').val('');
-        modal.find('input[name=harga]').val('');
         modal.find("select[name=kategori_id]").val('').trigger('change');
-        modal.find("select[name=satuan]").val('').trigger('change');
+        modal.find('input[name=hpp]').val('');
         modal.find('input[name=_type]').val('create');
         resetErrors();
-        $('#formModal').modal('show')
+        $('#formModal').modal('show');
     });
 
     $('#btn-edit').click(function () {
@@ -47,11 +43,9 @@ $(document).ready(function() {
         if (selected) {
             modal.find('input[name=_type]').val('edit');
             modal.find('input[name=id]').val(selected.id);
-            modal.find('input[name=kode]').val(selected.kode);
-            modal.find('input[name=nama').val(selected.nama);
-            modal.find('input[name=harga').val(selected.harga);
-            $("select[name=kategori_id]").select2("trigger", "select", { data: { id: selected.id_kategori, text : selected.nama_kategori} });
-            $("select[name=satuan]").select2("trigger", "select", { data: { id: selected.id_satuan, text : selected.nama_satuan} });
+            modal.find('input[name=nama]').val(selected.nama);
+            modal.find('input[name=hpp').val(selected.hpp);
+            $("select[name=kategori_id]").select2("trigger", "select", { data: { id: selected.kategori_id, text : selected.kategori} });
             convertRupiah();
             resetErrors();
             modal.modal('show');
@@ -156,27 +150,30 @@ function viewDatatable(){
                 data: 'nama'
             },
             {
+                data: 'kategori'
+            },
+            {
                 data: 'hpp',
                 render: function(data){
                     return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
                 }
-            },
+            }, 
             {
                 data: 'harga',
                 render: function(data){
                     return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
                 }
-            }
+            },
         ],
-        "createdRow": function (row, data, index) {
-            $(row).attr('data-value', encodeURIComponent(JSON.stringify(data)));
-            $("thead").css({ "vertical-align": "middle", "text-align": "center", });
-            $("td", row).css({ "vertical-align": "middle", padding: "0.5em", 'cursor': 'pointer' });
-            $("td", row).first().css({ width: "3%", "text-align": "center", });
-            //Default
-            $('td', row).eq(1).css({ 'text-align': 'left', 'font-weight': 'normal' });
-            
-        }
+            "createdRow": function (row, data, index) {
+                $(row).attr('data-value', encodeURIComponent(JSON.stringify(data)));
+                $("thead").css({ "vertical-align": "middle", "text-align": "center", });
+                $("td", row).css({ "vertical-align": "middle", padding: "0.5em", 'cursor': 'pointer' });
+                $("td", row).first().css({ width: "3%", "text-align": "center", });
+                //Default
+                $('td', row).eq(1).css({ 'text-align': 'left', 'font-weight': 'normal' });
+                
+            }
 
     }).on( 'click', 'tr', function () {
 		if ($(this).hasClass('selected')) {
@@ -217,12 +214,12 @@ function confirmDelete() {
 }
 
 function select2data(){
-    $('.select2kategori').select2({
+    $('.select2produk').select2({
         allowClear: true,
         theme: "bootstrap4",
         width: 'auto',
         ajax: {
-            url: "{{ url('panel/referensi/getKategori') }}",
+            url: "{{ url('panel/referensi/getProduk') }}",
             data: function (params) {
                 return {
                     q: params.term,
@@ -247,12 +244,12 @@ function select2data(){
         }
     });
 
-    $('.select2satuan').select2({
+    $('.select2kategori').select2({
         allowClear: true,
         theme: "bootstrap4",
         width: 'auto',
         ajax: {
-            url: "{{ url('panel/referensi/getSatuan') }}",
+            url: "{{ url('panel/referensi/getKategori') }}",
             data: function (params) {
                 return {
                     q: params.term,
