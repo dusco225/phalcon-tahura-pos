@@ -1,6 +1,7 @@
 window.defaultUrl = `${baseUrl}kasir/`;
 
 
+
 var rupiahFields = [
     "harga",
   ];
@@ -79,6 +80,7 @@ viewDatacard();//panggil funsi
     
 });
 
+
 //---------------------------------------------------------------------------------------------
 //index.js
     //funsi mengambil data server melalui permintaan ajax
@@ -156,21 +158,25 @@ viewDatacard();//panggil funsi
 
     //----------------
         //fungsi saat kartu di klik
-        
+        var totalHarga= 0;        
         function onCardClick(cardData) {
+            cardHarga = parseInt(cardData.harga, 10);
             console.log('MASUK FUNGI ON CARD CLICK');
+            console.log(cardData.harga + 'DHARR');
             var cart = $('.cart');
             var existCard = cart.find(`[data-card='${JSON.stringify(cardData)}']`);
             console.log('CEK JIKA ADA KARTU YANG SAMA' + existCard);
             if (existCard.length === 0) {
-                var newCard = newCreateCard(cardData); //memanggil fungsi cetak kartu
-        
-                newCard.attr('data-card', JSON.stringify(cardData)); //menambah atribut pada kartu yang dicetak
-                newCard.insertBefore(cart.find('.payment')); //mencetak kartu baru
-            }else{
+                totalHarga += cardHarga;
+                $("#total").val(totalHarga);
+                var newCard = newCreateCard(cardData); // memanggil fungsi cetak kartu
+                newCard.attr('data-card', JSON.stringify(cardData)); // menambah atribut pada kartu yang dicetak
+                newCard.insertBefore(cart.find('.payment')); // mencetak kartu baru
+            } else {
                 console.log('KARTUNYA DUPLIKAT BRO');
             }
         }
+        
         
         
     //================
@@ -187,8 +193,18 @@ viewDatacard();//panggil funsi
         var cardTitle = $("<h5 class='card-title'></h5>").text(data.nama); //judul 
         var cardCategories = $("<h6 class='card-categories'></h6>").text(data.jumlah); //kategori
         var cardPrice = $("<h5 class='card-title'></h5>").text(formatRupiah(data.harga, "Rp. ")); //harga
-        var cardQty = $(`<input type='number' id='qty' name='qty' class='container-fluid'>`);
+        var cardQty = $(`<input type='number' id='qty' name='qty' class='container-fluid' value='1'>`);
         
+        cardQty.on('input', function() {
+            var qty = $(this).val(); // Ambil nilai kuantitas dari input
+        
+            // Hitung total harga dengan mengalikan harga per kartu dengan kuantitas
+            var totalHarga = cardPrice * qty;
+        
+            // Perbarui nilai input total
+            $("#total").val(totalHarga);
+        });
+
         
         console.log(data);
         
@@ -210,13 +226,8 @@ viewDatacard();//panggil funsi
         return cardWrap;
 
     }
-    
-    
-    $('.qty').onchange(function(){
-        console.log('NAMBAH EUYY');
-        harga = $('#qty'.value);
-        console.log(harga);
-    });
+
+
     
     //===============
     //=================================================================================================

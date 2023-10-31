@@ -91,11 +91,11 @@
 											<div class="payment">
 												voucher<input type="number" name="" id="">
 												<input type="number" name="" id="">
-												total<input type="number" name="" id="">
+												total<input type="number" name="" id="total">
 												<button>Kirim</button>
 											</div>
 										</div>
-										{# =============================================================== #}
+										<!-- {# =============================================================== #} -->
 									</div>
 								</div>
 							</div>
