@@ -29,26 +29,93 @@ class Controller extends BaseController
     
     //controller.php
     /**
-     * @routeGet("/datacard")
-     * @routePost("/datacard")
+     * @routeGet("/datakategori")
+     * @routePost("/datakategori")
      */
-    public function datacardAction()
+    public function datakategoriAction()
     {
         $pdam_id = $this->session->user['pdam_id'];
     
         $builder = $this->modelsManager->createBuilder()
             ->columns('*')
-            ->from(Model::class)
+            ->from(KategoriModel::class)
             ->where("1=1")
             ->andWhere("pdam_id = '$pdam_id'");
     
         $result = $builder->getQuery()->execute();
     
         $jsonResult = [
-            'message' => 'Aksi datacardAction berhasil dipanggil.',
+            'message' => 'Aksi DATA KATEGORI berhasil dipanggil.',
             'data'=> $result->toArray(),
         ];
     
+        return $this->response->setJsonContent($jsonResult);
+    }
+
+
+    /**
+     * @routeGet("/datavoucher")
+     * @routePost("/datavoucher")
+     */
+    public function datavoucherAction()
+    {
+        $pdam_id = $this->session->user['pdam_id'];
+        $voucher_kode = $this->request->getPost("kodeVoucher"); // Ambil diFilter dari permintaan POST
+        // $newFilter = $this->request->getPost("newFilter"); // Ambil newFilter dari permintaan POST
+
+        $builder = $this->modelsManager->createBuilder()
+            ->columns('*')
+            ->from(VoucherModel::class)
+            ->where("1=1")
+            ->andWhere("pdam_id = '$pdam_id'");
+
+        if ($voucher_kode) {
+            $builder->andWhere("kode = '$voucher_kode'");
+        }
+        // if ($newFilter) {
+        //     $builder->andWhere("nama LIKE '%$newFilter%'");
+        // }
+
+        $result = $builder->getQuery()->execute();
+
+        $jsonResult = [
+            'message' => 'Aksi datacardAction berhasil dipanggil.',
+            'data'=> $result->toArray(),
+        ];
+
+        return $this->response->setJsonContent($jsonResult);
+    }
+
+    /**
+     * @routeGet("/datacard")
+     * @routePost("/datacard")
+     */
+    public function datacardAction()
+    {
+        $pdam_id = $this->session->user['pdam_id'];
+        $diFilter = $this->request->getPost("diFilter"); // Ambil diFilter dari permintaan POST
+        $newFilter = $this->request->getPost("newFilter"); // Ambil newFilter dari permintaan POST
+
+        $builder = $this->modelsManager->createBuilder()
+            ->columns('*')
+            ->from(VwModel::class)
+            ->where("1=1")
+            ->andWhere("pdam_id = '$pdam_id'");
+
+        if ($diFilter) {
+            $builder->andWhere("kategori LIKE '%$diFilter%'");
+        }
+        if ($newFilter) {
+            $builder->andWhere("nama LIKE '%$newFilter%'");
+        }
+
+        $result = $builder->getQuery()->execute();
+
+        $jsonResult = [
+            'message' => 'Aksi datacardAction berhasil dipanggil.',
+            'data'=> $result->toArray(),
+        ];
+
         return $this->response->setJsonContent($jsonResult);
     }
     

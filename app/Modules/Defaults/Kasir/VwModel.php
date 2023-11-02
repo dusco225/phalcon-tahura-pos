@@ -1,7 +1,8 @@
 <?php
 
 declare(strict_types=1);
-namespace App\Modules\Defaults\Master\Produk;
+
+namespace App\Modules\Defaults\Kasir;
 
 use Phalcon\Mvc\Model as BaseModel;
 use Core\Models\Behavior\SoftDelete;
@@ -15,4 +16,3 @@ class VwModel extends BaseModel
         $this->setSource('vw_produk');
     }
 }
-

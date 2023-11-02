@@ -32,23 +32,17 @@
 							<div class="card-header pb-1 align-middle border-t-3 brc-primary-tp3" style="border-top-left-radius: 0.4rem;
 											border-top-right-radius: 0.4rem;border-bottom: 1px solid #e0e5e8 !important;">
 
-								<div class="page-tools mt-3 mt-sm-0 mb-sm-n1 card-toolbar">
-
-									<button class="btn mr-1 btn-info mb-2 radius-2" data-toggle="modal" style="float:right" id="btn-search">
-										<i class="fa fa-search text-110 align-text-bottom mr-2"></i>
-										Makanan
+								<div class="page-kategori page-tools mt-3 mt-sm-0 mb-sm-n1 card-toolbar">
+									<!-- tombol netral filter -->
+									<button id="unfilter" class="btn mr-1 btn-info mb-2 radius-2" data-toggle="modal" style="float:right">
+										<i class='fa fa-align-justify text-110 align-text-bottom mr-2'></i>
+										<b>Semua</b>
 									</button>
+									<!-- CATEGORI DARI AJAX KATEGORI -->
 
-									<button class="btn mr-1 btn-info mb-2 radius-2" data-toggle="modal" style="float:right" id="btn-search">
-										<i class="fa fa-search text-110 align-text-bottom mr-2"></i>
-										Minuman
-									</button>
-
-									<button class="btn mr-1 btn-info mb-2 radius-2" data-toggle="modal" style="float:right" id="btn-search">
-										<i class="fa fa-search text-110 align-text-bottom mr-2"></i>
-										Desert
-									</button>
-
+								</div>
+								<div class="page-filter">
+									<input type="text" name="filter" id="">
 								</div>
 							</div>
 
@@ -80,22 +74,38 @@
 
 							</div>
 
-							<div class="card-body p-5">
+							<div class="card-body p-2 bg-light">
 								<div class="row">
 									<div class="col-md-12 ">
 										{# --------------------------------------------------------------- #}
-										<div class="cart container-fluid p-2" style" width : 100px;">
+										<div class="cart container-fluid p-1" style" width : 100px;">
+											<form action="">
+
 											<div>
 												
 											</div>
-											<div class="payment">
-												voucher<input type="number" name="" id="">
-												<input type="number" name="" id="">
-												total<input type="number" name="" id="total">
-												<button>Kirim</button>
+											<div class="payment border border-dark">
+												<table border="2">
+													<tr id="voucher">
+														<td><h5><b>Voucher</b></h5></td>
+														<td><input type="text"  class="container-fluid"name="voucher" id="voucher"></td>
+													</tr>
+													<tr class="diskon">
+
+													</tr>
+													<tr>
+														<td><h5><b>Total</b></h5></td>
+														<td><input type="text" name="total" id="total"></td>
+													</tr>
+													<tr>
+														<td><button type="submit"><h5><b>OKE</b></h5></button></td>
+														<td><button type="reset"><h5><b>BATAL</b></h5></button></td>
+													</tr>
+												</table>
 											</div>
+										</form>
 										</div>
-										<!-- {# =============================================================== #} -->
+										{# =============================================================== #}
 									</div>
 								</div>
 							</div>
