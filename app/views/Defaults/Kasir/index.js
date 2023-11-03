@@ -171,7 +171,6 @@ function viewDatacard (filter){
     });
     //membuat kartu atau card
 
-    //1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
     function createCard(data) {
         var cardWrap = $(`<div class='card-wrapper p-2 col-3'  data-card='${JSON.stringify(data)}' ></div>`); //bungkus kartu
         var card = $("<div class='card card-data bg-warning'></div>"); //kartu
@@ -196,7 +195,7 @@ function viewDatacard (filter){
 
         // console.log("INI DATANYA COYY"+ data.nama);
 
-        // 222222222222222222222222222222222222222222222222
+
         
         //klik untuk tambah kartu
         cardWrap.on('click',function(){
@@ -208,17 +207,16 @@ function viewDatacard (filter){
             // var rCard = $('cart').data[selectedCard];
             // return rCard;
         });
-        // 222222222222222222222222222222222222222222222222
+
         return cardWrap;
 
     }
-    //1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+    
     
 }
 
 //----------------
     //fungsi saat kartu di klik
-        //    33333333333333333333333333333333333
     function onCardClick(cardData) {
         console.log('MASUK FUNGI ON CARD CLICK');
         //tempat kartu mau dicetak
@@ -252,7 +250,7 @@ function viewDatacard (filter){
         //total harga semua produk dan ju
     }
 
-    //    33333333333333333333333333333333333
+    
     
     
     
@@ -262,7 +260,7 @@ function viewDatacard (filter){
 
 var totalKeranjang = 0;
 
-//44444444444444444444444444444
+
 function newCreateCard(data) {
     
     // console.log('MASUK FUNGSI TAMBAH KARTU BARU');
@@ -286,7 +284,8 @@ function newCreateCard(data) {
         cardSubTotal.val(subTotal);
         // console.log(subTotal); 
     //    $('#total').val(subTotal);
-    console.log(cardSubTotal, 'subtotal'); 
+    // console.log(cardSubTotal, 'subtotal'); 
+        totalHarga();
 
     });
 
@@ -305,7 +304,7 @@ function newCreateCard(data) {
     cardTextWrap.append(cardSubTotal);
     cardBody.append(cardTextWrap);
     card.append(cardBody);
-    cardWrap.append(card);
+    cardWrap.append(card);69
 
     
     
@@ -314,7 +313,17 @@ function newCreateCard(data) {
     return cardWrap;
 
 }
-//44444444444444444444444444444
+
+function totalHarga() {
+    // Array.from($('form [name=subtotal]')).reduce((acc, i) => acc + Number(i.value), 0)
+    // Array.from($('form [name=subtotal]')).reduce((total, el) => total + Number(el.value), 0)
+    var total = 0;
+    Array.from($('form [name=subtotal]')).forEach(function(el) {
+        var subtotal = Number(el.value);
+        total += subtotal;
+    });
+}
+
 
 
 //=============================================================================================
