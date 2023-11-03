@@ -15,10 +15,10 @@ $(document).ready(function() {
     let modal = $('#formModal');
 
     
-    //---------------------------------------------------------------------------------------------
-    viewDataKategori();//panggil funsi
-    viewDatacard(diFilter, newFilter);//panggil funsi
-//=============================================================================================
+
+    viewDataKategori();//panggil fungsi kategori
+    viewDatacard();//panggil fungsi card data
+
 // Your debounce function
 function debounce(func, delay) {
   let timeout;
@@ -48,14 +48,13 @@ $('#unfilter').on('click',function(){
             console.log('YANG ININIH BRO: ' + diFilter);
             viewDatacard(diFilter);
         });
-//---------------
+
 
 //voucher
 $('input[name=voucher]').on('keyup insert', function(){
     kodeVoucher = $(this).val() ;
     console.log('VALIDASI VOUCHER BRAY '+ kodeVoucher);
-    viewDataVoucher(kodeVoucher);
-    
+    viewDataVoucher(kodeVoucher);//panggil fungsi voucher
 });
 
     
@@ -125,11 +124,11 @@ $('input[name=voucher]').on('keyup insert', function(){
 });
 
 
-//---------------------------------------------------------------------------------------------
+
 //index.js
 
 //fungsi tampilan kartu
-//---------------------------------------------------------------------------------------------
+
 function viewDatacard (filter){
     console.log('MASUK FUNGSI DATA CARD COYY');
     // Menghapus kartu yang ada sebelum menampilkan kartu yang baru
@@ -215,7 +214,7 @@ function viewDatacard (filter){
     
 }
 
-//----------------
+
     //fungsi saat kartu di klik
     function onCardClick(cardData) {
         console.log('MASUK FUNGI ON CARD CLICK');
@@ -258,7 +257,7 @@ function viewDatacard (filter){
 //---------------
 
 
-var totalKeranjang = 0;
+
 
 
 function newCreateCard(data) {
@@ -276,15 +275,13 @@ function newCreateCard(data) {
 
     var cardSubTotal = $(`<input type='hidden' name='subtotal'>`); //harga
 
-    var subtotal = 0;
+    
     cardQty.on('input', function() {
         var qty = parseInt($(this).val());
         subTotal = data.harga * qty; 
         // var subtotalInput = $(this).closest('.card-wrapper').find('input[name=subtotal]');
         cardSubTotal.val(subTotal);
         // console.log(subTotal); 
-    //    $('#total').val(subTotal);
-    // console.log(cardSubTotal, 'subtotal'); 
         totalHarga();
 
     });
@@ -308,7 +305,7 @@ function newCreateCard(data) {
 
     
     
-    // if(!){}
+    
     // console.log('KARTU BARU BERES DIBUAT');
     return cardWrap;
 
@@ -326,23 +323,14 @@ function totalHarga() {
 
 
 
-//=============================================================================================
 
-//fungsi Total
-//---------------------------------------------------------------------------------------------
-function totalPrice(total, voucher){
-    console.log('MASUK FUNSI TOTALPRICE COYY')
-    totalHarga = parseInt(total);  
-    console.log('SPILL TOTAL HARGA BLAY ' + totalHarga);
-    hasil = $('#total').val('AHAI AHAI');
-    
-}
 
-//=============================================================================================
+
+
+
 
 
 //fungsi tampil kategori
-//---------------------------------------------------------------------------------------------
 function viewDataKategori (){
     console.log('MASUK DUNGSI KATeGOrI COY');
     $.ajax({
@@ -402,10 +390,8 @@ function viewDataKategori (){
     
 }
 
-//=============================================================================================
 
 //fungi validasi voucher
-//---------------------------------------------------------------------------------------------
 function viewDataVoucher (valid){
     $(".diskon").empty();
     console.log('MASUK DUNGSI VOUCHER COYY');
@@ -419,7 +405,7 @@ function viewDataVoucher (valid){
         },
         success: function(data) {
             // console.log(data); // Menampilkan data dalam konsol
-            // Selanjutnya, Anda dapat melakukan apa yang Anda inginkan dengan data ini
+            
             if(data.message){
                 //menampilkan pesan dari aksi datacardAction
                 console.log("pemberitahuan", data.message,"success");
@@ -443,7 +429,7 @@ function viewDataVoucher (valid){
             // Tampilkan pesan kesalahan atau tindakan lain yang sesuai
         }
     });
-    //membuat kartu/card
+    //membuat card
     function createVoucher(data) {
         var tr = $('.diskon');
         var status = $("<td class='border p-1 border-dark'></td>").html('<h5><b>' + data.status + '</b></h5>');
@@ -469,10 +455,10 @@ function viewDataVoucher (valid){
     
 }
 
-//=============================================================================================
 
 
-//=================================================================================================
+
+
 
 function resetErrors() {
     $('.form-control').each(function(i, el) {
