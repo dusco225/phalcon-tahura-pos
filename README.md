@@ -1,19 +1,25 @@
-### Anggaran Global
+# POS Cafe
 
-##
+**Pos Cafe** 
 
-Stage : ___Development___
+adalah proyek sederhana yang dibuat untuk belajar tentang sistem Point of Sale (POS) di Cafe. Proyek ini bukan proyek real, tetapi hanya sebagai sarana untuk belajar dan berlatih pemrograman.
 
-Branch: development
 
-Link  : https://devcharisma.aurorasystem.co.id/anggaran-global
+## Contoh Penggunaan
 
-##
+Berikut adalah beberapa contoh penggunaan proyek ini:
 
-Stage : ___Production___
+1. **Pesan Makanan**: Pengguna dapat menggunakan aplikasi POS Cafe untuk memesan makanan dan minuman di kafe.
 
-Branch: master
 
-Link  : -
+## Fitur yang Belum Diimplementasikan
 
+Meskipun proyek ini adalah proyek pembelajaran, berikut adalah beberapa fitur yang belum diimplementasikan, namun mungkin akan ditambahkan di masa mendatang:
+
+- [ ] Konversi Nilai Decimal Ke Persen.
+- [ ] Produk yang di klik menambah qty di keranjang.
+- [ ] qty produk di keranjang tidak boleh kurang dari 0.
+- [ ] validasi tanggal input di master->voucher
+- [ ] master->kasir belum berjalan
+- [ ] tambahkan loading ketika proccess debounce(delay)
 
