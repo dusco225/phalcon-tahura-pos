@@ -12,6 +12,10 @@ Berikut adalah beberapa contoh penggunaan proyek ini:
 1. **Pesan Makanan**: Pengguna dapat menggunakan aplikasi POS Cafe untuk memesan makanan dan minuman di kafe.
 
 
+## User
+  - [ ] master-> username: owner, password: superowner 
+  - [ ] kasir-> username: k001, password: superkasir 
+
 ## Fitur yang Belum Diimplementasikan
 
 Meskipun proyek ini adalah proyek pembelajaran, berikut adalah beberapa fitur yang belum diimplementasikan, namun mungkin akan ditambahkan di masa mendatang:
