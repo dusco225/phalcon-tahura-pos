@@ -86,6 +86,7 @@ class Controller extends BaseController
             'id_role'       => $user->role->id,
             'role_akses'    => $user->role->role,
             'state'         => $user->state,
+            'kasir_kode'    => $user->kasir_kode,
             'satuan_kerja_id'    => $user->role->satuan_kerja_id,
             'tahun' => $tahunPost
         );

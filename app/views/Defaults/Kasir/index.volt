@@ -79,7 +79,7 @@
 									<div class="col-md-12 ">
 										{# --------------------------------------------------------------- #}
 										<div class="cart container-fluid p-1" style" width : 100px;">
-											<form action="">
+											<form action="" id="formForm">
 
 											<div>
 												
@@ -88,17 +88,18 @@
 												<table border="2">
 													<tr id="voucher">
 														<td><h5><b>Voucher</b></h5></td>
-														<td><input type="text"  class="container-fluid"name="voucher" id="voucher"></td>
+														<td><input type="text"  class="container-fluid" name="voucher_kode" id="voucher"></td>
 													</tr>
+													<input type="hidden" name="diskon" value="0">
 													<tr class="diskon">
 
 													</tr>
 													<tr>
 														<td><h5><b>Total</b></h5></td>
-														<td><input type="text" name="total" id="total"></td>
+														<td><input type="text" name="total" id="total" value="0"></td>
 													</tr>
 													<tr>
-														<td><button type="submit"><h5><b>OKE</b></h5></button></td>
+														<td><button name='submit' id="submit"><h5><b>OKE</b></h5></button></td>
 														<td><button type="reset"><h5><b>BATAL</b></h5></button></td>
 													</tr>
 												</table>
@@ -123,76 +124,9 @@
 
 	{# ________________________________________________________________________________________________ #}
 
-
-	<!-- Modal Search -->
-	<div id="filterModal" class="modal fade" role="dialog">
-		<div
-			class="modal-dialog radius-4">
-
-			<!-- Modal content-->
-			<div class="modal-content radius-4">
-				<div class="modal-header bgc-primary radius-t-4">
-					<h4 class="modal-title text-white">
-						<i class="fa fa-search text-white"></i>&nbsp;&nbsp; Pencarian - Barang</h4>
-					<button type="button" class="close text-white" data-dismiss="modal">&times;</button>
-				</div>
-				<div class="modal-body">
-
-					<form class="form-horizontal" id="form-filter">
-
-						<div class="input-group mb-2 input-filter">
-							<div class="input-group-prepend" style="width : 10% !important">
-								<span class="input-group-text">
-									<input type="checkbox" class="ace-switch">
-								</span>
-							</div>
-							<div class="input-group-prepend">
-								<span class="input-group-text">
-									Kode
-								</span>
-							</div>
-							<input type="text" name="search_kode" class="form-control" disabled="">
-						</div>
-
-						<div class="input-group mb-2 input-filter">
-							<div class="input-group-prepend" style="width : 10% !important">
-								<span class="input-group-text">
-									<input type="checkbox" class="ace-switch">
-								</span>
-							</div>
-							<div class="input-group-prepend">
-								<span class="input-group-text">
-									Nama
-								</span>
-							</div>
-							<input type="text" name="search_nama" class="form-control" disabled="">
-						</div>
-
-						<div class="input-group mb-2 input-filter">
-							<div class="input-group-prepend" style="width : 10% !important">
-								<span class="input-group-text">
-									<input type="checkbox" class="ace-switch">
-								</span>
-							</div>
-							<div class="input-group-prepend">
-								<span class="input-group-text">
-									Kategori
-								</span>
-							</div>
-							<select type="text" id="kategori_id_search" name="kategori_id_search" class="select2 select2kategori" disabled=""></select>
-						</div>
-
-
-					</form>
-				</div>
-				<div class="modal-footer radius-b-4">
-					<button type="button" class="btn btn-default submit-filter text-120 radius-2" data-dismiss="modal">Cari Data</button>
-				</div>
-			</div>
-		</div>
-	</div>
 {% endblock %}
 {% block inline_script %}
 	<script>
-		{% include 'Defaults/Kasir/index.js' %}</script>
+		{% include 'Defaults/Kasir/index.js' %}
+	</script>
 {% endblock %}

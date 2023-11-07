@@ -12,6 +12,8 @@ use App\Modules\Defaults\Middleware\Controller as MiddlewareHardController;
 use Core\Facades\Request;
 use Core\Paginator\DataTables\DataTable;
 use App\Modules\Defaults\Kasir\Model as Model;
+use App\Modules\Defaults\Kasir\TransaksiModel as TransaksiModel;
+use App\Modules\Defaults\Kasir\TransaksiDetailModel as TransaksiDetailModel;
 
 /**
  * @routeGroup("/kasir")
@@ -163,86 +165,46 @@ class Controller extends BaseController
         $dataTables->fromBuilder($builder)->sendResponse();
     }
 
-    /**
-     * @routeGet("/detail")
-     */
-    public function detailAction()
-    {
-
-    }
 
     /**
      * @routePost("/store")
      */
     public function storeAction()
-    {
-        $pdam_id = $this->session->user['pdam_id'];
-        $sessUser = $this->session->user['nama'];
-        
-        $data = [
-            'nama'          => Request::getPost('nama'),
-            'jumlah'        => Request::getPost('jumlah'),
-            'satuan_id'        => Request::getPost('satuan'),
-            'harga'         => Request::getPost('harga'),
-            'created_at'    => date ('Y-m-d H:i:s'),
-            'pdam_id'       => $pdam_id,
-        ];
-        $create = new Model($data);
-        $result = $create->save();
+{
+    // Ambil data dari permintaan POST
+    $kasir = $this->session->user['kasir_kode'];
+    $voucher_kode = Request::getPost('voucher_kode');
+    $total = Request::getPost('total');
+    $produk_data = Request::getPost('produk_data'); // Harus berisi array data produk
 
-        $log = new Log(); 
-        $log->write("Insert Data Master-Referensi Barang-Kategori", $data, $result, "App\Modules\Defaults\Master\ReferensiBarang\Kategori\Controller", "INSERT");
-        return Response::setJsonContent([
-            'message' => 'Success',
-        ]);
+    // Simpan data ke tabel 'transaksi'
+    $transaksi = new TransaksiModel();
+    $transaksi->kode_kasir = $kasir;
+    $transaksi->voucher_kode = $voucher_kode;
+    $transaksi->total = $total;
+    $transaksi->created_at = date('Y-m-d H:i:s');
+    $transaksi->save();
+
+    // Ambil ID yang baru saja disimpan
+    $transaksi_id = $transaksi->id;
+
+    // Simpan data ke tabel 'transaksi_detail'
+    foreach ($produk_data as $produk) {
+        $transaksiDetail = new TransaksiDetailModel();
+        $transaksiDetail->transaksi_id = $transaksi_id;
+        $transaksiDetail->produk_id = $produk['id'];
+        $transaksiDetail->qty = $produk['qty'];
+        $transaksiDetail->sub_total = $produk['subtotal'];
+        $transaksiDetail->save();
     }
 
-    /**
-     * @routePost("/update")
-     */
-    public function updateAction()
-    {
-        $id = Request::getPost('id');
-        $pdam_id = $this->session->user['pdam_id'];
-        $data = [
-            'nama'          => Request::getPost('nama'),
-            'jumlah'          => Request::getPost('jumlah'),
-            'satuan_id'        => Request::getPost('satuan'),
-            'harga'         => Request::getPost('harga'),
-            'updated_at'    => date('Y-m-d H:i:s'),
-            'pdam_id'       => $pdam_id,
-        ];
-        $update = Model::findFirst($id);
-        $update->assign($data);
-
-        $result = $update->save();
-        $log = new Log(); 
-        $log->write("Update Data Master-Referensi Barang-Kategori", $data, $result, "App\Modules\Defaults\Master\ReferensiBarang\Kategori\Controller", "UPDATE");
-        return Response::setJsonContent([
-            'message' => 'Success',
-        ]);
-    }
+    return Response::setJsonContent([
+        'message' => 'Data berhasil disimpan.',
+        'transaksi_id' => $transaksi_id, // Anda dapat menambahkan informasi lain yang Anda butuhkan
+    ]);
+}
 
 
-    /**
-     * @routePost("/delete")
-     */
-    public function deleteAction()
-    {
-        $id = Request::get('id');
-        $data = [
-            'id'            => Request::get('id')
-        ];
-        $delete = Model::findFirst($id);
 
-        $result = $delete->delete();
-
-        $log = new Log(); 
-        $log->write("Delete Data Master-Referensi Barang-Barang", $data, $result, "App\Modules\Defaults\Master\ReferensiBarang\Barang\Controller", "DELETE");
-
-        return Response::setJsonContent([
-            'message' => 'Success',
-        ]);
-    }
     
 }

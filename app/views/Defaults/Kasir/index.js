@@ -3,8 +3,14 @@ var diFilter = "";
 var newFilter = "";
 var kodeVoucher = "";  
 var subtotal = ""; 
- 
-var totalHarga = parseInt(0);
+var potonganHarga;
+var produkData = []; //variable untuk menampung data produk
+var dataToSend; //variable untuk menampung data yang akan di kirim
+
+
+
+
+
 
 var rupiahFields = [
     "harga",
@@ -33,14 +39,22 @@ function debounce(func, delay) {
 }
 
 // Your event handler
-function handleKeyup() {
+function filterKeyup() {
   newFilter = $('input[name=filter]').val();
   console.log('FILTER BRAY ' + newFilter);
   viewDatacard(newFilter);
 }
 
+function voucherKeyup() {
+    kodeVoucher = $(this).val() ;
+    $('form [name=diskon]').val(0);
+    // console.log('VALIDASI VOUCHER BRAY '+ kodeVoucher);
+    viewDataVoucher(kodeVoucher);//panggil fungsi voucher
+}
+
 // Attach the debounced event handler to the input element
-$('input[name=filter]').on('keyup', debounce(handleKeyup, 1000)); // Adjust the delay (in milliseconds) as needed
+$('input[name=filter]').on('keyup', debounce(filterKeyup, 1000)); // Adjust the delay (in milliseconds) as needed
+$('input[name=voucher_kode]').on('keyup', debounce(voucherKeyup, 300)); // Adjust the delay (in milliseconds) as needed
 ;
 //menghlangkan filter
 $('#unfilter').on('click',function(){
@@ -49,15 +63,41 @@ $('#unfilter').on('click',function(){
             viewDatacard(diFilter);
         });
 
+$('#formForm').on('submit', function(e){
+    e.preventDefault(); //mencegah perilaku default pengiriman form tradisional
 
-//voucher
-$('input[name=voucher]').on('keyup insert', function(){
-    kodeVoucher = $(this).val() ;
-    console.log('VALIDASI VOUCHER BRAY '+ kodeVoucher);
-    viewDataVoucher(kodeVoucher);//panggil fungsi voucher
-});
+    //mengumpulkan data produk dari elemen input
+    $(`input[name="produk_id[]"]`).each(function (index) {
+        var produkId = $(this).val();
+        var qty = $(`input[name="qty[]"]`).eq(index).val();
+        var subTotal = $(`input[name="subtotal[]"]`).eq(index).val();
+        //tambah jika perlu
+        produkData.push({id: produkId, qty: qty, subtotal: subTotal});
+    });
 
+    //Data yang akan di kirim
+    dataToSend = {
+        voucher_kode : $(`input[name="voucher_kode"]`).val(),
+        total: $(`input[name="total"]`).val(),
+        produk_data: produkData
+    };
     
+    //tambah ajax
+    $.ajax({
+        url: defaultUrl + "store",
+        method: 'POST',
+        data: dataToSend,
+        success: function(response) {
+            console.log(response);
+        },
+        error: function( xhr, status, error) {
+            //tanganin kesalahan jika terjadi
+            console.error('Error: ', error);
+            console.error('Status: ', status );
+            console.error('XHR Response: ', xhr.responseText);
+        }
+    });
+});
 
     $("#btn-refresh-data").click(function () {
         $('#filterModal').find('input[type=checkbox]').prop("checked", false);
@@ -76,46 +116,6 @@ $('input[name=voucher]').on('keyup insert', function(){
 
     
 
-    modal.find('form').on('submit', function(ev) {
-        ev.preventDefault();
-        rupiahFields.forEach(function (field) {
-            var element = document.getElementById(field);
-            var value = element.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
-            element.value = value;
-          });
-        let submitButton = $(this).find('[type=submit]');
-        let originalContent = submitButton.html();
-        submitButton.html('<i class="fa fa-spin fa-spinner"></i> Menyimpan...');
-        submitButton.prop('disabled', true);
-
-        let type = $('[name=_type]').val();
-        let id = $('[name=id]').val();
-        let url = type == 'create' ?
-            defaultUrl + "store" :
-            (defaultUrl + "update");
-
-        $.post(url, $(this).serialize())
-            .done(function(response) {
-                notification('success', "Data berhasil disimpan");
-                modal.modal('hide');
-                table.ajax.reload();
-            })
-            .fail(function(jqXHR) {
-                if (jqXHR && jqXHR.responseJSON && jqXHR.responseJSON.errors) {
-                    let errors = jqXHR.responseJSON.errors;
-                    for (let field in errors) {
-                        let el = $(`[name=${field}]`);
-                        el.toggleClass('brc-danger-m2');
-                        el.next().text(errors[field]).show();
-                        el.prev().toggleClass('text-danger-d1');
-                    }
-                }
-            })
-            .always(function() {
-                submitButton.html(originalContent);
-                submitButton.prop('disabled', false);
-            });
-    });
 
 
     
@@ -230,36 +230,17 @@ function viewDatacard (filter){
             var newCard = newCreateCard(cardData); // memanggil fungsi cetak kartu
             newCard.attr('data-card', JSON.stringify(cardData)); // menambah atribut pada kartu yang dicetak
             newCard.insertBefore(cart.find('.payment')); // mencetak kartu baru
-            console.log(cardData.harga +' Dhar Petir ZIUS');
+            // console.log(cardData.harga);
         } else  //jika ada yang sama
         { 
             console.log('KARTUNYA DUPLIKAT BRO');
         }
-
-        //menumpulkan nilai subtotal
-        subTotal = cardData.harga;
-        // console.log("SPILL SUB TOTAL BLAY " + subTotal);
-        //mentotal semua nilai sub total
-         var total = parseInt(); 
-        total += subTotal;
-        //mengambil nilai diskon dari voucher
-        diskon= parseInt();
-        // totalPrice(total, diskon);
-
-        //total harga semua produk dan ju
     }
 
-    
-    
-    
-    
-//================
-//---------------
+       
 
 
-
-
-
+//fungsi card keranjang
 function newCreateCard(data) {
     
     // console.log('MASUK FUNGSI TAMBAH KARTU BARU');
@@ -271,9 +252,11 @@ function newCreateCard(data) {
     var cardTitle = $("<h5 class='card-title'></h5>").text(data.nama); //judul 
     var cardCategories = $("<h6 class='card-categories'></h6>").text(data.jumlah); //kategori
     var cardPrice = $("<h5 class='card-price'></h5>").text(formatRupiah(data.harga, "Rp. ")); //harga
-    var cardQty = $(`<input type='number' id='qty' name='qty' class='container-fluid'>`).val('');
-
-    var cardSubTotal = $(`<input type='hidden' name='subtotal'>`); //harga
+    
+    //data yang akan di input
+    var cardId = $(`<input type='hidden' name='produk_id[]'>`).val(data.id); 
+    var cardQty = $(`<input type='number' id='qty' name='qty[]' class='container-fluid'>`).val('');
+    var cardSubTotal = $(`<input type='hidden' name='subtotal[]' id='subtotal'>`); //harga
 
     
     cardQty.on('input', function() {
@@ -283,17 +266,18 @@ function newCreateCard(data) {
         cardSubTotal.val(subTotal);
         // console.log(subTotal); 
         totalHarga();
+        console.log(data.id)
 
     });
 
-    totalKeranjang += parseInt(cardSubTotal);
-    $('#total').val(totalKeranjang);
+    
 
 
     
     // console.log(data);
     
     //pengelompokan kartu
+    cardTextWrap.append(cardId);
     cardTextWrap.append(cardTitle);
     cardTextWrap.append(cardCategories);
     cardTextWrap.append(cardPrice);
@@ -301,7 +285,7 @@ function newCreateCard(data) {
     cardTextWrap.append(cardSubTotal);
     cardBody.append(cardTextWrap);
     card.append(cardBody);
-    cardWrap.append(card);69
+    cardWrap.append(card);
 
     
     
@@ -311,23 +295,25 @@ function newCreateCard(data) {
 
 }
 
+//funsi total harga
 function totalHarga() {
+    console.log('masuk fungsi total harga');
     // Array.from($('form [name=subtotal]')).reduce((acc, i) => acc + Number(i.value), 0)
     // Array.from($('form [name=subtotal]')).reduce((total, el) => total + Number(el.value), 0)
+    // console.log(potonganHarga + 'diskon blay');
     var total = 0;
-    Array.from($('form [name=subtotal]')).forEach(function(el) {
+    var diskon = parseFloat($('form [name=diskon]').val());
+    Array.from($(`form [id=subtotal]`)).forEach(function(el) {
         var subtotal = Number(el.value);
         total += subtotal;
     });
+
+    console.log(total + ' diskon nyah');
+    var potongan =  total * diskon ;
+    var hasil = total - potongan ;
+    console.log('hasilnyah ' +hasil )
+    $('#total').val(hasil);
 }
-
-
-
-
-
-
-
-
 
 
 //fungsi tampil kategori
@@ -376,7 +362,6 @@ function viewDataKategori (){
 
         tombol.on('click',function(){
             diFilter = data.nama.toLowerCase();
-            console.log('YANG ININIH BRO: ' + diFilter);
             viewDatacard(diFilter);
         });
         
@@ -415,7 +400,7 @@ function viewDataVoucher (valid){
                     var voucher = createVoucher(data.data[i]);
                     var validasi = valid;
                     //tambahkan kartu ke elemen dengan ID
-                    console.log(`MASUK CETAK VOUCHER NIH` + voucher)
+                    // console.log(`MASUK CETAK VOUCHER NIH` + voucher)
                     $(".diskon").append(voucher); //di elemen ID "card-field"
                     console.log('VALID GAK NIH' + validasi);
                 }
@@ -433,17 +418,24 @@ function viewDataVoucher (valid){
     function createVoucher(data) {
         var tr = $('.diskon');
         var status = $("<td class='border p-1 border-dark'></td>").html('<h5><b>' + data.status + '</b></h5>');
-        
+        var potongan = $('form [name=diskon]');
 
         if(data.status == 'Aktif'){
+            
             var persen = data.diskon * 100;
-            var diskon = $("<td class='border p-1 border-dark'></td>").html('<h5><b>' + persen + '%</b></h5');
+            var diskon = $("<td class='border p-1 border-dark'></td>").html(`<input type='text' value='${persen + '%'}'>`);
+            
+            potongan.val(data.diskon);
+            totalHarga();
             tr.append(status);
             tr.append(diskon);
             return tr;
 
         }else{
             var valid = $("<td colspan='3' align='center' class='border p-1 border-dark'></td>").html('<h5><b>' + 'YAH GAK AKTIF' + '</b></h5>');
+            
+            potongan.val(0);
+            totalHarga();
             tr.append(valid);
             return tr;
         }
