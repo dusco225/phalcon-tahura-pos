@@ -52,7 +52,7 @@
 		<!-- favicon -->
 		<!-- Fav Icon based on PDAM -->
   		{# <link rel="icon" type="image/png" id="fav_icon"/> #}
-		<link rel="icon" id="fav_icon"type="image/png" href="{{ url('assets') }}/image/thr.png"/>
+		<link rel="icon" id="fav_icon"type="image/png" href="{{ url('assets') }}/image/tjm.png"/>
         {% block import_css_page %}
         {% endblock %}
 		<style>
@@ -81,17 +81,12 @@
 					<div
 						class="navbar-inner brc-grey-l2 shadow-md">
 
-						<!-- this button collapses/expands sidebar in desktop mode -->
-						<button type="button" class="btn btn-burger align-self-center d-none d-xl-flex mx-2 px-0" data-toggle="sidebar" data-target="#sidebar" aria-controls="sidebar" aria-expanded="true" aria-label="Toggle sidebar">
-							<span class="bars"></span>
-						</button>
+						
 
 						<div
 							class="d-flex h-100 align-items-center justify-content-xl-between">
-							<!-- this button shows/hides sidebar in mobile mode -->
-							<button type="button" class="btn btn-burger static burger-arrowed collapsed d-flex d-xl-none ml-2 bgc-h-white-l31" data-toggle-mobile="sidebar" data-target="#sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle sidebar">
-								<span class="bars text-white"></span>
-							</button>
+						
+							
 
 							<a
 								class="navbar-brand ml-2 text-white" href="#">
@@ -148,19 +143,7 @@
 				<div
 					class="main-container bgc-white">
 
-					<!-- Sidebar -->
-					<div id="sidebar" class="sidebar sidebar-fixed expandable sidebar-light collapsed" data-backdrop="true" data-dismiss="true" data-swipe="true">
-						<div class="sidebar-inner">
-
-							<div class="ace-scroll flex-grow-1 mt-1px" data-ace-scroll="{}">
-								{% block navigation %}
-									{% include 'template/navigation-dynamic.volt' %}
-								{% endblock %}
-							</div>
-							<!-- /.ace-scroll -->
-
-						</div>
-					</div>
+					
 
 
 					<!-- Main Content -->
@@ -255,7 +238,7 @@
 
 {# <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script> #}
 			<script>
-                {% include "template/dashboard.js" %}
+                {% include "template/kasir.js" %}
 				window.defaultUrl = `${baseUrl}`;
 				$("#ganti-pass").click(function () {
 					var url = defaultUrl + "pengaturan/ubah-password";

@@ -21,7 +21,7 @@
         <div class="row justify-content-center">
           <div class="col-12 mt-2">
             <div class="text-center font-bold fa-2x text-primary">
-              CAFE TAHURA
+              {{ config.appName }}
               <h6>(Sistem Informasi Cafe)</h6>
             </div>
           </div>

@@ -7,11 +7,11 @@ use Phalcon\Mvc\Model as BaseModel;
 use Core\Models\Behavior\SoftDelete;
 use Phalcon\Mvc\Model\Behavior\Timestampable;
 
-class Model extends BaseModel
+class ProDetailModel extends BaseModel
 {
     public function initialize()
     {
         $this->setConnectionService('db');
-        $this->setSource('master_produk');
+        $this->setSource('master_produk_detail');
     }
 }

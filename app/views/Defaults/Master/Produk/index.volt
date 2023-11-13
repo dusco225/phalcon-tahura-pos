@@ -107,11 +107,49 @@
 									<div class="input-group-prepend">
 										<span class="input-group-text" style="width: 150px;">Kategori Produk</span>
 									</div>
-									<select type="text" id="kategori_id" name="kategori_id" class="select2 select2kategori" required></select>
+									<select type="text" id="kategori" name="kategori" class="select2 select2kategori" required></select>
 								</div>
 							</div>
 						</div>
                         
+
+                        <div class="row form-group border border-dark p-1">
+                            <div class="col-sm-12 border border-dark p-1" style="margin-bottom : 5px;">
+                                <div class="input-group border border-dark p-1">
+                                    <table class="table w-100 container-fluid">
+										<tr>
+											<th>Bahan</th>
+											<th>:</th>
+											<th>Jumlah</th>
+										</tr>
+										<tr id="komposisi">
+											
+											<td><select name="bahan" class="select2 select2bahan" required></select></td>
+											<td>:</td>
+											<td><input type="number" name="jumlah[]" required></td>
+											<td>:</td>
+											<td><input type="harga" name="subtotal[]"></td>
+											
+										</tr>
+										<tr id="komposisi">
+											
+											<td><select name="bahan" class="select2 select2bahan" required></select></td>
+											<td>:</td>
+											<td><input type="number" name="jumlah[]" required></td>
+											<td>:</td>
+											<td><input type="harga" name="subtotal[]"></td>
+											
+										</tr>
+										
+										<tr>
+											<td><b id="tambah" class="btn btn-dark">+ bahan</b></td>
+											<td>:</td>
+											<td><b id="kurang" class="btn btn-dark">- bahan</b></td>
+										</tr>
+									</table>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="row form-group">
                             <div class="col-sm-12" style="margin-bottom : 5px;">
@@ -119,7 +157,18 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" style="width: 150px;">Hpp</span>
                                     </div>
-                                    <input type="text" id="hpp" name="hpp" class="form-control" required>
+                                    <input type="text" id="hpp" name="hpp" class="form-control" disabled>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-sm-12" style="margin-bottom : 5px;">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="width: 150px;">Harga Jual</span>
+                                    </div>
+                                    <input type="text" id="hargajual" name="hargajual" class="form-control" disabled>
                                 </div>
                             </div>
                         </div>

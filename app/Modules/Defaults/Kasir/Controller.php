@@ -25,10 +25,12 @@ class Controller extends BaseController
      */
     public function indexAction($id)
     {
+        
         $this->view->setVar('module', $id);
     }
 
-    
+
+
     //controller.php
     /**
      * @routeGet("/datakategori")
@@ -37,20 +39,21 @@ class Controller extends BaseController
     public function datakategoriAction()
     {
         $pdam_id = $this->session->user['pdam_id'];
-    
+
+
         $builder = $this->modelsManager->createBuilder()
             ->columns('*')
             ->from(KategoriModel::class)
             ->where("1=1")
             ->andWhere("pdam_id = '$pdam_id'");
-    
+
         $result = $builder->getQuery()->execute();
-    
+
         $jsonResult = [
             'message' => 'Aksi DATA KATEGORI berhasil dipanggil.',
-            'data'=> $result->toArray(),
+            'data' => $result->toArray(),
         ];
-    
+
         return $this->response->setJsonContent($jsonResult);
     }
 
@@ -82,7 +85,7 @@ class Controller extends BaseController
 
         $jsonResult = [
             'message' => 'Aksi datacardAction berhasil dipanggil.',
-            'data'=> $result->toArray(),
+            'data' => $result->toArray(),
         ];
 
         return $this->response->setJsonContent($jsonResult);
@@ -115,54 +118,10 @@ class Controller extends BaseController
 
         $jsonResult = [
             'message' => 'Aksi datacardAction berhasil dipanggil.',
-            'data'=> $result->toArray(),
+            'data' => $result->toArray(),
         ];
 
         return $this->response->setJsonContent($jsonResult);
-    }
-    
-
-    /**
-     * @routeGet("/datatable")
-     * @routePost("/datatable")
-     */
-    public function datatableAction()
-    {
-        // var_dump(Request::getPost());exit;
-        $pdam_id = $this->session->user['pdam_id'];
-        $search_nama = Request::getPost('search_nama');
-        $search_kode = Request::getPost('search_kode');
-        $kategori_id_search = Request::getPost('kategori_id_search');
-        $barang_kategori_id_id = Request::getPost('barang_kategori_id_id');
-        $nama_barang = Request::getPost('nama_barang');
-        
-        $builder = $this->modelsManager->createBuilder()
-                        ->columns('*')
-                        ->from(VwModel::class)
-                        ->where("1=1")
-                        ->andWhere("pdam_id = '$pdam_id'");
-
-        if($nama_barang) {
-            $builder->andWhere("nama LIKE '%$nama_barang%'");
-        }
-        if($search_nama) {
-            $builder->andWhere("nama LIKE '%$search_nama%'");
-        }
-        if($search_kode) {
-            $builder->andWhere("kode = '$search_kode'");
-        }
-
-        if($kategori_id_search) {
-            $builder->andWhere("id_kategori = '$kategori_id_search'");
-        }
-        if($barang_kategori_id_id) {
-            $builder->andWhere("id_kategori = '$barang_kategori_id_id   '");
-        }
-
-
-
-        $dataTables = new DataTable();
-        $dataTables->fromBuilder($builder)->sendResponse();
     }
 
 
@@ -170,41 +129,90 @@ class Controller extends BaseController
      * @routePost("/store")
      */
     public function storeAction()
-{
-    // Ambil data dari permintaan POST
-    $kasir = $this->session->user['kasir_kode'];
-    $voucher_kode = Request::getPost('voucher_kode');
-    $total = Request::getPost('total');
-    $produk_data = Request::getPost('produk_data'); // Harus berisi array data produk
+    {
+        // Ambil data dari permintaan POST
+        $nama = $this->session->user['nama'];
+        $kasir = $this->session->user['kasir_kode'];
+        $voucher_kode = Request::getPost('voucher_kode');
+        $voucher_diskon = Request::getPost('diskon');
+        $voucher_potongan = Request::getPost('potongan');
+        $produk_data = Request::getPost('produk_data'); // Harus berisi array data produk
+        $total = Request::getPost('total');
+        $bayar = Request::getPost('bayar');
+        $kembalian = Request::getPost('kembalian');
 
-    // Simpan data ke tabel 'transaksi'
-    $transaksi = new TransaksiModel();
-    $transaksi->kode_kasir = $kasir;
-    $transaksi->voucher_kode = $voucher_kode;
-    $transaksi->total = $total;
-    $transaksi->created_at = date('Y-m-d H:i:s');
-    $transaksi->save();
+        $allData = [
+            'nama' => $nama,
+            'kode' => $kasir,
+            'produk_data' => $produk_data,
+            'kode_voucher' => $voucher_kode,
+            'diskon_voucher' => $voucher_diskon,
+            'potongan_voucher' => $voucher_potongan,
+            'total' => $total,
+            'tunai' => $bayar,
+            'kembali' => $kembalian,
 
-    // Ambil ID yang baru saja disimpan
-    $transaksi_id = $transaksi->id;
+        ];
 
-    // Simpan data ke tabel 'transaksi_detail'
-    foreach ($produk_data as $produk) {
-        $transaksiDetail = new TransaksiDetailModel();
-        $transaksiDetail->transaksi_id = $transaksi_id;
-        $transaksiDetail->produk_id = $produk['id'];
-        $transaksiDetail->qty = $produk['qty'];
-        $transaksiDetail->sub_total = $produk['subtotal'];
-        $transaksiDetail->save();
+        $this->db->begin();
+        // Simpan data ke tabel 'transaksi'
+        $transaksi = new TransaksiModel();
+        $transaksi->kode_kasir = $kasir;
+        $transaksi->voucher_kode = $voucher_kode;
+        $transaksi->total = $total;
+        $transaksi->bayar = $bayar;
+        $transaksi->kembalian = $kembalian;
+        $transaksi->created_at = date('Y-m-d H:i:s');
+        $transaksi->save();
+
+        // Ambil ID yang baru saja disimpan
+        $transaksi_id = $transaksi->id;
+        $transaksi_tanggal = $transaksi->created_at;
+
+        // Simpan data ke tabel 'transaksi_detail'
+        foreach ($produk_data as $produk) {
+            $transaksiDetail = new TransaksiDetailModel();
+            $transaksiDetail->transaksi_id = $transaksi_id;
+            $transaksiDetail->produk_id = $produk['id'];
+            $transaksiDetail->qty = $produk['qty'];
+            $transaksiDetail->sub_total = $produk['subtotal'];
+            $transaksiDetail->save();
+        }
+
+        $this->db->commit();
+
+        $allData['transaksi_id'] = $transaksi_id;
+        $allData['transaksi_tanggal'] = $transaksi_tanggal;
+        return Response::setJsonContent([
+            'message' => 'Data berhasil disimpan.',
+            'struk' => $allData, // Anda dapat menambahkan informasi lain yang Anda butuhkan
+        ]);
     }
 
-    return Response::setJsonContent([
-        'message' => 'Data berhasil disimpan.',
-        'transaksi_id' => $transaksi_id, // Anda dapat menambahkan informasi lain yang Anda butuhkan
-    ]);
-}
+    /**
+     * @routeGet("/strukPdf")
+     */
+    public function strukPdfAction()
+    {
+        $struk = request::get('struk');
+        // $tanggal = request::get('transaksi_tanggal');
+        // $nama = request::get('nama');
+        // $kode = request::get('kode');
+        // $produk = request::get('produk_data'); //berisi array
+        // $kode_voucher = request::get('kode_voucher');
+        // $diskon_voucher = request::get('diskon_voucher');
+        // $potongan = request::get('potongan_voucher');
+        // $total = request::get('total');
+        // $tunai = request::get('tunai');
+        // $kembali = request::get('kembali');
+        // $var = "Ramdani"; 
+        // $data = ;
 
+        $this->view->setVar('struk', $struk);
+        // return Response::setJsonContent([
+        //     'message' => 'Data berhasil disimpan.',
+        //     'struk' => $struk, // Anda dapat menambahkan informasi lain yang Anda butuhkan
+        // ]);
+    }
 
-
-    
 }

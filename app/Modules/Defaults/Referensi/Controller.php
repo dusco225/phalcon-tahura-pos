@@ -12,6 +12,7 @@ use App\Modules\Defaults\Master\ReferensiData\KodePerkiraanKelompok\Model as Mod
 use App\Modules\Defaults\Master\ReferensiData\KodePerkiraanKelompok\ModelView as ViewModelKelompok;
 use App\Modules\Defaults\Master\ReferensiData\KodePerkiraan\ModelView as ViewModelPerkiraan;
 use App\Modules\Defaults\Master\Produk\Model as ModelProduk;
+use App\Modules\Defaults\Master\Bahan\Model as ModelBahan;
 use App\Modules\Defaults\Master\Satuan\Model as ModelSatuan;
 use App\Modules\Defaults\Master\Kategori\Model as ModelKategori;
 use App\Modules\Defaults\Master\ReferensiData\SatuanKerja\Model as ModelSatuanKerja;
@@ -245,6 +246,31 @@ class Controller extends BaseController
 		$page = $this->request->get('page');
 		$offset = ($page - 1) * 20;
 		$data = ModelSatuan::find(
+			array(
+				'limit' => 21,
+				'offset' => $offset,
+				'conditions' => "nama LIKE '%$nama%' AND pdam_id ='$pdam_id' "
+			)
+		);
+		$data_array = $data->toArray();
+		$has_more = count($data_array);
+		$json_data = array(
+			"data" => $data_array,
+			"has_more" => $has_more,
+		);
+		echo json_encode($json_data);
+	}
+
+	/**
+     * @routeGet("/getBahan")
+     * @routePost("/getBahan")
+     */
+    public function getBahanAction(){
+        $pdam_id = $this->session->user['pdam_id'];
+		$nama = $this->request->get('q');
+		$page = $this->request->get('page');
+		$offset = ($page - 1) * 20;
+		$data = ModelBahan::find(
 			array(
 				'limit' => 21,
 				'offset' => $offset,

@@ -2,7 +2,13 @@ window.defaultUrl = `${baseUrl}/master/produk/`;
 var table;
 var rupiahFields = [
     "hpp",
+    "hargajual",
   ];
+
+var bahanData = [];
+var dataToSend;
+
+  var order = 1;
 $(document).ready(function() {
     let modal = $('#formModal');
     viewDatatable();
@@ -23,14 +29,7 @@ $(document).ready(function() {
         $('#filterModal').modal('show');
     });
 
-    $('#btn-add').click(function() {
-        modal.find('input[name=nama]').val('');
-        modal.find("select[name=kategori_id]").val('').trigger('change');
-        modal.find('input[name=hpp]').val('');
-        modal.find('input[name=_type]').val('create');
-        resetErrors();
-        $('#formModal').modal('show');
-    });
+    
 
     $('#btn-edit').click(function () {
         let selected = table.row({
@@ -73,47 +72,158 @@ $(document).ready(function() {
                 });
         }
     });
+    var order = 1;
+$('#tambah').on('click', function() {
+    console.log('tambah bro');
+    var newRow = $("<tr id='komposisi'></tr>");
+    newRow.html(`
+        <td><select name="bahan" class="select2 select2bahan" required></select></td>
+        <td>:</td>
+        <td><input type="number" name="jumlah[]" required></td>
+        <td>:</td>
+        <td><input type="number" name="subtotal[]"></td>
+    `);
+    $('#komposisi').after(newRow);
+    order++;
+    newRow.find('select').attr('id', 'bahan' + order);
 
-    modal.find('form').on('submit', function(ev) {
-        ev.preventDefault();
-        rupiahFields.forEach(function (field) {
-            var element = document.getElementById(field);
-            var value = element.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
-            element.value = value;
-          });
-        let submitButton = $(this).find('[type=submit]');
-        let originalContent = submitButton.html();
-        submitButton.html('<i class="fa fa-spin fa-spinner"></i> Menyimpan...');
-        submitButton.prop('disabled', true);
+    // Inisialisasi Select2 pada elemen yang baru
+    select2data();
+});
 
-        let type = $('[name=_type]').val();
-        let id = $('[name=id]').val();
-        let url = type == 'create' ?
-            defaultUrl + "store" :
-            (defaultUrl + "update");
 
-        $.post(url, $(this).serialize())
-            .done(function(response) {
-                notification('success', "Data berhasil disimpan");
-                modal.modal('hide');
-                table.ajax.reload();
-            })
-            .fail(function(jqXHR) {
-                if (jqXHR && jqXHR.responseJSON && jqXHR.responseJSON.errors) {
-                    let errors = jqXHR.responseJSON.errors;
-                    for (let field in errors) {
-                        let el = $(`[name=${field}]`);
-                        el.toggleClass('brc-danger-m2');
-                        el.next().text(errors[field]).show();
-                        el.prev().toggleClass('text-danger-d1');
-                    }
-                }
-            })
-            .always(function() {
-                submitButton.html(originalContent);
-                submitButton.prop('disabled', false);
-            });
+    $('#kurang').on('click', function() {
+        console.log('kurang bro');
+        var jumlahRow = $('#komposisi').length;
+        if(jumlahRow > 1){
+            // Menghapus baris terakhir
+            $('#komposisi:last').remove();
+        }else{
+            alert('Harus Ada Bahan')
+        }
+});
+
+$('#btn-add').click(function() {
+    modal.find(`input[name="nama"]`).val('');
+    modal.find(`select[name="kategori"]`).val(null).trigger('change'); // Reset select2
+    // modal.find(`select[name="bahan[]"]`).val(null).trigger('change'); // Reset select2
+    modal.find(`input[name="jumlah[]"]`).val('');
+    modal.find(`input[name="hpp"]`).val('');
+    modal.find(`input[name="hargajual"]`).val('');
+    modal.find(`input[name="_type"]`).val('create');
+    resetErrors();
+    $('#formModal').modal('show');
+});
+
+$('#komposisi select[name="bahan"]').on('change', function() {
+    var selectedData = $(this).select2('data')[0];
+    
+    console.log(selectedData);
+    if (selectedData) {
+        var tempat = $('#komposisi');
+        var inputId = $(`<input type="hidden" name="id[]">`).val(selectedData.id);
+        var inputJumlah = $(`<input type="hidden" name="jumlah">`).val(selectedData.jumlah);
+        var inputHarga = $(`<input type="hidden" name="harga">`).val(selectedData.harga);
+        
+        tempat.append(inputId);
+        tempat.append(inputJumlah);
+        tempat.append(inputHarga);
+
+    }
+});
+
+$(`input[name="jumlah[]"]`).on('input', function(){
+
+    var subTotal = $(`input[name="subtotal[]"]`).val('');
+    var diPakai = $(`input[name="jumlah[]"]`).val();
+    var jumlah = $(`input[name="jumlah"]`).val();
+    var harga = $(`input[name="harga"]`).val();
+    
+    var total = harga / jumlah * diPakai;
+    console.log(total + 'ZEUS!!!!!!!!!')
+    subTotal.val(total);
+    
+
+
+});
+
+
+
+
+modal.find('form').on('submit', function(e) {
+    e.preventDefault();
+
+    $(`input[name="bahan[]"]`).each(function (i){
+        var bahan = $(this).val();
+        var jumlah = $(`input[name="jumlah[]"]`).eq(index).val();
+
+        bahanData.push({bahan: bahan, jumlah: jumlah});
     });
+
+    dataToSend = {
+        nama : $('input[name="nama"]').val(),
+        kategori : $('input[name="kategori"]').val(),
+        hpp : $(`input[name="hpp"]`).val(),
+        harga_jual : $(`input[name="hargajual"]`),
+        bahan_data: bahanData
+    };
+
+    $.ajax({
+        url: defaultUrl + "store",
+        method: 'POST',
+        data: dataToSend,
+        succes: function(response){
+            console.log(response);
+        },
+        error: function(xhr, status, error){
+            console.error('Error: ', error);
+            console.error('Status: ', status);
+            console.error('XHR Response: ', xhr);
+        }
+    });
+});
+
+
+    // modal.find('form').on('submit', function(ev) {
+    //     ev.preventDefault();
+    //     rupiahFields.forEach(function (field) {
+    //         var element = document.getElementById(field);
+    //         var value = element.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+    //         element.value = value;
+    //       });
+    //     let submitButton = $(this).find('[type=submit]');
+    //     let originalContent = submitButton.html();
+    //     submitButton.html('<i class="fa fa-spin fa-spinner"></i> Menyimpan...');
+    //     submitButton.prop('disabled', true);
+
+    //     let type = $('[name=_type]').val();
+    //     let id = $('[name=id]').val();
+    //     let url = type == 'create' ?
+    //         defaultUrl + "store" :
+    //         (defaultUrl + "update");
+
+    //     $.post(url, $(this).serialize())
+    //         .done(function(response) {
+    //             notification('success', "Data berhasil disimpan");
+    //             modal.modal('hide');
+    //             table.ajax.reload();
+    //         })
+    //         .fail(function(jqXHR) {
+    //             if (jqXHR && jqXHR.responseJSON && jqXHR.responseJSON.errors) {
+    //                 let errors = jqXHR.responseJSON.errors;
+    //                 for (let field in errors) {
+    //                     let el = $(`[name=${field}]`);
+    //                     el.toggleClass('brc-danger-m2');
+    //                     el.next().text(errors[field]).show();
+    //                     el.prev().toggleClass('text-danger-d1');
+    //                 }
+    //             }
+    //         })
+    //         .always(function() {
+    //             submitButton.html(originalContent);
+    //             submitButton.prop('disabled', false);
+    //         });
+    // });
 
     
 });
@@ -214,12 +324,12 @@ function confirmDelete() {
 }
 
 function select2data(){
-    $('.select2produk').select2({
+    $('.select2bahan').select2({
         allowClear: true,
         theme: "bootstrap4",
         width: 'auto',
         ajax: {
-            url: "{{ url('panel/referensi/getProduk') }}",
+            url: "{{ url('panel/referensi/getBahan') }}",
             data: function (params) {
                 return {
                     q: params.term,
@@ -231,10 +341,13 @@ function select2data(){
                 console.log(data);
                 return {
                     results: data.data.map(function (i) {
-                        i.id = i.id;
-                        i.text = i.nama;
-                    
-                        return i;
+                    i.id = i.id;
+                    i.text = i.nama;
+                    i.jumlah = i.jumlah;
+                    i.harga = i.harga;
+                    // $('#isinya').text(i.id);                    
+                    // console.log(i);
+                    return i;
                     }),
                     pagination: {
                         more: data.has_more
@@ -242,6 +355,7 @@ function select2data(){
                 }
             }
         }
+        
     });
 
     $('.select2kategori').select2({

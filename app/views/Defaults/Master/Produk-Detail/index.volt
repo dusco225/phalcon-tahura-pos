@@ -1,6 +1,5 @@
-{# index.volt #}
 {% extends 'template/dashboard.volt' %}
-{% block title %}Master  Bahan
+{% block title %}Master  Produk
 {% endblock %}
 {% block content %}
 <style>
@@ -18,7 +17,7 @@
 		<div class="card-header pb-1 align-middle border-t-3 brc-primary-tp3" style="border-top-left-radius: 0.4rem;
 		border-top-right-radius: 0.4rem;border-bottom: 1px solid #e0e5e8 !important;" >
 			<h4 class="card-title text-dark-m3 mt-2">
-				Master - Bahan
+				Master - Produk
 			</h4>
 			<div class="page-tools mt-3 mt-sm-0 mb-sm-n1 card-toolbar">
 
@@ -57,19 +56,13 @@
 								<tr class="bgc-info text-white text-center brc-black-tp10">
 									<th style="vertical-align: middle;" >#</th>
 									<th style="vertical-align: middle;">Nama</th>
-									<th style="vertical-align: middle;">Jumlah</th>
-									<th style="vertical-align: middle;">Satuan</th>
-									<th style="vertical-align: middle;">Harga</th>
+									<th style="vertical-align: middle;">Kategori</th>
+									<th style="vertical-align: middle;">Hpp</th>
+									<th style="vertical-align: middle;">Harga Jual</th>
 								</tr>
 							</thead>
 						
 						</table>
-						<div class="card-field row"> {# Wadah kartu #}
-							
-						</div>
-						<div id="card"></div>
-						<input type="text" name="dhar">
-						<p id="namae"></p>
 					</div>
 
 				</div>
@@ -87,7 +80,7 @@
 			<div class="modal-content radius-4">
 				<div class="modal-header bgc-primary radius-t-4">
 					<h4 class="modal-title text-white">
-						<i class="fa fa-list text-white"></i>&nbsp;&nbsp; Form - Bahan</h4>
+						<i class="fa fa-list text-white"></i>&nbsp;&nbsp; Form - Produk</h4>
 					<button type="button" class="close text-white" data-dismiss="modal">&times;</button>
 				</div>
 				<form class="form-horizontal" action="javascript:;">
@@ -101,42 +94,32 @@
                             <div class="col-sm-12" style="margin-bottom : 5px;">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" style="width: 150px;">Nama Bahan</span>
+                                        <span class="input-group-text" style="width: 150px;">Nama Produk</span>
                                     </div>
                                     <input type="text" id="nama" name="nama" class="form-control" required>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="row form-group">
-                            <div class="col-sm-12" style="margin-bottom : 5px;">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" style="width: 150px;">Jumlah</span>
-                                    </div>
-                                    <input type="text" id="jumlah" name="jumlah" class="form-control" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row form-group">
+						<div class="row form-group">
 							<div class="col-sm-12" style="margin-bottom : 5px;">
 								<div class="input-group">
 									<div class="input-group-prepend">
-										<span class="input-group-text" style="width: 150px;">Satuan Bahan</span>
+										<span class="input-group-text" style="width: 150px;">Kategori Produk</span>
 									</div>
-									<select type="text" id="satuan" name="satuan" class="select2 select2produk" required></select>
+									<select type="text" id="kategori_id" name="kategori_id" class="select2 select2kategori" required></select>
 								</div>
 							</div>
 						</div>
+                        
 
                         <div class="row form-group">
                             <div class="col-sm-12" style="margin-bottom : 5px;">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" style="width: 150px;">Harga Bahan</span>
+                                        <span class="input-group-text" style="width: 150px;">Hpp</span>
                                     </div>
-                                    <input type="text" id="harga" name="harga" class="form-control" required>
+                                    <input type="text" id="hpp" name="hpp" class="form-control" required>
                                 </div>
                             </div>
                         </div>
@@ -227,7 +210,7 @@
 {% endblock %}
 {% block inline_script %}
 <script>
-	{% include 'Defaults/Master/Bahan/index.js' %}
+	{% include 'Defaults/Master/Produk/index.js' %}
 </script>
 {% endblock %}
 

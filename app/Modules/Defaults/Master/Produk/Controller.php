@@ -11,7 +11,8 @@ use Core\Facades\Response;
 use App\Modules\Defaults\Middleware\Controller as MiddlewareHardController;
 use Core\Facades\Request;
 use Core\Paginator\DataTables\DataTable;
-use App\Modules\Defaults\Master\Produk\Model as Model;
+use App\Modules\Defaults\Master\Produk\ProdukModel as ProdukModel;
+use App\Modules\Defaults\Master\Produk\ProDetailModel as ProDetailModel;
 
 /**
  * @routeGroup("/master/produk")
@@ -24,6 +25,16 @@ class Controller extends BaseController
     public function indexAction($id)
     {
         $this->view->setVar('module', $id);
+    }
+
+    /**
+     * @routeGet("/strukPdf")
+     * @routePost("/strukPdf")
+     */
+    public function strukPdfAction($id)
+    {
+        $var = "Ramdani";
+        $this->view->setVar('data-nama', $var);
     }
 
     
@@ -110,22 +121,36 @@ class Controller extends BaseController
     public function storeAction()
     {
         $pdam_id = $this->session->user['pdam_id'];
-        $sessUser = $this->session->user['nama'];
         
-        $data = [
-            'nama'          => Request::getPost('nama'),
-            'kategori_id'        => Request::getPost('kategori_id'),
-            'hpp'         => Request::getPost('hpp'),
-            'created_at'    => date ('Y-m-d H:i:s'),
-            'pdam_id'       => $pdam_id,
-        ];
-        $create = new Model($data);
-        $result = $create->save();
+        $nama = request::getPost('nama');
+        $kategori = request::getPost('kategori');
+        $hpp = request::getPost('hpp');
+        $harga_jual = request::getPost('harga_jual');
+        $bahan_data = request::getPost('bahan_data');
 
-        $log = new Log(); 
-        $log->write("Insert Data Master-Referensi Barang-Kategori", $data, $result, "App\Modules\Defaults\Master\ReferensiBarang\Kategori\Controller", "INSERT");
+        $this->db->begin();
+        //simpan data ke tabel pertama
+        $produk = new ProdukModel();
+        $produk->nama = $nama;
+        $produk->kategori_id = $kategori;
+        $produk->hpp = $hpp;
+        $produk->harga_jual = $harga_jual;
+        $produk->pdam_id = $pdam_id;
+
+        $produk_id = $produk->id;
+
+        foreach($bahan_data as $bahan){
+            $produkDetail = new ProDetailModel();
+            $produkDetail->produk_id = $produk_id;
+            $produkDetail->bahan_id = $bahan['bahan'];
+            $produkDetail->jumlah = $bahan['jumlah'];
+            $produkDetail->harga = $bahan['harga'];
+            $produkDetail->pdam_id = $pdam_id;
+        }
+        $this->db->commit();
         return Response::setJsonContent([
-            'message' => 'Success',
+            'message' => 'Data Terkirim',
+            'produk id' => $produk_id,
         ]);
     }
 

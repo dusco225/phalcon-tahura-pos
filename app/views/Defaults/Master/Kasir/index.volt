@@ -1,6 +1,5 @@
-{# index.volt #}
 {% extends 'template/dashboard.volt' %}
-{% block title %}Master  Data-Kasir
+{% block title %}Master  Kasir
 {% endblock %}
 {% block content %}
 <style>
@@ -18,7 +17,7 @@
 		<div class="card-header pb-1 align-middle border-t-3 brc-primary-tp3" style="border-top-left-radius: 0.4rem;
 		border-top-right-radius: 0.4rem;border-bottom: 1px solid #e0e5e8 !important;" >
 			<h4 class="card-title text-dark-m3 mt-2">
-				Master - Data - Kasir
+				Master - Kasir
 			</h4>
 			<div class="page-tools mt-3 mt-sm-0 mb-sm-n1 card-toolbar">
 
@@ -58,17 +57,13 @@
 									<th style="vertical-align: middle;" >#</th>
 									<th style="vertical-align: middle;">Nama</th>
 									<th style="vertical-align: middle;">Kode</th>
-									<th style="vertical-align: middle;">Password</th>
 								</tr>
 							</thead>
 						
 						</table>
-						<div class="card-field row"> {# Wadah kartu #}
-							
+						<div id="card-field">
+							{# hasil dari ajax cardata disini #}
 						</div>
-						<div id="card"></div>
-						<input type="text" name="dhar">
-						<p id="namae"></p>
 					</div>
 
 				</div>
@@ -100,20 +95,9 @@
                             <div class="col-sm-12" style="margin-bottom : 5px;">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" style="width: 150px;">Nama</span>
+                                        <span class="input-group-text" style="width: 150px;">Nama Bahan</span>
                                     </div>
                                     <input type="text" id="nama" name="nama" class="form-control" required>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="row form-group">
-                            <div class="col-sm-12" style="margin-bottom : 5px;">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" style="width: 150px;">Kode</span>
-                                    </div>
-                                    <input type="text" id="kode" name="kode" class="form-control" required>
                                 </div>
                             </div>
                         </div>
@@ -122,12 +106,14 @@
                             <div class="col-sm-12" style="margin-bottom : 5px;">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" style="width: 150px;">Password</span>
+                                        <span class="input-group-text" style="width: 150px;">Nama Bahan</span>
                                     </div>
-                                    <input type="text" id="password" name="password" class="form-control" required>
+                                    <input type="text" id="nama" name="nama" class="form-control" required>
                                 </div>
                             </div>
                         </div>
+
+                        
 
 					</div>
 					<div class="modal-footer  radius-b-4">
@@ -154,7 +140,7 @@
 			<div class="modal-content radius-4">
 				<div class="modal-header bgc-primary radius-t-4">
 					<h4 class="modal-title text-white">
-						<i class="fa fa-search text-white"></i>&nbsp;&nbsp; Pencarian - Barang</h4>
+						<i class="fa fa-search text-white"></i>&nbsp;&nbsp; Pencarian - Kasir</h4>
 					<button type="button" class="close text-white" data-dismiss="modal">&times;</button>
 				</div>
 				<div class="modal-body">
@@ -162,20 +148,6 @@
 					<form class="form-horizontal" id="form-filter">
 
                         <div class="input-group mb-2 input-filter">
-							<div class="input-group-prepend" style="width : 10% !important">
-								<span class="input-group-text">
-									<input type="checkbox" class="ace-switch">
-								</span>
-							</div>
-							<div class="input-group-prepend">
-								<span class="input-group-text">
-									Kode
-								</span>
-							</div>
-							<input type="text" name="search_kode" class="form-control" disabled="">
-						</div>
-
-						<div class="input-group mb-2 input-filter">
 							<div class="input-group-prepend" style="width : 10% !important">
 								<span class="input-group-text">
 									<input type="checkbox" class="ace-switch">
@@ -197,12 +169,11 @@
 							</div>
 							<div class="input-group-prepend">
 								<span class="input-group-text">
-									Kategori
+									Kode
 								</span>
 							</div>
-							<select type="text" id="kategori_id_search" name="kategori_id_search" class="select2 select2kategori" disabled=""></select>
+							<input type="text" name="search_kode" class="form-control" disabled="">
 						</div>
-
                         
 					</form>
 				</div>

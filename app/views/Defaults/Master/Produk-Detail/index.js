@@ -1,11 +1,8 @@
-window.defaultUrl = `${baseUrl}/master/bahan/`;
+window.defaultUrl = `${baseUrl}/master/produk/`;
 var table;
-var card;
 var rupiahFields = [
-    "harga",
+    "hpp",
   ];
-
-
 $(document).ready(function() {
     let modal = $('#formModal');
     viewDatatable();
@@ -28,12 +25,11 @@ $(document).ready(function() {
 
     $('#btn-add').click(function() {
         modal.find('input[name=nama]').val('');
-        modal.find('input[name=jumlah]').val('');
-        modal.find("select[name=satuan_id]").val('').trigger('change');
-        modal.find('input[name=harga]').val('');
+        modal.find("select[name=kategori_id]").val('').trigger('change');
+        modal.find('input[name=hpp]').val('');
         modal.find('input[name=_type]').val('create');
         resetErrors();
-        $('#formModal').modal('show')
+        $('#formModal').modal('show');
     });
 
     $('#btn-edit').click(function () {
@@ -48,9 +44,8 @@ $(document).ready(function() {
             modal.find('input[name=_type]').val('edit');
             modal.find('input[name=id]').val(selected.id);
             modal.find('input[name=nama]').val(selected.nama);
-            modal.find('input[name=jumlah').val(selected.jumlah);
-            $("select[name=satuan]").select2("trigger", "select", { data: { id: selected.id_satuan, text : selected.nama_satuan} });
-            modal.find('input[name=harga').val(selected.harga);
+            modal.find('input[name=hpp').val(selected.hpp);
+            $("select[name=kategori_id]").select2("trigger", "select", { data: { id: selected.kategori_id, text : selected.kategori} });
             convertRupiah();
             resetErrors();
             modal.modal('show');
@@ -155,10 +150,13 @@ function viewDatatable(){
                 data: 'nama'
             },
             {
-                data: 'jumlah'
+                data: 'kategori'
             },
             {
-                data: 'nama_satuan'
+                data: 'hpp',
+                render: function(data){
+                    return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
+                }
             }, 
             {
                 data: 'harga',
@@ -174,62 +172,8 @@ function viewDatatable(){
                 $("td", row).first().css({ width: "3%", "text-align": "center", });
                 //Default
                 $('td', row).eq(1).css({ 'text-align': 'left', 'font-weight': 'normal' });
-                console.log(data);
-                $("#card").html(data);
-                $("#card").text(data);
-                // $("#card").write(data);
-                $("#card").append("<p>",data.id,"</p>");
-                console.log(data);
-                $("#card").append(data.nama,`<div class="card" style="width: 18rem;">
-                <img src="..." class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-              </div>`);
-                $("#card").text(JSON.stringify(data));
-
-                // data.serializeArray()
-
-
-                // var texts = data.map(function(item) {
-                //     return item.nama + " - " + item.harga;
-                // });
                 
-                // $("#card").html(texts.join("<br>"));
-                
-                // var isi = "";
-                // data.forEach(function(item) {
-                //     isi += item.nama + " - " + item.harga + "<br>";
-                // });
-                // $("#card").text(isi);
-
-
-
-               //--------------------------------------------------------------------
-            //    function(){
-            //    var text = "";
-
-            //     data.forEach(function(data) {
-            //         text += item.nama + " - " + item.harga + "<br>";
-            //     });
-
-            //     $("#card").html(text);
-            // }
-            //==================================================================
-            //-----------------------------------------------------------------
-            //    $(data).serializeArray().forEach((data) => $("#card").text(data.nama,data.harga));
-            //=========================================================================
-
-               //---------------------------------------------------
-            //    var formData = new FormData();
-            //    formData.append("filename", $("#filename").prop("files")[0]);
-            //    $(this)
-            //      .serializeArray()
-            //      .forEach((item) => formData.append(item.name, item.value));
-               //-----------------------------------------------------
-            },
+            }
 
     }).on( 'click', 'tr', function () {
 		if ($(this).hasClass('selected')) {
@@ -240,69 +184,8 @@ function viewDatatable(){
 			$('#btn-delete').addClass("disabled");
         }
 	});
-
 }
 
-//------------------------
-function viewCard() {
-    card = {
-        show: function () {
-            $("#card-field").html(""); // Perhatikan penggunaan tanda "#" untuk ID elemen
-            $.ajax({
-                url: defaultUrl + "datatable",
-                type: "post",
-                // data: {}
-                data: function (d) {
-                    var formData = $("#form-filter").serializeArray();
-                    $.each(formData, function (key, val) { // Menggunakan variabel "val" dalam loop
-                        d[val.name] = val.value;
-                        $("#card-field").append(`
-                            <div class="card-wrapper col-3 p-3 m-3 bg-dark">
-                                <div class="card p-3 m-3" style="width: 18rem;">
-                                    <img id="gambar" src="..." class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h5 id="nama_produk" class="card-title">${val.nama}</h5> <!-- Menggunakan "val.nama" untuk mengakses data -->
-                                        <p id="kategori" class="card-text">${val.jumlah}</p>
-                                        <p id="harga" class="card-text">${val.nama_satuan}</p> <!-- Menggunakan "val.nama_satuan" untuk mengakses data -->
-                                    </div>
-                                </div>
-                            </div>
-                        `);console.log(val.nama);
-                    });
-                } 
-            });
-        } 
-    }
-}
-
-viewCard();
-
-//=======================
-//''''''''''''''
-// $(document).ready(function(){
-//     var app = {
-//     show: function(){
-//         $("tbody").html("")
-//         $.ajax({
-//             url: 'data.php',
-//             method : 'POST',
-//             data: {type: 'tampil'},
-//             success: function(response){
-    //                 var todos = JSON.parse(response);
-    // // todos.forEach(function(value, index){
-//                     $("tbody").append(`
-//                     <tr>
-//                         <td>${value.title}</td>
-//                         <td>${value.body}</td>
-//                         <td>${value.created_at}</td>
-//                     </tr>`);	
-//                 })
-//             }
-//         })	
-//     }
-//     }
-//     })
-//'''''''''''''''''
 function resetErrors() {
     $('.form-control').each(function(i, el) {
         $(el).removeClass('brc-danger-m2');
@@ -361,12 +244,12 @@ function select2data(){
         }
     });
 
-    $('.select2satuan').select2({
+    $('.select2kategori').select2({
         allowClear: true,
         theme: "bootstrap4",
         width: 'auto',
         ajax: {
-            url: "{{ url('panel/referensi/getSatuan') }}",
+            url: "{{ url('panel/referensi/getKategori') }}",
             data: function (params) {
                 return {
                     q: params.term,
