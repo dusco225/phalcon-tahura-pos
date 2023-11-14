@@ -130,21 +130,15 @@ form th{
 							<div class="col-sm-12 border border-dark p-1" style="margin-bottom: 5px;">
 								<div class="input-group border border-dark p-1">
 									<table class="table w-100 container-fluid">
-										<tr>
+										<tr id="komposisi">
 											<th style="width: 33.33%; text-align: center;">Bahan</th>
 											<th style="width: 33.33%; text-align: center;">Jumlah/Gram</th>
 											<th style="width: 33.33%; text-align: center;">Total/Rp.</th>
 										</tr>
-										<tr id="komposisi[]">
-											<input type="text" id='total' name="total[]">
-											<td><select name="bahan" class="select2bahan" required></select></td>
-											<td><input type="number" name="jumlah[]" required></td>
-											<td id="harga"><input type="harga" id="total" name="subtotal[]" disabled></td>
-										</tr>
 										<tr>
-											<td><b id="tambah" class="btn btn-dark">+ bahan</b></td>
-											<td>:</td>
-											<td><b id="kurang" class="btn btn-dark">- bahan</b></td>
+											<td style="text-align: center;"><b id="tambah" class="btn btn-dark">+ bahan</b></td>
+											<td></td>
+											<td style="text-align: center;"><b id="kurang" class="btn btn-dark">- bahan</b></td>
 										</tr>
 									</table>
 								</div>
