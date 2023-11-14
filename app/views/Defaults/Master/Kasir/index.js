@@ -41,7 +41,7 @@ $(document).ready(function() {
             modal.find('input[name=id]').val(selected.id);
             modal.find('input[name=nama]').val(selected.nama);
             modal.find('input[name=kode').val(selected.kode);
-            modal.find('input[name=password').val();
+            modal.find('input[name=password').val(selected.password);
             resetErrors();
             modal.modal('show');
         }

@@ -95,7 +95,7 @@
                             <div class="col-sm-12" style="margin-bottom : 5px;">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" style="width: 150px;">Nama Bahan</span>
+                                        <span class="input-group-text" style="width: 150px;">Nama</span>
                                     </div>
                                     <input type="text" id="nama" name="nama" class="form-control" required>
                                 </div>
@@ -106,9 +106,20 @@
                             <div class="col-sm-12" style="margin-bottom : 5px;">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" style="width: 150px;">Nama Bahan</span>
+                                        <span class="input-group-text" style="width: 150px;">Kode Kasir</span>
                                     </div>
-                                    <input type="text" id="nama" name="nama" class="form-control" required>
+                                    <input type="text" id="kode" name="kode" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-sm-12" style="margin-bottom : 5px;">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="width: 150px;">Password</span>
+                                    </div>
+                                    <input type="password" id="password" name="password" class="form-control" required>
                                 </div>
                             </div>
                         </div>

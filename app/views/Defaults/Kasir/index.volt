@@ -1,4 +1,4 @@
-{% extends 'template/kasir.volt' %}
+{% extends 'template/dashboard.volt' %}
 {% block title %}Kasir
 {% endblock %}
 {% block content %}

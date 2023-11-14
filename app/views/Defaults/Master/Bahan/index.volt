@@ -121,7 +121,7 @@
 									<div class="input-group-prepend">
 										<span class="input-group-text" style="width: 150px;">Satuan Bahan</span>
 									</div>
-									<select type="text" id="satuan" name="satuan" class="select2 select2produk" required></select>
+									<select type="text" id="satuan" name="satuan" class="select2 select2satuan" required></select>
 								</div>
 							</div>
 						</div>
@@ -162,7 +162,7 @@
 			<div class="modal-content radius-4">
 				<div class="modal-header bgc-primary radius-t-4">
 					<h4 class="modal-title text-white">
-						<i class="fa fa-search text-white"></i>&nbsp;&nbsp; Pencarian - Barang</h4>
+						<i class="fa fa-search text-white"></i>&nbsp;&nbsp; Pencarian - Bahan</h4>
 					<button type="button" class="close text-white" data-dismiss="modal">&times;</button>
 				</div>
 				<div class="modal-body">
@@ -177,10 +177,10 @@
 							</div>
 							<div class="input-group-prepend">
 								<span class="input-group-text">
-									Kode
+									nama
 								</span>
 							</div>
-							<input type="text" name="search_kode" class="form-control" disabled="">
+							<input type="text" name="search_nama" class="form-control" disabled="">
 						</div>
 
 						<div class="input-group mb-2 input-filter">
@@ -191,24 +191,10 @@
 							</div>
 							<div class="input-group-prepend">
 								<span class="input-group-text">
-									Nama
+									satuan
 								</span>
 							</div>
-							<input type="text" name="search_nama" class="form-control" disabled="">
-						</div>
-
-                        <div class="input-group mb-2 input-filter">
-							<div class="input-group-prepend" style="width : 10% !important">
-								<span class="input-group-text">
-									<input type="checkbox" class="ace-switch">
-								</span>
-							</div>
-							<div class="input-group-prepend">
-								<span class="input-group-text">
-									Kategori
-								</span>
-							</div>
-							<select type="text" id="kategori_id_search" name="kategori_id_search" class="select2 select2kategori" disabled=""></select>
+							<select type="text" name="search_satuan" class="form-control select2 select2satuan" disabled=""></select>
 						</div>
 
                         

@@ -10,6 +10,9 @@
 .price {
     float: right;
 }
+form th{
+	tex
+}
 
 </style>
 <div class="page-content" >
@@ -100,6 +103,17 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row form-group">
+                            <div class="col-sm-12" style="margin-bottom : 5px;">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" style="width: 150px;">Gambar</span>
+                                    </div>
+                                    <input type="file" id="gambar" name="gambar" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
                         
 						<div class="row form-group">
 							<div class="col-sm-12" style="margin-bottom : 5px;">
@@ -112,45 +126,31 @@
 							</div>
 						</div>
                         
-
-                        <div class="row form-group border border-dark p-1">
-                            <div class="col-sm-12 border border-dark p-1" style="margin-bottom : 5px;">
-                                <div class="input-group border border-dark p-1">
-                                    <table class="table w-100 container-fluid">
+						<div class="row form-group border border-dark p-1">
+							<div class="col-sm-12 border border-dark p-1" style="margin-bottom: 5px;">
+								<div class="input-group border border-dark p-1">
+									<table class="table w-100 container-fluid">
 										<tr>
-											<th>Bahan</th>
-											<th>:</th>
-											<th>Jumlah</th>
+											<th style="width: 33.33%; text-align: center;">Bahan</th>
+											<th style="width: 33.33%; text-align: center;">Jumlah/Gram</th>
+											<th style="width: 33.33%; text-align: center;">Total/Rp.</th>
 										</tr>
-										<tr id="komposisi">
-											
-											<td><select name="bahan" class="select2 select2bahan" required></select></td>
-											<td>:</td>
+										<tr id="komposisi[]">
+											<input type="text" id='total' name="total[]">
+											<td><select name="bahan" class="select2bahan" required></select></td>
 											<td><input type="number" name="jumlah[]" required></td>
-											<td>:</td>
-											<td><input type="harga" name="subtotal[]"></td>
-											
+											<td id="harga"><input type="harga" id="total" name="subtotal[]" disabled></td>
 										</tr>
-										<tr id="komposisi">
-											
-											<td><select name="bahan" class="select2 select2bahan" required></select></td>
-											<td>:</td>
-											<td><input type="number" name="jumlah[]" required></td>
-											<td>:</td>
-											<td><input type="harga" name="subtotal[]"></td>
-											
-										</tr>
-										
 										<tr>
 											<td><b id="tambah" class="btn btn-dark">+ bahan</b></td>
 											<td>:</td>
 											<td><b id="kurang" class="btn btn-dark">- bahan</b></td>
 										</tr>
 									</table>
-                                </div>
-                            </div>
-                        </div>
-
+								</div>
+							</div>
+						</div>
+						
                         <div class="row form-group">
                             <div class="col-sm-12" style="margin-bottom : 5px;">
                                 <div class="input-group">

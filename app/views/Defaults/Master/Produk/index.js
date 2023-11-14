@@ -3,6 +3,8 @@ var table;
 var rupiahFields = [
     "hpp",
     "hargajual",
+    "total",
+    "hargajual",
   ];
 
 var bahanData = [];
@@ -72,36 +74,9 @@ $(document).ready(function() {
                 });
         }
     });
-    var order = 1;
-$('#tambah').on('click', function() {
-    console.log('tambah bro');
-    var newRow = $("<tr id='komposisi'></tr>");
-    newRow.html(`
-        <td><select name="bahan" class="select2 select2bahan" required></select></td>
-        <td>:</td>
-        <td><input type="number" name="jumlah[]" required></td>
-        <td>:</td>
-        <td><input type="number" name="subtotal[]"></td>
-    `);
-    $('#komposisi').after(newRow);
-    order++;
-    newRow.find('select').attr('id', 'bahan' + order);
-
-    // Inisialisasi Select2 pada elemen yang baru
-    select2data();
-});
 
 
-    $('#kurang').on('click', function() {
-        console.log('kurang bro');
-        var jumlahRow = $('#komposisi').length;
-        if(jumlahRow > 1){
-            // Menghapus baris terakhir
-            $('#komposisi:last').remove();
-        }else{
-            alert('Harus Ada Bahan')
-        }
-});
+
 
 $('#btn-add').click(function() {
     modal.find(`input[name="nama"]`).val('');
@@ -115,37 +90,6 @@ $('#btn-add').click(function() {
     $('#formModal').modal('show');
 });
 
-$('#komposisi select[name="bahan"]').on('change', function() {
-    var selectedData = $(this).select2('data')[0];
-    
-    console.log(selectedData);
-    if (selectedData) {
-        var tempat = $('#komposisi');
-        var inputId = $(`<input type="hidden" name="id[]">`).val(selectedData.id);
-        var inputJumlah = $(`<input type="hidden" name="jumlah">`).val(selectedData.jumlah);
-        var inputHarga = $(`<input type="hidden" name="harga">`).val(selectedData.harga);
-        
-        tempat.append(inputId);
-        tempat.append(inputJumlah);
-        tempat.append(inputHarga);
-
-    }
-});
-
-$(`input[name="jumlah[]"]`).on('input', function(){
-
-    var subTotal = $(`input[name="subtotal[]"]`).val('');
-    var diPakai = $(`input[name="jumlah[]"]`).val();
-    var jumlah = $(`input[name="jumlah"]`).val();
-    var harga = $(`input[name="harga"]`).val();
-    
-    var total = harga / jumlah * diPakai;
-    console.log(total + 'ZEUS!!!!!!!!!')
-    subTotal.val(total);
-    
-
-
-});
 
 
 
@@ -323,6 +267,88 @@ function confirmDelete() {
     });
 }
 
+
+//form action
+
+$('#komposisi select[name="bahan"]').on('change', function() {
+    var selectedData = $(this).select2('data')[0];
+    
+    console.log(selectedData);
+    if (selectedData) {
+        var tempat = $(this);
+        var inputId = $(`<input type="hidden" name="id[]">`).val(selectedData.id);
+        var inputJumlah = $(`<input type="hidden" name="jumlah">`).val(selectedData.jumlah);
+        var inputHarga = $(`<input type="hidden" name="harga">`).val(selectedData.harga);
+        
+        tempat.append(inputId);
+        tempat.append(inputJumlah);
+        tempat.append(inputHarga);
+
+    }
+});
+
+var order = 1;
+
+$('#tambah').on('click', function() {
+    console.log('tambah bro');
+    var newRow = $(`
+        <tr>
+            <input type='hidden' name="total[]">
+            <td><select name="bahan" class="select2 select2bahan" required></select></td>
+            <td><input type="number" name="jumlah[]" required></td>
+            <td><input type="text" id="total" name="subtotal[]" disabled></td>
+        </tr>
+    `);
+
+    // Tambahkan atribut id ke setiap elemen dalam baris baru
+    newRow.find('select').attr('id', 'bahan' + order);
+    newRow.find('input[type="number"]').attr('id', 'jumlah' + order);
+    newRow.find('input[type="text"]').attr('id', 'subtotal' + order);
+
+    // Masukkan baris baru setelah baris dengan ID 'komposisi'
+    $('#komposisi').after(newRow);
+
+    // Lakukan penyesuaian nomor urutan untuk id berikutnya
+    order++;
+
+    // Inisialisasi Select2 pada elemen yang baru
+    select2data();
+});
+
+
+$('#kurang').on('click', function() {
+    console.log('kurang bro');
+    var jumlahRow = $('#komposisi').length;
+    if(jumlahRow > 1){
+        // Menghapus baris terakhir
+        $('#komposisi:last').remove();
+    }else{
+        alert('Harus Ada Bahan')
+    }
+});
+
+
+$(`input[name="jumlah[]"]`).on('input', function(){
+
+    var total = $(`input[name="total[]"]`).val(''); 
+    var subTotal = $(`#harga`); 
+    var diPakai = $(`input[name="jumlah[]"]`).val();
+    var jumlah = $(`input[name="jumlah"]`).val();
+    var harga = $(`input[name="harga"]`).val();
+    
+    var hasil = harga / jumlah * diPakai;
+    
+    total.val(hasil);
+    var angka = formatRupiah(hasil, "Rp. ")
+    subTotal.innerHtml('<p>' + hasil + '</p>');
+    
+
+
+});
+
+
+
+
 function select2data(){
     $('.select2bahan').select2({
         allowClear: true,
@@ -406,7 +432,7 @@ function formatRupiah(angka, prefix) {
 }
 rupiahFields.forEach(function (field) {
     var element = document.getElementById(field);
-    element.addEventListener("keyup", function (e) {
+    element.addEventListener("change", function (e) {
       element.value = formatRupiah(this.value, "Rp. ");
     });
   });

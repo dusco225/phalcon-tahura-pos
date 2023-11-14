@@ -4,7 +4,7 @@ use Fpdf\Fpdf;
 
 $pdf = new FPDF('P', 'mm', array(80, 150)); // 'P' untuk orientasi Potrait, ukuran dalam milimeter (80 mm x 150 mm)
 $pdf->AddPage();
-$pdf->SetFont('Courier','I',5);
+$pdf->SetFont('Courier','I',6);
 
 
 $no_struk = $struk['transaksi_id'];
@@ -37,27 +37,36 @@ foreach($produk as $item){
     $qty = $item['qty'];
     $pdf->Cell(10,10, $qty,0,0,'R');
     $harga = $item['harga'];
-    $pdf->Cell(15,10, $harga,0,0,'R');
+    $pdf->Cell(15,10,formatRupiah($harga),0,0,'R');
     $sub_total = $item['subtotal'];
-    $pdf->Cell(15,10, $sub_total,0,0,'R');
+    $pdf->Cell(15,10, formatRupiah($sub_total),0,0,'R');
     $pdf->Ln(5);
 }
 
 $pdf->Ln();
-$pdf->Cell(60,10,'Voucher : '.$kode_voucher,0,0,'R');
+$pdf->Cell(27,10,'Voucher',0,0,'L');
+$pdf->Cell(3,10,':',0,0,'C');
+$pdf->Cell(30,10,$kode_voucher,0,0,'R');
 $pdf->Ln();
-$pdf->Cell(60,10,'diskon : '.$diskon_voucher,0,0,'R');
+$pdf->Cell(27,10,'diskon',0,0,'L');
+$pdf->Cell(3,10,':',0,0,'C');
+$pdf->Cell(30,10,$diskon_voucher,0,0,'R');
 $pdf->Ln();
-$pdf->Cell(60,10,'Potongan : '.$potongan_voucher,0,0,'R');
+$pdf->Cell(27,10,'Potongan',0,0,'L');
+$pdf->Cell(3,10,':',0,0,'C');
+$pdf->Cell(30,10,formatRupiah($potongan_voucher),0,0,'R');
 $pdf->Ln();
-$pdf->Cell(60,10,'Total : '.$total,0,0,'R');
-$pdf->Cell(60,10,'Total : '.$total,0,0,'R');
+$pdf->Cell(27,10,'Total',0,0,'L');
+$pdf->Cell(3,10,':',0,0,'C');
+$pdf->Cell(30,10,formatRupiah($total),0,0,'R');
 $pdf->Ln();
-$pdf->Cell(60,10,'Tunai : '.$tunai,0,0,'R');
-$pdf->Cell(60,10,'Tunai : '.$tunai,0,0,'R');
+$pdf->Cell(27,10,'Tunai',0,0,'L');
+$pdf->Cell(3,10,':',0,0,'C');
+$pdf->Cell(30,10,formatRupiah($tunai),0,0,'R');
 $pdf->Ln();
-$pdf->Cell(60,10,'Kembali : '.$kembali,0,0,'R');
-$pdf->Cell(60,10,'Kembali : '.$kembali,0,0,'R');
+$pdf->Cell(27,10,'Kembali',0,0,'L');
+$pdf->Cell(3,10,':',0,0,'C');
+$pdf->Cell(30,10,formatRupiah($kembali),0,0,'R');
 $pdf->Ln(); 
 
 $pdf->Output();

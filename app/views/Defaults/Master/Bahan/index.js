@@ -213,36 +213,6 @@ function confirmDelete() {
 }
 
 function select2data(){
-    $('.select2produk').select2({
-        allowClear: true,
-        theme: "bootstrap4",
-        width: 'auto',
-        ajax: {
-            url: "{{ url('panel/referensi/getProduk') }}",
-            data: function (params) {
-                return {
-                    q: params.term,
-                    page: params.page || 1
-                };
-            },
-            processResults: function (response) {
-                var data = JSON.parse(response);
-                console.log(data);
-                return {
-                    results: data.data.map(function (i) {
-                        i.id = i.id;
-                        i.text = i.nama;
-                    
-                        return i;
-                    }),
-                    pagination: {
-                        more: data.has_more
-                    }
-                }
-            }
-        }
-    });
-
     $('.select2satuan').select2({
         allowClear: true,
         theme: "bootstrap4",

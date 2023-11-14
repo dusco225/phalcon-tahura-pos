@@ -34,6 +34,7 @@ class Controller extends BaseController
     {
         $pdam_id = $this->session->user['pdam_id'];
         $search_nama = Request::getPost('search_nama');
+        $search_kode = Request::getPost('search_kode');
 
         $builder = $this->modelsManager->createBuilder()
                         ->columns('*')
@@ -43,6 +44,10 @@ class Controller extends BaseController
 
         if($search_nama) {
             $builder->andWhere("nama LIKE '%$search_nama%'");
+        }
+
+        if($search_kode) {
+            $builder->andWhere("kode LIKE '%$search_kode%'");
         }
 
         $dataTables = new DataTable();

@@ -26,33 +26,6 @@ class Controller extends BaseController
         $this->view->setVar('module', $id);
     }
 
-    
-    //controller.php
-    /**
-     * @routeGet("/datacard")
-     * @routePost("/datacard")
-     */
-    public function datacardAction()
-    {
-        $pdam_id = $this->session->user['pdam_id'];
-    
-        $builder = $this->modelsManager->createBuilder()
-            ->columns('*')
-            ->from(VwModel::class)
-            ->where("1=1")
-            ->andWhere("pdam_id = '$pdam_id'");
-    
-        $result = $builder->getQuery()->execute();
-    
-        $jsonResult = [
-            'message' => 'Aksi datacardAction berhasil dipanggil.',
-            'data'=> $result->toArray(),
-        ];
-    
-        return $this->response->setJsonContent($jsonResult);
-    }
-    
-
     /**
      * @routeGet("/datatable")
      * @routePost("/datatable")
@@ -62,10 +35,7 @@ class Controller extends BaseController
         // var_dump(Request::getPost());exit;
         $pdam_id = $this->session->user['pdam_id'];
         $search_nama = Request::getPost('search_nama');
-        $search_kode = Request::getPost('search_kode');
-        $kategori_id_search = Request::getPost('kategori_id_search');
-        $barang_kategori_id_id = Request::getPost('barang_kategori_id_id');
-        $nama_barang = Request::getPost('nama_barang');
+        $search_satuan = Request::getPost('search_satuan');
         
         $builder = $this->modelsManager->createBuilder()
                         ->columns('*')
@@ -73,21 +43,11 @@ class Controller extends BaseController
                         ->where("1=1")
                         ->andWhere("pdam_id = '$pdam_id'");
 
-        if($nama_barang) {
-            $builder->andWhere("nama LIKE '%$nama_barang%'");
-        }
         if($search_nama) {
             $builder->andWhere("nama LIKE '%$search_nama%'");
         }
-        if($search_kode) {
-            $builder->andWhere("kode = '$search_kode'");
-        }
-
-        if($kategori_id_search) {
-            $builder->andWhere("id_kategori = '$kategori_id_search'");
-        }
-        if($barang_kategori_id_id) {
-            $builder->andWhere("id_kategori = '$barang_kategori_id_id   '");
+        if($search_satuan) {
+            $builder->andWhere("id_satuan LIKE '%$search_satuan%'");
         }
 
 
