@@ -10,9 +10,9 @@
 .price {
     float: right;
 }
-form th{
-	tex
-}
+ form table{
+	box-sizing: border-box;
+ }
 
 </style>
 <div class="page-content" >
@@ -39,10 +39,7 @@ form th{
 					Tambah
 				</a>
 
-				<a href="#" class="btn mr-1 btn-warning mb-2 radius-2"id="btn-edit">
-					<i class="fa fa-pencil-alt text-140 align-text-bottom mr-2"></i>
-					Edit
-				</a>
+
 				<a href="#" class="btn mr-1 btn-danger mb-2 radius-2" id="btn-delete">
 					<i class="fa fa-trash-alt text-140 align-text-bottom mr-2"></i>
 					Hapus
@@ -110,7 +107,7 @@ form th{
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" style="width: 150px;">Gambar</span>
                                     </div>
-                                    <input type="file" id="gambar" name="gambar" class="form-control" required>
+                                    <input type="file" id="gambar" name="gambar" class="form-control" disabled>
                                 </div>
                             </div>
                         </div>
@@ -130,15 +127,19 @@ form th{
 							<div class="col-sm-12 border border-dark p-1" style="margin-bottom: 5px;">
 								<div class="input-group border border-dark p-1">
 									<table class="table w-100 container-fluid">
+										<thead>
+											<tr>
+												<th style="width: 35%; text-align: center;">Bahan</th>
+												<th style="width: 20%; text-align: center;">Jumlah/Gram</th>
+												<th style="width: 25%; text-align: center;">Total/Rp.</th>
+												<th style="width: 20%; text-align: center;">Aksi</th>
+											</tr>
+										</thead>
 										<tr id="komposisi">
-											<th style="width: 33.33%; text-align: center;">Bahan</th>
-											<th style="width: 33.33%; text-align: center;">Jumlah/Gram</th>
-											<th style="width: 33.33%; text-align: center;">Total/Rp.</th>
-										</tr>
-										<tr>
-											<td style="text-align: center;"><b id="tambah" class="btn btn-dark">+ bahan</b></td>
 											<td></td>
-											<td style="text-align: center;"><b id="kurang" class="btn btn-dark">- bahan</b></td>
+											<td></td>
+											<td></td>
+											<td style="text-align: none;"><b style=" width: 80%;" id="tambah" class="btn btn-dark">+ Bahan</b></td>
 										</tr>
 									</table>
 								</div>

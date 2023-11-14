@@ -219,6 +219,12 @@ function viewDatatable(){
                     return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
                 }
             },
+            {
+                data: 'harga',
+                render: function(data){
+                    return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
+                }
+            },
         ],
             "createdRow": function (row, data, index) {
                 $(row).attr('data-value', encodeURIComponent(JSON.stringify(data)));
@@ -275,23 +281,17 @@ function confirmDelete() {
 $('#tambah').on('click', function() {
     tambahBahan();
 });
+
 function tambahBahan(){
     console.log('tambah bro');
-    // var newRow = $(`
-    //     <tr>
-            
-    //         <td><select name="bahan" class="select2 select2bahan" required></select></td>
-    //         <td><input type="number" name="jumlah[]" required></td>
-    //         <td><input type="text" id="total" name="total[]" disabled></td>
-    //     </tr>
-    // `);
     var tr = $("<tr></tr>");
-    var tdBahan = $("<td></td>");
-    var bahan = $(`<select name="bahan" class="select2 select2bahan" required></select>`);
-    var tdJumlah = $("<td></td>");
-    var jumlah = $(`<input type="number" name="jumlah[]" value="1" required>`);
-    var tdTotal = $("<td></td>");
-    var total = $(`<input type="text" id="total" name="total[]" disabled>`);
+    var tdBahan = $(`<td></td>`);
+    var bahan = $(`<select style="width: 100%;" name="bahan" class="select2 select2bahan" required></select>`);
+    var tdJumlah = $(`<td></td>`);
+    var jumlah = $(`<input style="width: 100%;" type="number" name="jumlah[]" | value="1" required>`);
+    var tdTotal = $(`<td></td>`);
+    var total = $(`<input style="width: 100%;" type="text" id="total" name="total[]"  disabled>`);
+    var aksi = $(`<td><b style=" width: 80%;" id="kurang" class="btn btn-dark">- Bahan</b></td>`);
 
     //mengambil data option yang dipilih
     bahan.on('change', function() {
@@ -302,6 +302,7 @@ function tambahBahan(){
         $(this).attr('data-harga', bahanHarga);
         console.log('DATANYA BRO '+ bahanHarga);
         total.val(bahanHarga * digunakan);
+        hPP();
     });
     //------------------------------------
     //mengambil data jumlah digunakan
@@ -311,17 +312,15 @@ function tambahBahan(){
 
         subtotal = dataBahan * digunakan;
         total.val(subtotal);
-
+        hPP();
     });
     //-------------------------------
-    
-    
+    //menghapus tr
+    aksi.on(`click`,function(){
+        tr.remove();
 
-    // Tambahkan atribut id ke setiap elemen dalam baris baru
-     // Tambahkan atribut id ke setiap elemen dalam baris baru
-    //  newRow.find('select').attr('id', 'bahan' + order);
-    //  newRow.find('input[type="number"]').attr('id', 'jumlah' + order);
-    //  newRow.find('input[type="text"]').attr('id', 'subtotal' + order);
+    });
+    //--------------------------------
     
     tdBahan.append(bahan);
     tdJumlah.append(jumlah);
@@ -329,12 +328,11 @@ function tambahBahan(){
     tr.append(tdBahan);
     tr.append(tdJumlah);
     tr.append(tdTotal);
+    tr.append(aksi);
     // Masukkan baris baru setelah baris dengan ID 'komposisi'
     $('#komposisi').after(tr);
 
-    // Lakukan penyesuaian nomor urutan untuk id berikutnya
-    // order++;
-
+    
     // Inisialisasi Select2 pada elemen yang baru
     select2data();
 }
@@ -351,17 +349,15 @@ $('#kurang').on('click', function() {
 });
 
 
-function hargaBahan(){
-    console.log('masuk bahan coy')
-    var total = $(`input[name="total[]"]`).val('');  
-    var diPakai = $(`input[name="jumlah[]"]`).val();
-    var jumlah = $(`input[name="jumlah"]`).val();
-    var harga = $(`input[name="harga"]`).val();
-    
-    
-    var hasil = harga / jumlah * diPakai;
-    
-    total.val(hasil);
+function hPP(){
+    var hpp = 0;
+    var hargaJual = 0;
+    Array.from($(`form [name="total[]"]`)).forEach(function(el){
+         total = Number(el.value);
+         hpp += total;
+    });
+
+    $(`form [name="hpp"]`).val(hpp);
 }
 
 
@@ -464,3 +460,4 @@ function convertRupiah(){
 
 
 
+// <a 
