@@ -82,6 +82,11 @@
 												}
 												*{
 													box-sizing: border-box;
+													  font-family: "Roboto", Arial, sans-serif;
+												}
+												.order{
+													text-align: center;
+													margin: 10px;
 												}
 												.produk {
 												    border-radius: 10px;
@@ -117,43 +122,66 @@
 													padding: 1;
 													box-sizing: border-box;
 												}
+												.produk-data {
+												    position: relative;
+												    padding: 10px; /* Sesuaikan sesuai kebutuhan */
+												}
+												.produk-right{
+													padding: 10px;
+												}
+
+												.btn-x {
+												    position: absolute;
+												    top: 0;
+												    right: 0;
+												    margin: 5px;
+												    /* background-c	olor: red; Sesuaikan warna sesuai kebutuhan */
+												    color: white;
+												    border: none;
+													width: 9%;
+												    padding: 1px;
+												    cursor: pointer;
+												}
+												.qty-box .btn {
+												    font-size: 45%;
+												    border-radius: 8px; /* Ubah ke nilai yang lebih rendah untuk membuatnya lebih persegi */
+												    padding: 3px;
+												}
+
+												.qty-box i {
+													padding: 0;
+													margin: 0;
+													/* font-size: 50%; */
+												}
+												.produk-price{
+													color:#f05a59;
+													margin-top: 15px;
+												}
+												.qty-box{
+													/* background-color: aqua; */
+													width: 40%;
+													display: flex;
+													align-items: center;
+													justify-content: center;
+													position: absolute;
+													margin: 5px;
+													right: 0;
+													bottom: 10px;
+												}
+												.qty-box input{
+													width: 50%;
+													border: none;
+													background-color: transparent;
+													padding: 4px;
+													text-align: center;
+												}
+												
+
 											</style>
 											<form action="" id="formForm" class="container-fluid">
 
-											 <!-- <div class="kartu-wrapper container-fluid w-100 p-4 bg-light">
-												<div class="kartu row  ">
-													<div class="kartu-left img-wrapper border col-4">
-														<img src="{{ url('assets') }}/image/produk/kopi.png" class=" w-100 p-1 " alt="">
-													</div>
-													<div class="kartu-middle border col-4 d-flex text-middle text-center align-items-center flex-column">
-														<h5 class="kartu-title"><b>teh manis</b></h5>
-														<h5 class="kartu-price"><b>Rp. 5.250</b></h5>
-													</div>
-													
-													<div class="kartu-right border col-4  text-center d-flex align-items-center">
-														<h6 class="kartu-categories">X</h6>
-														<h5 class="kartu-price">Rp. 5.250</h5>
-													</div>
-												</div>	
-											 </div> -->
-											<!-- <div class="kartu-wrapper container-fluid w-100 p-4 bg-light">
-												<div class="kartu row  ">
-													<div class="kartu-left img-wrapper border col-4">
-														<img src="{{ url('assets') }}/image/ngops.png" class=" w-100 p-1 " alt="">
-													</div>
-													<div class="kartu-middle border col-4 d-flex text-middle text-center align-items-center flex-column">
-														<h5 class="kartu-title"><b>teh manis</b></h5>
-														<h5 class="kartu-price"><b>Rp. 5.250</b></h5>
-													</div>
-													
-													<div class="kartu-right border col-4  text-center d-flex align-items-center">
-														<h6 class="kartu-categories">X</h6>
-														<h5 class="kartu-price">Rp. 5.250</h5>
-													</div>
-												</div>	
-											 </div> -->
-											 <div id="order">
-
+			
+											 <div id="order" class="container-fluid p-1 bg-danger">
 											 </div>
 
 											

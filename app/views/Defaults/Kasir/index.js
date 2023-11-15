@@ -251,11 +251,13 @@ function viewDatacard (filter){
             //console.log('KARTU BERES DI TAMBAHIN BRO');   
             // var rCard = $('cart').data[selectedCard];
             // return rCard;
+            totalHarga();
         });
 
         return cardWrap;
 
     }
+    totalHarga();
     
     
 }
@@ -276,9 +278,12 @@ function viewDatacard (filter){
             var newCard = newCreateCard(cardData); // memanggil fungsi cetak kartu
             newCard.attr('data-card', JSON.stringify(cardData)); // menambah atribut pada kartu yang dicetak
             order.append(newCard);
-            ; // mencetak kartu baru
+            totalHarga();
+             // mencetak kartu baru
             // //console.log(cardData.harga);
         } else  //jika ada yang sama
+        var jumlah = this.$(`input [name="qty[]"]`).val()
+        jumlah ++;
         { 
             //console.log('KARTUNYA DUPLIKAT BRO');
         }
@@ -292,27 +297,41 @@ function newCreateCard(data) {
     
     // //console.log('MASUK FUNGSI TAMBAH KARTU BARU');
     
-    var cardWrap = $(`<div class='card-wrapper container-fluid p-1'></div>`); //bungkus kartu
-    var card = $("<div class='card card-data container-fluid p-1 bg-dark'></div>"); //kartu
-    var cardBody = $("<div class='card-body  container-fluid card-data-body'></div>");
-    var cardTextWrap = $("<div class='card-text-wrapper bg-warning container-fluid'></div>"); // bungkus text
-    var cardTitle = $("<h5 class='card-title'></h5>").text(data.nama); //judul 
-    var cardCategories = $("<h6 class='card-categories'></h6>").text(data.jumlah); //kategori
-    var cardPrice = $("<h5 class='card-price'></h5>").text(formatRupiah(data.harga, "Rp. ")); //harga
+    var cardWrap = $(`<div class='produk-wrapper  p-1'></div>`); //bungkus kartu
+    var card = $("<div class='produk-data container-fluid p-1 bg-light row'></div>"); //kartu
+    var cardLeft = $("<div class='produk-left container-fluid col-4 '></div>");
+    var img = $(`<img src="{{ url('assets') }}/image/ngops.png" class=" w-100 p-1 " alt="">`);
+    var cardRight = $("<div class='produk-right  container-fluid col-8'></div>"); // bungkus text
+    var cardTitle = $("<h5 class='produk-name text-dark'></h5>").html(`<b>` + data.nama + `</b>`); //judul 
+    var cardPrice = $("<h5 class='produk-price'></h5>").text(formatRupiah(data.harga, "Rp. ")); //harga
     
     //data yang akan di input
     var cardId = $(`<input type='hidden' name='produk_id[]'>`).val(data.id); 
     var cardProduk = $(`<input type='hidden' name='produknama[]'>`).val(data.nama); 
     var cardHarga = $(`<input type='hidden' name='produkharga[]'>`).val(data.harga); 
-    var cardQty = $(`<input type='number' id='qty' name='qty[]' class='container-fluid'>`).val('');
     var cardSubTotal = $(`<input type='hidden' name='subtotal[]' id='subtotal'>`); //harga
-
-    //tombol batal
-    var cancel = $(`<b id="btn-x" class="btn btn-danger"><i class="fas fa-times"></i></b>`);
     
-    cardQty.on('input', function() {
-        var qty = parseInt($(this).val());
-        subTotal = data.harga * qty; 
+    //tombol batal
+    var cancel = $(`<b id="btn-x" class="btn btn-x btn-danger"><i class="fas fa-times"></i></b>`);
+    var qtyBox = $(`<div class="qty-box"></div>`);
+    var btnPlus = $(`<b class="btn btn-danger" id="btn-plus"><i class="fas fa-plus"></i></b>`);
+    var qty = $(`<input type='text' id='qty' name='qty[]' class='container-fluid' value="1" disabled>`);
+    var btnMinus = $(`<b class="btn btn-warning" id="btn-minus"><i class="fas fa-minus"></i></b>`);
+    
+    btnPlus.on('click', function() {
+        var currentValue = parseInt(qty.val()); // Mengambil nilai saat ini dari input
+        qty.val(currentValue + 1); // Menambahkan 1 ke nilai saat ini dan menetapkannya kembali ke elemen input
+        totalHarga();
+    });
+    
+    btnMinus.on('click', function(){
+        var currentValue = parseInt(qty.val()); // Mengambil nilai saat ini dari input
+        qty.val(currentValue - 1);
+        totalHarga();
+    });
+    qty.on('change', function() {
+        var nilai = parseInt($(this).val());
+        subTotal = data.harga * nilai; 
         // var subtotalInput = $(this).closest('.card-wrapper').find('input[name=subtotal]');
         cardSubTotal.val(subTotal);
         // //console.log(subTotal); 
@@ -327,31 +346,39 @@ function newCreateCard(data) {
 
     
 
-
+    qtyBox.append(btnPlus);
+    qtyBox.append(qty);
+    qtyBox.append(btnMinus);
     
     // //console.log(data);
     
     //pengelompokan kartu
-    cardTextWrap.append(cardId);
-    cardTextWrap.append(cardProduk);
-    cardTextWrap.append(cardHarga);
-    cardTextWrap.append(cardTitle);
-    cardTextWrap.append(cardCategories);
-    cardTextWrap.append(cardPrice);
-    cardTextWrap.append(cardQty);
-    cardTextWrap.append(cardSubTotal);
-    cardTextWrap.append(cancel);
-    cardBody.append(cardTextWrap);
-    card.append(cardBody);
+    cardLeft.append(img);
+    cardRight.append(cardId);
+    cardRight.append(cardProduk);
+    cardRight.append(cardTitle);
+    cardRight.append(cancel);
+    cardRight.append(cardHarga);
+    cardRight.append(cardPrice);
+    cardRight.append(qtyBox);
+    cardRight.append(cardSubTotal);
+    // cardBody.append(cardTextWrap);
+    card.append(cardLeft);
+    card.append(cardRight);
     cardWrap.append(card);
 
-    
+    totalHarga();
     
     
     // //console.log('KARTU BARU BERES DIBUAT');
     return cardWrap;
 
 }
+
+function btnPlus(){
+    $()
+}
+function btnMinus(){}
 
 //funsi total harga
 function totalHarga() {
@@ -383,7 +410,7 @@ function viewDataKategori (){
     //console.log('MASUK DUNGSI KATeGOrI COY');
     $.ajax({
         url: defaultUrl + "datakategori", // Ganti dengan URL aksi yang sesuai
-        method: 'GET',
+        method: 'POST',
         dataType: 'json',
         success: function(data) {
             // //console.log(data); // Menampilkan data dalam konsol
@@ -439,7 +466,7 @@ function viewDataKategori (){
 
 
 //fungi validasi voucher
-function viewDataVoucher (valid){
+function viewDataVoucher (){
     $(".diskon").empty();
     //console.log('MASUK DUNGSI VOUCHER COYY');
     $.ajax({
@@ -460,7 +487,6 @@ function viewDataVoucher (valid){
             if(data.data && data.data.length > 0) {
                 for (var i = 0; i < data.data.length; i++) {
                     var voucher = createVoucher(data.data[i]);
-                    var validasi = valid;
                     //tambahkan kartu ke elemen dengan ID
                     // //console.log(`MASUK CETAK VOUCHER NIH` + voucher)
                     $(".diskon").append(voucher); //di elemen ID "card-field"

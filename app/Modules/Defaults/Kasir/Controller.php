@@ -72,11 +72,8 @@ class Controller extends BaseController
             ->columns('*')
             ->from(VoucherModel::class)
             ->where("1=1")
-            ->andWhere("pdam_id = '$pdam_id'");
+            ->andWhere("kode = '$voucher_kode' and pdam_id = '$pdam_id'");
 
-        if ($voucher_kode) {
-            $builder->andWhere("kode = '$voucher_kode'");
-        }
         // if ($newFilter) {
         //     $builder->andWhere("nama LIKE '%$newFilter%'");
         // }

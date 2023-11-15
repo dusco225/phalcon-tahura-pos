@@ -112,6 +112,14 @@
 					</div>
 				</div>
 			</div>
+			<div class="content">
+				<h1>VOUCHER AKTIF</h1>
+				<h1>TERJUAL HARI INI</h1>
+				<h1>DALAM SEBULAN</h1>
+				<h1>DALAM SEBULAN</h1>
+				<h1>CHART PENJUALAN PER MINGGU</h1>
+
+			</div>
 		</div>
 
 	</div>
