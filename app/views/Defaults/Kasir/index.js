@@ -251,13 +251,13 @@ function viewDatacard (filter){
             //console.log('KARTU BERES DI TAMBAHIN BRO');   
             // var rCard = $('cart').data[selectedCard];
             // return rCard;
-            totalHarga();
+            
         });
 
         return cardWrap;
 
     }
-    totalHarga();
+    
     
     
 }
@@ -278,8 +278,7 @@ function viewDatacard (filter){
             var newCard = newCreateCard(cardData); // memanggil fungsi cetak kartu
             newCard.attr('data-card', JSON.stringify(cardData)); // menambah atribut pada kartu yang dicetak
             order.append(newCard);
-            totalHarga();
-             // mencetak kartu baru
+            // mencetak kartu baru
             // //console.log(cardData.harga);
         } else  //jika ada yang sama
         var jumlah = this.$(`input [name="qty[]"]`).val()
@@ -287,6 +286,7 @@ function viewDatacard (filter){
         { 
             //console.log('KARTUNYA DUPLIKAT BRO');
         }
+        totalHarga();
     }
 
        
@@ -309,27 +309,45 @@ function newCreateCard(data) {
     var cardId = $(`<input type='hidden' name='produk_id[]'>`).val(data.id); 
     var cardProduk = $(`<input type='hidden' name='produknama[]'>`).val(data.nama); 
     var cardHarga = $(`<input type='hidden' name='produkharga[]'>`).val(data.harga); 
-    var cardSubTotal = $(`<input type='hidden' name='subtotal[]' id='subtotal'>`); //harga
+    var cardSubTotal = $(`<input type='hidden' name='subtotal[]' id='subtotal' value='${data.harga}'>`); //harga
     
     //tombol batal
     var cancel = $(`<b id="btn-x" class="btn btn-x btn-danger"><i class="fas fa-times"></i></b>`);
     var qtyBox = $(`<div class="qty-box"></div>`);
     var btnPlus = $(`<b class="btn btn-danger" id="btn-plus"><i class="fas fa-plus"></i></b>`);
-    var qty = $(`<input type='text' id='qty' name='qty[]' class='container-fluid' value="1" disabled>`);
+    var qty = $(`<input type='text' id='qty' name='qty[]' class='container-fluid' value="1" >`);
     var btnMinus = $(`<b class="btn btn-warning" id="btn-minus"><i class="fas fa-minus"></i></b>`);
     
     btnPlus.on('click', function() {
         var currentValue = parseInt(qty.val()); // Mengambil nilai saat ini dari input
         qty.val(currentValue + 1); // Menambahkan 1 ke nilai saat ini dan menetapkannya kembali ke elemen input
+        
+        var nilai = parseInt(qty.val());
+        subTotal = data.harga * nilai; 
+        // var subtotalInput = $(this).closest('.card-wrapper').find('input[name=subtotal]');
+        cardSubTotal.val(subTotal);
+        // //console.log(subTotal); 
         totalHarga();
     });
     
     btnMinus.on('click', function(){
         var currentValue = parseInt(qty.val()); // Mengambil nilai saat ini dari input
-        qty.val(currentValue - 1);
+        if(currentValue > 1){
+            qty.val(currentValue - 1);
+            
+        }else{
+            alert('Qty Tidak Valid')
+        }
+
+        var nilai = parseInt(qty.val());
+        subTotal = data.harga * nilai; 
+        // var subtotalInput = $(this).closest('.card-wrapper').find('input[name=subtotal]');
+        cardSubTotal.val(subTotal);
+        // //console.log(subTotal); 
         totalHarga();
+    
     });
-    qty.on('change', function() {
+    qty.on('input', function() {
         var nilai = parseInt($(this).val());
         subTotal = data.harga * nilai; 
         // var subtotalInput = $(this).closest('.card-wrapper').find('input[name=subtotal]');
@@ -374,11 +392,6 @@ function newCreateCard(data) {
     return cardWrap;
 
 }
-
-function btnPlus(){
-    $()
-}
-function btnMinus(){}
 
 //funsi total harga
 function totalHarga() {
