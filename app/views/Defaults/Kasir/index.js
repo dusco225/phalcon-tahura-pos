@@ -295,7 +295,7 @@ function viewDatacard (filter){
 //fungsi card keranjang
 function newCreateCard(data) {
     
-    // //console.log('MASUK FUNGSI TAMBAH KARTU BARU');
+    
     
     var cardWrap = $(`<div class='produk-wrapper  p-1'></div>`); //bungkus kartu
     var card = $("<div class='produk-data container-fluid p-1 bg-light row'></div>"); //kartu
