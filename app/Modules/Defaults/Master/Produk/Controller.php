@@ -37,6 +37,34 @@ class Controller extends BaseController
         $this->view->setVar('data-nama', $var);
     }
 
+     /**
+     * @routeGet("/datauntung")
+     * @routePost("/datauntung")
+     */
+    public function datauntungAction()
+    {
+        $pdam_id = $this->session->user['pdam_id'];
+
+
+        $builder = $this->modelsManager->createBuilder()
+            ->columns('*')
+            ->from(UntungModel::class)
+            ->where("1=1")
+            ->andWhere("pdam_id = '$pdam_id'");
+
+        
+
+        $result = $builder->getQuery()->execute();
+
+        $jsonResult = [
+            'message' => 'Aksi datacardAction berhasil dipanggil.',
+            'data' => $result->toArray(),
+        ];
+
+        return $this->response->setJsonContent($jsonResult);
+    }
+
+
     
     //controller.php
     /**

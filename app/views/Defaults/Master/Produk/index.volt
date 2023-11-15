@@ -59,8 +59,10 @@
 									<th style="vertical-align: middle;">Kategori</th>
 									<th style="vertical-align: middle;">Hpp</th>
 									<th style="vertical-align: middle;">Harga Jual</th>
+									<th style="vertical-align: middle;">Aksi</th>
 								</tr>
 							</thead>
+							<tbody></tbody>
 						
 						</table>
 					</div>
@@ -123,23 +125,23 @@
 							</div>
 						</div>
                         
-						<div class="row form-group border border-dark p-1">
-							<div class="col-sm-12 border border-dark p-1" style="margin-bottom: 5px;">
-								<div class="input-group border border-dark p-1">
+						<div class="row form-group p-2">
+							<div class="col-sm-12 p-2" style="margin-bottom: 5px;">
+								<div class="input-group p-1">
 									<table class="table w-100 container-fluid">
 										<thead>
-											<tr>
+											<tr style="background-color: #e9ecef;">
 												<th style="width: 35%; text-align: center;">Bahan</th>
 												<th style="width: 20%; text-align: center;">Jumlah/Gram</th>
 												<th style="width: 25%; text-align: center;">Total/Rp.</th>
-												<th style="width: 20%; text-align: center;">Aksi</th>
+												<th style="width: 10%; text-align: center;">Aksi</th>
 											</tr>
 										</thead>
 										<tr id="komposisi">
 											<td></td>
 											<td></td>
 											<td></td>
-											<td style="text-align: none;"><b style=" width: 80%;" id="tambah" class="btn btn-dark">+ Bahan</b></td>
+											<td style="text-align: none;"><b style=" width: 80%;" id="tambah" class="btn btn-success"><i class="fas fa-plus"></i></b></td>
 										</tr>
 									</table>
 								</div>

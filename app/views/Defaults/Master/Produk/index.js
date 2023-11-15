@@ -6,9 +6,8 @@ var rupiahFields = [
     "total",
     "hargajual",
   ];
-
-var bahanData = [];
-var dataToSend;
+// var bahanData = [];
+// var dataToSend;
 
   var order = 1;
 $(document).ready(function() {
@@ -86,12 +85,15 @@ $('#btn-add').click(function() {
     modal.find(`input[name="hpp"]`).val('');
     modal.find(`input[name="hargajual"]`).val('');
     modal.find(`input[name="_type"]`).val('create');
+    dataUntung();
     tambahBahan();
     resetErrors();
     $('#formModal').modal('show');
 });
 
-
+$('#tambah').on('click', function() {
+    tambahBahan();
+});
 
 
 
@@ -220,9 +222,13 @@ function viewDatatable(){
                 }
             },
             {
-                data: 'harga',
-                render: function(data){
-                    return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
+                // Kolom baru untuk tombol Edit
+                data: null,
+                orderable: false,
+                render: function(data, type, row){
+                    return '<a href="#" class="btn btn-warning mr-1 mb-2 radius-2 btn-detail" data-id="' + row.id + '">' +
+                               '<i class="fa fa-pencil-alt text-140 align-text-bottom mr-2"></i>Edit' +
+                           '</a>';
                 }
             },
         ],
@@ -233,6 +239,7 @@ function viewDatatable(){
                 $("td", row).first().css({ width: "3%", "text-align": "center", });
                 //Default
                 $('td', row).eq(1).css({ 'text-align': 'left', 'font-weight': 'normal' });
+                 $('td', row).eq(-1).css({ 'text-align': 'center', width: "9%" });
                 
             }
 
@@ -275,12 +282,43 @@ function confirmDelete() {
 }
 
 
+//fungsi tampil kategori
+function dataUntung (){
+    $.ajax({
+        url: defaultUrl + "datauntung", // Ganti dengan URL aksi yang sesuai
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            if(data.data && data.data.length > 0) {
+                for (var i = 0; i < data.data.length; i++) {
+                    createUntung(data.data[i]);
+                }
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+            console.error('Status:', status);
+            console.error('XHR Response:', xhr.responseText)
+        }
+    });
+    //membuat kartu/card
+    function createUntung(data) {
+
+        var untung = $(`<input type="hidden" name="untung" value="${data.margin}">`);
+
+        $('#komposisi').after(untung);
+        console.log('DICETAK BOR');
+
+    }
+    
+}
+
+
+
 //form action
 
 
-$('#tambah').on('click', function() {
-    tambahBahan();
-});
+
 
 function tambahBahan(){
     console.log('tambah bro');
@@ -291,7 +329,7 @@ function tambahBahan(){
     var jumlah = $(`<input style="width: 100%;" type="number" name="jumlah[]" | value="1" required>`);
     var tdTotal = $(`<td></td>`);
     var total = $(`<input style="width: 100%;" type="text" id="total" name="total[]"  disabled>`);
-    var aksi = $(`<td><b style=" width: 80%;" id="kurang" class="btn btn-dark">- Bahan</b></td>`);
+    var aksi = $(`<td><b style=" width: 80%;" id="kurang" class="btn btn-danger"><i class="fas fa-minus"></i></b></td>`);
 
     //mengambil data option yang dipilih
     bahan.on('change', function() {
@@ -351,13 +389,17 @@ $('#kurang').on('click', function() {
 
 function hPP(){
     var hpp = 0;
-    var hargaJual = 0;
+    var keuntungan = parseFloat($(`input[name="untung"]`).val());
+    console.log(keuntungan)
     Array.from($(`form [name="total[]"]`)).forEach(function(el){
-         total = Number(el.value);
-         hpp += total;
+        total = Number(el.value);
+        hpp += total;
     });
+    
+    var hargaJual = hpp * keuntungan + hpp;
 
     $(`form [name="hpp"]`).val(hpp);
+    $(`form [name="hargajual"]`).val(hargaJual);
 }
 
 

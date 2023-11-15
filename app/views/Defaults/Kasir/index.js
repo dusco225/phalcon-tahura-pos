@@ -307,6 +307,8 @@ function newCreateCard(data) {
     var cardQty = $(`<input type='number' id='qty' name='qty[]' class='container-fluid'>`).val('');
     var cardSubTotal = $(`<input type='hidden' name='subtotal[]' id='subtotal'>`); //harga
 
+    //tombol batal
+    var cancel = $(`<b id="btn-x" class="btn btn-danger"><i class="fas fa-times"></i></b>`);
     
     cardQty.on('input', function() {
         var qty = parseInt($(this).val());
@@ -317,6 +319,10 @@ function newCreateCard(data) {
         totalHarga();
         //console.log(data.id)
 
+    });
+
+    cancel.on('click', function(){
+        cardWrap.remove();
     });
 
     
@@ -334,6 +340,7 @@ function newCreateCard(data) {
     cardTextWrap.append(cardPrice);
     cardTextWrap.append(cardQty);
     cardTextWrap.append(cardSubTotal);
+    cardTextWrap.append(cancel);
     cardBody.append(cardTextWrap);
     card.append(cardBody);
     cardWrap.append(card);
@@ -404,7 +411,7 @@ function viewDataKategori (){
     //membuat kartu/card
     function createFilter(data) {
         // ----
-        var tombol = $(`<button class="btn mr-1 kategori  mb-2 radius-2" data-toggle="modal" style="float:right"></button`);
+        var tombol = $(`<button class="btn mr-1 kategori  mb-2 radius-2" data-toggle="modal" style="float:right"></button>`);
         var icon = $(`<i class='fa ${data.icon} text-110 align-text-bottom mr-2 '></i>`);
         var tebal = $(`<b ></b>`).text(data.nama);
     
