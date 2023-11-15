@@ -322,12 +322,7 @@ function newCreateCard(data) {
         var currentValue = parseInt(qty.val()); // Mengambil nilai saat ini dari input
         qty.val(currentValue + 1); // Menambahkan 1 ke nilai saat ini dan menetapkannya kembali ke elemen input
         
-        var nilai = parseInt(qty.val());
-        subTotal = data.harga * nilai; 
-        // var subtotalInput = $(this).closest('.card-wrapper').find('input[name=subtotal]');
-        cardSubTotal.val(subTotal);
-        // //console.log(subTotal); 
-        totalHarga();
+        isiSubtotal();
     });
     
     btnMinus.on('click', function(){
@@ -338,29 +333,27 @@ function newCreateCard(data) {
         }else{
             alert('Qty Tidak Valid')
         }
-
-        var nilai = parseInt(qty.val());
-        subTotal = data.harga * nilai; 
-        // var subtotalInput = $(this).closest('.card-wrapper').find('input[name=subtotal]');
-        cardSubTotal.val(subTotal);
-        // //console.log(subTotal); 
-        totalHarga();
-    
+        isiSubtotal();
     });
-    qty.on('input', function() {
-        var nilai = parseInt($(this).val());
-        subTotal = data.harga * nilai; 
-        // var subtotalInput = $(this).closest('.card-wrapper').find('input[name=subtotal]');
-        cardSubTotal.val(subTotal);
-        // //console.log(subTotal); 
-        totalHarga();
-        //console.log(data.id)
 
+    qty.on('input', function() {
+        
+        isiSubtotal();
     });
 
     cancel.on('click', function(){
         cardWrap.remove();
     });
+
+    
+    function isiSubtotal(){
+        var nilai = parseInt($(qty).val());
+        subTotal = data.harga * nilai; 
+        // var subtotalInput = $(this).closest('.card-wrapper').find('input[name=subtotal]');
+        cardSubTotal.val(subTotal);
+        // //console.log(subTotal); 
+        totalHarga();
+    }
 
     
 
