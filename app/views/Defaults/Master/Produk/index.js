@@ -51,6 +51,25 @@ $(document).ready(function() {
             modal.modal('show');
         }
     });
+    $('#btn-detail').on('click', function(){
+        let selected = table.row({
+            selected: true
+        }).data();
+        if(_.isEmpty(selected)) {
+            notification("warning", "Pilih Data Terlebih Dahulu");
+            return false;
+        };
+        if (selected) {
+            modal.find('input[name=_type]').val('edit');
+            modal.find('input[name=id]').val(selected.id);
+            modal.find('input[name=nama]').val(selected.nama);
+            modal.find('input[name=hpp').val(selected.hpp);
+            $("select[name=kategori_id]").select2("trigger", "select", { data: { id: selected.kategori_id, text : selected.kategori} });
+            convertRupiah();
+            resetErrors();
+            modal.modal('show');
+        }
+    });
 
     $('#btn-delete').on('click', async function() {
         let selected = table.row({
@@ -210,6 +229,12 @@ function viewDatatable(){
                 data: 'kategori'
             },
             {
+                data: 'gambar',
+                render: function(data){
+                    return data;
+                }
+            }, 
+            {
                 data: 'hpp',
                 render: function(data){
                     return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
@@ -221,16 +246,7 @@ function viewDatatable(){
                     return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
                 }
             },
-            {
-                // Kolom baru untuk tombol Edit
-                data: null,
-                orderable: false,
-                render: function(data, type, row){
-                    return '<a href="#" class="btn btn-warning mr-1 mb-2 radius-2 btn-detail" data-id="' + row.id + '">' +
-                               '<i class="fa fa-pencil-alt text-140 align-text-bottom mr-2"></i>Edit' +
-                           '</a>';
-                }
-            },
+            
         ],
             "createdRow": function (row, data, index) {
                 $(row).attr('data-value', encodeURIComponent(JSON.stringify(data)));
@@ -241,14 +257,15 @@ function viewDatatable(){
                 $('td', row).eq(1).css({ 'text-align': 'left', 'font-weight': 'normal' });
                  $('td', row).eq(-1).css({ 'text-align': 'center', width: "9%" });
                 
+                
             }
 
     }).on( 'click', 'tr', function () {
 		if ($(this).hasClass('selected')) {
-			$('#btn-edit').removeClass("disabled");
+			$('#btn-detail').removeClass("disabled");
 			$('#btn-delete').removeClass("disabled");
 		} else {
-			$('#btn-edit').addClass("disabled");
+			$('#btn-detail').addClass("disabled");
 			$('#btn-delete').addClass("disabled");
         }
 	});

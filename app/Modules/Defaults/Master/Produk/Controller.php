@@ -66,30 +66,6 @@ class Controller extends BaseController
 
 
     
-    //controller.php
-    /**
-     * @routeGet("/datacard")
-     * @routePost("/datacard")
-     */
-    public function datacardAction()
-    {
-        $pdam_id = $this->session->user['pdam_id'];
-    
-        $builder = $this->modelsManager->createBuilder()
-            ->columns('*')
-            ->from(VwModel::class)
-            ->where("1=1")
-            ->andWhere("pdam_id = '$pdam_id'");
-    
-        $result = $builder->getQuery()->execute();
-    
-        $jsonResult = [
-            'message' => 'Aksi datacardAction berhasil dipanggil.',
-            'data'=> $result->toArray(),
-        ];
-    
-        return $this->response->setJsonContent($jsonResult);
-    }
     
 
     /**
