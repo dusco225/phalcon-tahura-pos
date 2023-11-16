@@ -1,14 +1,10 @@
 window.defaultUrl = `${baseUrl}/master/produk/`;
 var table;
 var rupiahFields = [
-    "hpp",
-    "hargajual",
-    "total",
-    "hargajual",
   ];
 // var bahanData = [];
 // var dataToSend;
-
+var bahanData = [];
   var order = 1;
 $(document).ready(function() {
     let modal = $('#formModal');
@@ -118,19 +114,23 @@ $('#tambah').on('click', function() {
 
 modal.find('form').on('submit', function(e) {
     e.preventDefault();
+console.log('AHAI AHAI');
 
-    $(`input[name="bahan[]"]`).each(function (i){
+    modal.find(`select[name="bahan[]"]`).each(function (index){
         var bahan = $(this).val();
         var jumlah = $(`input[name="jumlah[]"]`).eq(index).val();
+        var total = $(`input[name="total[]"]`).eq(index).val();
 
-        bahanData.push({bahan: bahan, jumlah: jumlah});
+        bahanData.push({bahan: bahan, jumlah: jumlah, total: total});
     });
+
+    console.log(bahanData);
 
     dataToSend = {
         nama : $('input[name="nama"]').val(),
-        kategori : $('input[name="kategori"]').val(),
+        kategori : $('select[name="kategori"]').val(),
         hpp : $(`input[name="hpp"]`).val(),
-        harga_jual : $(`input[name="hargajual"]`),
+        harga_jual : $(`input[name="hargajual"]`).val(),
         bahan_data: bahanData
     };
 
@@ -147,6 +147,7 @@ modal.find('form').on('submit', function(e) {
             console.error('XHR Response: ', xhr);
         }
     });
+
 });
 
 
@@ -341,7 +342,7 @@ function tambahBahan(){
     console.log('tambah bro');
     var tr = $("<tr></tr>");
     var tdBahan = $(`<td></td>`);
-    var bahan = $(`<select style="width: 100%;" name="bahan" class="select2 select2bahan" required></select>`);
+    var bahan = $(`<select style="width: 100%;" name="bahan[]" class="select2 select2bahan" required></select>`);
     var tdJumlah = $(`<td></td>`);
     var jumlah = $(`<input style="width: 100%;" type="number" name="jumlah[]" | value="1" required>`);
     var tdTotal = $(`<td></td>`);

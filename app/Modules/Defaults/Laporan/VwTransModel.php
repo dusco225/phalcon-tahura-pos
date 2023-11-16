@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Defaults\Kasir;
+namespace App\Modules\Defaults\Laporan;
 
 use Phalcon\Mvc\Model as BaseModel;
 use Core\Models\Behavior\SoftDelete;
 use Phalcon\Mvc\Model\Behavior\Timestampable;
 
-class TransaksiDetailModel extends BaseModel
+class VwtransModel extends BaseModel
 {
     public function initialize()
     {

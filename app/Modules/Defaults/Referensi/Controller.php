@@ -15,6 +15,8 @@ use App\Modules\Defaults\Master\Produk\Model as ModelProduk;
 use App\Modules\Defaults\Master\Bahan\Model as ModelBahan;
 use App\Modules\Defaults\Master\Satuan\Model as ModelSatuan;
 use App\Modules\Defaults\Master\Kategori\Model as ModelKategori;
+use App\Modules\Defaults\Master\Kasir\Model as ModelKasir;
+use App\Modules\Defaults\Kasir\TransaksiModel as ModelLaporan;
 use App\Modules\Defaults\Master\ReferensiData\SatuanKerja\Model as ModelSatuanKerja;
 use App\Modules\Defaults\Master\ReferensiData\KodePerkiraanSatuanKerja\ModelView as ViewModelPerkiraanSatuanKerja;
 use App\Modules\Defaults\Auth\Model\RolesModel as ModelRole;
@@ -221,6 +223,56 @@ class Controller extends BaseController
 		$page = $this->request->get('page');
 		$offset = ($page - 1) * 20;
 		$data = ModelProduk::find(
+			array(
+				'limit' => 21,
+				'offset' => $offset,
+				'conditions' => "nama LIKE '%$nama%' AND pdam_id ='$pdam_id' "
+			)
+		);
+		$data_array = $data->toArray();
+		$has_more = count($data_array);
+		$json_data = array(
+			"data" => $data_array,
+			"has_more" => $has_more,
+		);
+		echo json_encode($json_data);
+	}
+
+	/**
+     * @routeGet("/getTrans")
+     * @routePost("/getTrans")
+     */
+    public function getTransAction(){
+        $pdam_id = $this->session->user['pdam_id'];
+		$nama = $this->request->get('q');
+		$page = $this->request->get('page');
+		$offset = ($page - 1) * 20;
+		$data = ModelLaporan::find(
+			array(
+				'limit' => 21,
+				'offset' => $offset,
+				'conditions' => "id LIKE '%$nama%' AND pdam_id ='$pdam_id' "
+			)
+		);
+		$data_array = $data->toArray();
+		$has_more = count($data_array);
+		$json_data = array(
+			"data" => $data_array,
+			"has_more" => $has_more,
+		);
+		echo json_encode($json_data);
+	}
+
+	/**
+     * @routeGet("/getKasir")
+     * @routePost("/getKasir")
+     */
+    public function getKasirAction(){
+        $pdam_id = $this->session->user['pdam_id'];
+		$nama = $this->request->get('q');
+		$page = $this->request->get('page');
+		$offset = ($page - 1) * 20;
+		$data = ModelKasir::find(
 			array(
 				'limit' => 21,
 				'offset' => $offset,

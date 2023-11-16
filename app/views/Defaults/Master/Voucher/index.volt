@@ -56,8 +56,8 @@
 										<th style="vertical-align: middle;">Kode</th>
 										<th style="vertical-align: middle;">Diskon</th>
 										<th style="vertical-align: middle;">Tersedia</th>
-										<th style="vertical-align: middle;">mulai_saat</th>
-										<th style="vertical-align: middle;">berakhir_saat</th>
+										<th style="vertical-align: middle;">Dari</th>
+										<th style="vertical-align: middle;">Sampai</th>
 										<th style="vertical-align: middle;">status</th>
 									</tr>
 								</thead>

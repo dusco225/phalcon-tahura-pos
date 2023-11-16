@@ -135,8 +135,8 @@ class Controller extends BaseController
         $this->db->begin();
         //simpan data ke tabel pertama
         $produk = new ProdukModel();
-        $produk->nama = $nama;
         $produk->kategori_id = $kategori;
+        $produk->nama = $nama;
         $produk->hpp = $hpp;
         $produk->harga_jual = $harga_jual;
         $produk->pdam_id = $pdam_id;
@@ -163,23 +163,23 @@ class Controller extends BaseController
      */
     public function updateAction()
     {
-        $id = Request::getPost('id');
-        $pdam_id = $this->session->user['pdam_id'];
-        $data = [
-            'nama'          => Request::getPost('nama'),
-            'kategori_id'        => Request::getPost('kategori_id'),
-            'hpp'         => Request::getPost('hpp'),
-            'pdam_id'       => $pdam_id,
-        ];
-        $update = Model::findFirst($id);
-        $update->assign($data);
+        // $idNya = Request::getPost('id');
+        // $pdam_id = $this->session->user['pdam_id'];
+        // $data = [
+        //     'nama'          => Request::getPost('nama'),
+        //     'kategori_id'        => Request::getPost('kategori_id'),
+        //     'hpp'         => Request::getPost('hpp'),
+        //     'pdam_id'       => $pdam_id,
+        // ];
+        // $update = Model::findFirst($idNya);
+        // $update->assign($data);
 
-        $result = $update->save();
-        $log = new Log(); 
-        $log->write("Update Data Master-Referensi Barang-Kategori", $data, $result, "App\Modules\Defaults\Master\ReferensiBarang\Kategori\Controller", "UPDATE");
-        return Response::setJsonContent([
-            'message' => 'Success',
-        ]);
+        // $result = $update->save();
+        // $log = new Log(); 
+        // $log->write("Update Data Master-Referensi Barang-Kategori", $data, $result, "App\Modules\Defaults\Master\ReferensiBarang\Kategori\Controller", "UPDATE");
+        // return Response::setJsonContent([
+        //     'message' => 'Success',
+        // ]);
     }
 
 
@@ -188,20 +188,20 @@ class Controller extends BaseController
      */
     public function deleteAction()
     {
-        $id = Request::get('id');
-        $data = [
-            'id'            => Request::get('id')
-        ];
-        $delete = Model::findFirst($id);
+        // $id = Request::get('id');
+        // $data = [
+        //     'id'            => Request::get('id')
+        // ];
+        // $delete = Model::findFirst($id);
 
-        $result = $delete->delete();
+        // $result = $delete->delete();
 
-        $log = new Log(); 
-        $log->write("Delete Data Master-Referensi Barang-Barang", $data, $result, "App\Modules\Defaults\Master\ReferensiBarang\Barang\Controller", "DELETE");
+        // $log = new Log(); 
+        // $log->write("Delete Data Master-Referensi Barang-Barang", $data, $result, "App\Modules\Defaults\Master\ReferensiBarang\Barang\Controller", "DELETE");
 
-        return Response::setJsonContent([
-            'message' => 'Success',
-        ]);
+        // return Response::setJsonContent([
+        //     'message' => 'Success',
+        // ]);
     }
     
 }

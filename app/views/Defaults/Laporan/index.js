@@ -17,48 +17,23 @@ $(document).ready(function() {
         table.ajax.reload();
     });
 
-
-
-modal.find('form').on('submit', function(e) {
-    e.preventDefault();
-
-    $(`input[name="bahan[]"]`).each(function (i){
-        var bahan = $(this).val();
-        var jumlah = $(`input[name="jumlah[]"]`).eq(index).val();
-
-        bahanData.push({bahan: bahan, jumlah: jumlah});
+    $("#btn-pdf").on('click', function(){
+         formData = $("#form-filter").serializeArray();
+         console.log(formData);
+         window.open(defaultUrl + "laporanPdf?" + $.param(formData), '_blank');            
+        
     });
 
-    dataToSend = {
-        nama : $('input[name="nama"]').val(),
-        kategori : $('input[name="kategori"]').val(),
-        hpp : $(`input[name="hpp"]`).val(),
-        harga_jual : $(`input[name="hargajual"]`),
-        bahan_data: bahanData
-    };
-
-    $.ajax({
-        url: defaultUrl + "store",
-        method: 'POST',
-        data: dataToSend,
-        succes: function(response){
-            console.log(response);
-        },
-        error: function(xhr, status, error){
-            console.error('Error: ', error);
-            console.error('Status: ', status);
-            console.error('XHR Response: ', xhr);
-        }
-    });
-});
     
+
+
 });
 
 function viewDatatable(){
     table = $("#datatable").DataTable({
         ajax: {
             url: defaultUrl + "datatable",
-            "type": "post",
+            "type": "POST",
 			"data": function (d) {
 				var formData = $("#form-filter").serializeArray();
                 $.each(formData, function (key, val) {
@@ -83,29 +58,58 @@ function viewDatatable(){
                 },
             },
             {
-                data: 'nama'
+                data: 'tanggal'
             },
             {
-                data: 'kategori'
+                data: 'trans_id'
             },
             {
-                data: 'gambar',
-                render: function(data){
-                    return data;
-                }
-            }, 
+                data: 'kode_kasir'
+            },
             {
-                data: 'hpp',
+                data: 'nama_produk'
+            },
+            {
+                data: 'qty',
                 render: function(data){
-                    return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
+                   
+                    return '<span class="price">' + data + '</span>';
                 }
-            }, 
+            },
             {
                 data: 'harga',
                 render: function(data){
                     return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
                 }
             },
+            {
+                data: 'sub_total',
+                render: function(data){
+                    return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
+                }
+            },
+            {
+                data: 'kode_voucher'
+            },
+            {
+                data: 'diskon',
+                render: function(data){
+                    var persen = parseFloat(data) * 100;
+                    return '<span class="price">' + persen  + '%</span>';
+                }
+            },
+            {
+                data: 'potongan',
+                render: function(data){
+                    return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
+                }
+            },
+            {
+                data: 'total',
+                render: function(data){
+                    return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
+                }
+            }, 
             
         ],
             "createdRow": function (row, data, index) {
@@ -143,8 +147,41 @@ function select2data(){
                 console.log(data);
                 return {
                     results: data.data.map(function (i) {
-                    i.id = i.id;
+                    i.id = i.kode;
                     i.text = i.nama;
+                    i.nama = i.nama;
+                    // $('#isinya').text(i.id);                    
+                    // console.log(i);
+                    return i;
+                    }),
+                    pagination: {
+                        more: data.has_more
+                    }
+                }
+            }
+        }
+        
+    });
+    $('.select2transaksi').select2({
+        allowClear: true,
+        theme: "bootstrap4",
+        width: 'auto',
+        ajax: {
+            url: "{{ url('panel/referensi/getTrans') }}",
+            data: function (params) {
+                return {
+                    q: params.term,
+                    page: params.page || 1
+                };
+            },
+            processResults: function (response) {
+                var data = JSON.parse(response);
+                console.log(data);
+                return {
+                    results: data.data.map(function (i) {
+                    i.id = i.id;
+                    i.text = i.id;
+                    
                     // $('#isinya').text(i.id);                    
                     // console.log(i);
                     return i;
@@ -183,9 +220,3 @@ function formatRupiah(angka, prefix) {
     rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
     return prefix == undefined ? rupiah : prefix + rupiah;
 }
-rupiahFields.forEach(function (field) {
-    var element = document.getElementById(field);
-    element.addEventListener("change", function (e) {
-      element.value = formatRupiah(this.value, "Rp. ");
-    });
-  });

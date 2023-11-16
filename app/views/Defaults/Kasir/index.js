@@ -343,6 +343,7 @@ function newCreateCard(data) {
 
     cancel.on('click', function(){
         cardWrap.remove();
+        isiSubtotal();
     });
 
     
