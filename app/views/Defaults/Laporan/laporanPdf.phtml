@@ -11,7 +11,7 @@ class PDF extends FPDF
         $this->SetFont('arial', '', 10);
         $this->Cell(0, 10, 'Page :  ' . $this->PageNo(), 0, 0, 'R');
         $this->ln(5);
-        $this->Cell(0, 10, 'Tanggal: ' . date('d/m/Y'), 0, 1,'R'); // Menampilkan tanggal dengan format dd/mm/yyyy
+        $this->Cell(0, 10, 'Tanggal: ' . date('Y/m/d'), 0, 1,'R'); // Menampilkan tanggal dengan format dd/mm/yyyy
         $this->SetFont('Arial', 'B', 20);
         $this->Cell(0, 7, 'Tahura Cafe', 0, 1, 'L');
         $this->Line(10, 32, 200, 32); // Menggambar garis horizontal
@@ -31,8 +31,6 @@ class PDF extends FPDF
     }
 }
 
-$dari = '';
-$sampai = '';
 
 $pdf = new PDF('P', 'mm', 'A4'); // 'P' untuk orientasi Potrait, ukuran dalam milimeter (80 mm x 150 mm)
 $pdf->AddPage();
@@ -44,20 +42,31 @@ $pdf->Cell(60,5,"Laporan Transaksi",0,0,'L');
 $pdf->Ln();
 $pdf->Cell(30,5,"Kasir",0,0,'L');
 $pdf->Cell(3,5,":",0,0,'R');
-$pdf->Cell(60,5,"Andhika",0,0,'L');
+if (($nama_kasir != 0) || ($nama_kasir != '')){
+    $pdf->Cell(60,5,$nama_kasir,0,0,'L');
+}else{
+    $pdf->Cell(60,5,"Semua Kasir",0,0,'L');
+}
 $pdf->Line(10, 48, $pdf->GetPageWidth() - 10, 48); // Koordinat y = 50, x dari 10 ke lebar halaman - 10$pdf->Ln(10); // Menggambar garis horizontal
 
+// var_dump($sampai,$dari);
+// die;
 $pdf->Ln(10);
-if(($dari != 0) || ($dari != null)){
+if($dari == $sampai){
     $pdf->Cell(190,5,"Tanggal : ". date('Y-m-d', strtotime($dari)),0,0,'C');
     $pdf->Ln(10);
 }elseif($dari && $sampai){
-    $pdf->Cell(190,5,"Tanggal : ". date('Y-m-d', strtotime($dari)). ' s.d '. date('Y-m-d', strtotime($dari)),0,0,'C');
+    $pdf->Cell(190,5,"Tanggal : ". date('Y-m-d', strtotime($dari)). ' s.d '. date('Y-m-d', strtotime($sampai)),0,0,'C');
+    $pdf->Ln(10);
+}elseif(($dari != 0) || ($dari != null)){
+    $pdf->Cell(190,5,"Tanggal : ". date('Y-m-d', strtotime($dari)),0,0,'C');
+    $pdf->Ln(10);
+}elseif(($sampai != 0) || ($sampai != null)){
+    $pdf->Cell(190,5,"Tanggal : ". date('Y-m-d', strtotime($sampai)),0,0,'C');
     $pdf->Ln(10);
 }else{
-    $pdf->Cell(190,5,"Tanggal : ". date('Y-m-d'),0,0,'C');
-    $pdf->Ln(10);
-    
+    $pdf->Cell(190,5,"Tanggal : Semua",0,0,'C');
+    $pdf->Ln(10); 
 }
 // Gunakan data yang diambil
 $pdf->Cell(10,6,'No',1,0,'');
@@ -72,7 +81,7 @@ $pdf->ln();
 
 
 // $data = $result["trans_id"];
-$kasir ='';
+
 $dari_sampai = '';
 // $data = "ahai";
 $no = 1;
@@ -85,20 +94,21 @@ foreach($result as $data){
     $qty =  $data['qty'];
     $pdf->Cell(10,6,$qty,1,0,'R');
     $harga = $data['harga'];
-    $pdf->Cell(30,6,formatRupiah($harga),1,0,'R');
+    $pdf->Cell(30,6,'Rp. '.formatRupiah($harga),1,0,'R');
     $sub_total = $data['sub_total'];
-    $pdf->Cell(30,6,formatRupiah($sub_total),1,0,'R');
+    $pdf->Cell(30,6,'Rp. '.formatRupiah($sub_total),1,0,'R');
     $diskon = $data['diskon'] * 100 .'%';
     $pdf->Cell(13,6,$diskon,1,0,'R');
     $total = $data['total'];
-    $pdf->Cell(30,6,formatRupiah($total),1,0,'R');
+    $pdf->Cell(30,6,'Rp. '.formatRupiah($total),1,0,'R');
     $tanggal = date('Y-m-d ', strtotime( $data['tanggal']));;
     $pdf->Cell(25,6,$tanggal,1,0,'');
     $total_semua += $total;
     $pdf->Ln();
 }
 
-$pdf->Cell(190,3,formatRupiah($total_semua),1,0,'C');
+$pdf->Cell(15,6,'Total : ',1,0,'L');
+$pdf->Cell(175,6,'Rp. '.formatRupiah($total_semua),1,0,'R');
 
 
 

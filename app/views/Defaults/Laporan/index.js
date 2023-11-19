@@ -24,9 +24,31 @@ $(document).ready(function() {
         
     });
 
+    $(`form [name="kasir"]`).on('change', function(){
+        $(`form [name="nama_kasir"]`).val('');
+        var selectedData = $(this).select2('data')[0];
+        if((selectedData == 0) || (selectedData == '')){
+            console.log('belum select');
+        }else{
+            $(`form [name="nama_kasir"]`).val(selectedData.text);
+        }
     
-
-
+    });
+    
+    $(`form [name="date_until"]`).on('change', function(){
+        var dari = $(`form [name="date_from"]`).val();
+        var sampai = $(this).val();
+        if(new Date(sampai) < new Date(dari)){
+            alert('Tanggal Tidak Valid');
+            var sampai = $(this).val('');
+        }
+    });
+    
+    $(`#btn-reset`).on('click', function(){
+        console.log('pencet euy');
+        $('form')[0].reset(); // Menggunakan [0] untuk mengakses elemen DOM
+    });
+    
 });
 
 function viewDatatable(){
@@ -149,7 +171,7 @@ function select2data(){
                     results: data.data.map(function (i) {
                     i.id = i.kode;
                     i.text = i.nama;
-                    i.nama = i.nama;
+                    
                     // $('#isinya').text(i.id);                    
                     // console.log(i);
                     return i;
@@ -220,3 +242,4 @@ function formatRupiah(angka, prefix) {
     rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
     return prefix == undefined ? rupiah : prefix + rupiah;
 }
+

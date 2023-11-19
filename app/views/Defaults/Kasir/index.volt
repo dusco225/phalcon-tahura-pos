@@ -215,7 +215,7 @@
 													</tr>
 													<tr>
 														<td><button name='submit' id="submit"><h5><b>OKE</b></h5></button></td>
-														<td><button type="reset"><h5><b>BATAL</b></h5></button></td>
+														<td><button type="reset" id="btn-batal"><h5><b>BATAL</b></h5></button></td>
 													</tr>
 												</table>
 											</div>

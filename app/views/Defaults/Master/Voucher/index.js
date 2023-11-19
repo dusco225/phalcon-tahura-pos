@@ -75,6 +75,15 @@ $(document).ready(function() {
         }
     });
 
+    $(`form [name="expired_at"]`).on('change', function(){
+        var dari = $(`form [name="active_at"]`).val();
+        var sampai = $(this).val();
+        if(new Date(sampai) < new Date(dari)){
+            alert('Tanggal Tidak Valid');
+            var sampai = $(this).val('');
+        }
+    });
+
     modal.find('form').on('submit', function(ev) {
         ev.preventDefault();
         

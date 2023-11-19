@@ -74,6 +74,7 @@
 													Nama Kasir
 												</span>
 											</div>
+											<input type="text" name="nama_kasir" id="nama_kasir" disabled >
 											<select type="text" id="kasir" name="kasir" class="select2 select2kasir" disabled=""></select>
 										</div>
 										
@@ -85,25 +86,19 @@
 											</div>
 											<div class="input-group-prepend">
 												<span class="input-group-text">
-													Dari
+													Tanggal
 												</span>
 											</div>
 											<input type="date" name="date_from" class="form-control" disabled="">
+											<div style="width: 7%;" class="input-group-prepend ">
+												<span class="input-group-text">
+													s.d
+												</span>
+											</div>
+											<input type="date" name="date_until" class="form-control" disabled="" required>
 										</div>
 
-										<div class="input-group mb-2 input-filter">
-											<div class="input-group-prepend" style="width : 10% !important">
-												<span class="input-group-text">
-													<input type="checkbox" class="ace-switch">
-												</span>
-											</div>
-											<div class="input-group-prepend">
-												<span class="input-group-text">
-													Sampai
-												</span>
-											</div>
-											<input type="date" name="date_until" class="form-control" disabled="">
-										</div>
+										
 
 										<div class="input-group mb-2 input-filter">
 											<div class="input-group-prepend" style="width : 10% !important">
@@ -120,7 +115,7 @@
 										</div>
 									</form>
 									<div class="tombol" style="display: flex; justify-content: right; align-items: center;">
-										<button type="button" class="btn btn-warning text-120 radius-2">Reset</button>
+										<button type="button" class="btn btn-warning text-120 radius-2" id="btn-reset">Reset</button>
 										<button type="button" class="btn btn-default submit-filter text-120 radius-2" data-dismiss="modal">Cari Data</button>
 									</div>
 								</div>

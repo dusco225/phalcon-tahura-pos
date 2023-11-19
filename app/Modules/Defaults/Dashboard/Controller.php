@@ -8,6 +8,7 @@ use Phalcon\Mvc\Controller as BaseController;
 use App\Modules\Defaults\Master\Hakakses\Model as RoleModel;
 use Core\Facades\Response;
 use Core\Facades\Request;
+use Core\Paginator\DataTables\DataTable;
 use App\Modules\Defaults\Middleware\Controller as MiddlewareHardController;
 
 /**
@@ -22,6 +23,38 @@ class Controller extends MiddlewareHardController
     {
         $this->view->setVar('module', $id);
         $this->view->tahun = $this->session->user['tahun'];
+        $total_pendapatan = TransaksiModel::query()
+            ->columns(['MONTH(created_at) as bulan', 'SUM(total) as total'])
+            ->groupBy('bulan')
+            ->execute()
+            ->toArray();
+
+        $bulan = TransaksiModel::query()
+            ->distinct(true)
+            ->columns(['MONTHNAME(created_at) as  bulan'])
+            ->groupBy('bulan')
+            ->execute()
+            ->toArray();
+        $produk_dibeli = TransaksiDetailModel::query()
+            ->distinct(true)
+            ->columns(['nama_produk as produk', 'sum(qty) as qty'])
+            ->groupBy('produk')
+            ->execute()
+            ->toArray();
+
+        $produk = TransaksiDetailModel::query()
+            ->distinct(true)
+            ->columns(['nama_produk as produk'])
+            ->groupBy('produk')
+            ->execute()
+            ->toArray();
+
+        $this->view->setVars([
+            'total_pendapatan' => $total_pendapatan,
+            'bulan_pendapatan' => $bulan,
+            'produk' => $produk,
+            'produk_dibeli' => $produk_dibeli,
+        ]);
     }
 
     /**
@@ -321,4 +354,32 @@ class Controller extends MiddlewareHardController
             'data' => $result
         ]);
     }
+
+    
+    /**
+     * @routeGet("/datatable")
+     * @routePost("/datatable")
+     */
+    public function datatableAction()
+    {
+        // var_dump(Request::getPost());exit;
+        $pdam_id = $this->session->user['pdam_id'];
+        
+        $builder = $this->modelsManager->createBuilder()
+                        ->columns('*')
+                        ->from(TransaksiModel::class)
+                        ->where("1=1")
+                        ->andWhere("DATE(created_at) = CURDATE() and pdam_id = '$pdam_id'");
+
+
+        
+        $dataTables = new DataTable();
+        $dataTables->fromBuilder($builder)->sendResponse();
+
+        // var_dump($dataTables);
+        // die;
+        
+        
+    }
+
 }

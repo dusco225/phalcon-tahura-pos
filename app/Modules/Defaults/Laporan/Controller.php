@@ -35,11 +35,10 @@ class Controller extends BaseController
         // var_dump(Request::getPost());exit;
         $pdam_id = $this->session->user['pdam_id'];
         $filter_kasir = Request::getPost('kasir');
+        $nama = Request::getPost('nama_kasir');
         $filter_from = Request::getPost('date_from');
         $filter_until = Request::getPost('date_until');
         $filter_transaksi = Request::getPost('transaksi');
-        
-        // var_dump($filter_kasir);
         
         $builder = $this->modelsManager->createBuilder()
                         ->columns('*')
@@ -52,20 +51,27 @@ class Controller extends BaseController
             $builder->andWhere("trans_id = $filter_transaksi");
         }
         
+        if($filter_from == $filter_until && $filter_from !== null && $filter_until !== null  ){
+            $builder->andWhere("tanggal = $filter_from ");
+        }elseif($filter_from && $filter_until)  {
+            $builder->andWhere("tanggal BETWEEN :from: AND :until:", ['from' => $filter_from, 'until' => $filter_until]);        
+        }elseif($filter_from) {
+            $builder->andWhere("tanggal = $filter_from ");
+        }elseif($filter_until) {
+            $builder->andWhere("tanggal = $filter_until ");
+        }
+        
         if($filter_kasir) {
-            $builder->andWhere("kode_kasir LIKE '%$filter_kasir%'");
+            $builder->andWhere("kode_kasir = '$filter_kasir' ");
         }
-
-        if($filter_from) {
-            $builder->andWhere("status LIKE '%$filter_from%'");
-        }
-
-        if($filter_until) {
-            $builder->andWhere("status LIKE '%$$filter_until%'");
-        }
+        
 
         $dataTables = new DataTable();
         $dataTables->fromBuilder($builder)->sendResponse();
+
+        // var_dump($dataTables);
+        // die;
+        
         
     }
 
@@ -86,11 +92,18 @@ class Controller extends BaseController
         
         $pdam_id = $this->session->user['pdam_id'];
         $filter_kasir = Request::get('kasir');
+        if(($filter_kasir != 0)||($filter_kasir != '')){
+            $nama = Request::get('nama_kasir');
+        }else{
+            $nama = '';
+        }
         $filter_from = Request::get('date_from');
         $filter_until = Request::get('date_until');
         $filter_transaksi = Request::get('transaksi');
         
-
+        
+        // var_dump( $filter_from, $filter_until);
+        // die;
         
         $builder = $this->modelsManager->createBuilder()
                         ->columns('*')
@@ -106,18 +119,25 @@ class Controller extends BaseController
         if($filter_kasir) {
             $builder->andWhere("kode_kasir LIKE '%$filter_kasir%'");
         }
-
-        if($filter_from) {
-            $builder->andWhere("status LIKE '%$filter_from%'");
+        
+        if($filter_from == $filter_until && $filter_from !== null && $filter_until !== null  ){
+            $builder->andWhere("tanggal = $filter_from ");
+        }elseif($filter_from && $filter_until)  {
+            $builder->andWhere("tanggal BETWEEN :from: AND :until:", ['from' => $filter_from, 'until' => $filter_until]);        
+        }elseif($filter_from) {
+            $builder->andWhere("tanggal = $filter_from ");
+        }elseif($filter_until) {
+            $builder->andWhere("tanggal = $filter_until ");
         }
-
-        if($filter_until) {
-            $builder->andWhere("status LIKE '%$$filter_until%'");
-        }
+        
 
         $result = $builder->getQuery()->execute();
 
         $this->view->setVar('module', $id);
+        
+        $this->view->setVar('dari', $filter_from);
+        $this->view->setVar('sampai', $filter_until);
+        $this->view->setVar('nama_kasir', $nama);
         $this->view->setVar('result', $result->toArray());
         $jsonResult = [
             'message' => 'Aksi datacardAction berhasil dipanggil.',

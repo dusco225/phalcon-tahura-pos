@@ -1,5 +1,8 @@
 {% extends 'template/dashboard.volt' %} {% block title %} Dashboard {% endblock %} {% block content %}
 <style>
+	*{
+		box-sizing: border-box;
+	}
 	input.ace-switch.ace-switch-onoff::before {
 		padding-right: 0.5rem;
 		content: "TIDAK";
@@ -112,13 +115,121 @@
 					</div>
 				</div>
 			</div>
-			<div class="content">
-				<h1>VOUCHER AKTIF</h1>
-				<h1>TERJUAL HARI INI</h1>
-				<h1>DALAM SEBULAN</h1>
-				<h1>DALAM SEBULAN</h1>
-				<h1>CHART PENJUALAN PER MINGGU</h1>
+			<div class="content p-2">
+				<div class="top  bg-warning p-2">
+					<div class="card-field row w-100 p-2">
 
+						<div class="card-wrapper bg-danger col-4">
+							<div class="card mb-3  m-4" style="max-width: 540px;">
+								<div class="row no-gutters">
+								  <div class="col-md-4">
+									<h1>
+										<i class="fas fa-tag w-100" style="width: 100px;"></i>
+	
+									</h1>
+								  </div>
+								  <div class="col-md-8">
+									<div class="card-body">
+										<h5>X</h5>
+										<h5 class="card-title">Voucher Aktif</h5>
+									</div>
+								  </div>
+								</div>
+							</div>
+						</div>
+
+						<div class="card-wrapper bg-danger col-4">
+							<div class="card mb-3  m-4" style="max-width: 540px;">
+								<div class="row no-gutters">
+								  <div class="col-md-4">
+									<h1>
+										<i class="fas fa-tag w-100" style="width: 100px;"></i>
+	
+									</h1>
+								  </div>
+								  <div class="col-md-8">
+									<div class="card-body">
+										<h5>X</h5>
+										<h5 class="card-title">Terjual Hari Ini</h5>
+									</div>
+								  </div>
+								</div>
+							</div>
+						</div>
+
+						<div class="card-wrapper bg-danger col-4">
+							<div class="card mb-3 col-4 m-4" style="max-width: 540px;">
+								<div class="row no-gutters">
+								  <div class="col-md-4">
+									<h1>
+										<i class="fas fa-tag w-100" style="width: 100px;"></i>
+	
+									</h1>
+								  </div>
+								  <div class="col-md-8">
+									<div class="card-body">
+										<h5>X</h5>
+										<h5 class="card-title">Voucher Aktif</h5>
+									</div>
+								  </div>
+								</div>
+							</div>
+						</div>
+
+						
+					
+					
+					
+					</div>
+
+				</div>
+				<div class="middle row">
+					<div class="content content-left col-8">
+						<figure class="highcharts-figure">
+							<div id="container"></div>
+							<p class="highcharts-description">
+								Basic line chart showing trends in a dataset. This chart includes the
+								<code>series-label</code> module, which adds a label to each line for
+								enhanced readability.
+							</p>
+						</figure>
+					</div>
+					<div class="content content-right col-4">
+						<figure class="highcharts-figure">
+							<div id="container-pie"></div>
+							<p class="highcharts-description">
+								This pie chart shows how the chart legend can be used to provide
+								information about the individual slices.
+							</p>
+						</figure>
+					</div>
+					
+				</div>
+
+				<div class="card-body p-3">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="table-responsive-md">
+								<table id="datatable" class="table table-bordered border-0 w-100 table-striped-secondary text-dark-m1 mb-0">
+									<thead>
+										<tr class="bgc-info text-white text-center brc-black-tp10">
+											<th style="vertical-align: middle;" >#</th>
+											<th style="vertical-align: middle;">Kasir</th>
+											<th style="vertical-align: middle;">Voucher</th>
+											<th style="vertical-align: middle;">Total</th>
+											<th style="vertical-align: middle;">Bayar</th>
+											<th style="vertical-align: middle;">Kembalian</th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								
+								</table>
+							</div>
+		
+						</div>
+					</div>
+				</div>
+				
 			</div>
 		</div>
 

@@ -69,6 +69,9 @@ $('#unfilter').on('click',function(){
             ////console.log('YANG ININIH BRO: ' + diFilter);
             viewDatacard(diFilter);
         });
+$(`#btn-batal`).on('click', function(){
+    $(`#order`).empty();
+});
 
 $('#formForm').on('submit', function(e){
     e.preventDefault(); //mencegah perilaku default pengiriman form tradisional
@@ -125,7 +128,7 @@ $('#formForm').on('submit', function(e){
             });
             window.open(defaultUrl + "strukPdf?" + $.param(response), '_blank');            
             $('#formForm')[0].reset();
-            $('#order').remove();
+            $('#order').empty();
         },
         error: function( xhr, status, error) {
             //tanganin kesalahan jika terjadi

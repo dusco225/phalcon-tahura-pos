@@ -61,7 +61,7 @@
 									<th style="vertical-align: middle;" >#</th>
 									<th style="vertical-align: middle;">Nama</th>
 									<th style="vertical-align: middle;">Kategori</th>
-									<th style="vertical-align: middle;">Gambar</th>
+									<th style="vertical-align: middle; width: 120px;"">Gambar</th>
 									<th style="vertical-align: middle;">Hpp</th>
 									<th style="vertical-align: middle;">Harga Jual</th>
 								</tr>
@@ -89,7 +89,7 @@
 						<i class="fa fa-list text-white"></i>&nbsp;&nbsp; Form - Produk</h4>
 					<button type="button" class="close text-white" data-dismiss="modal">&times;</button>
 				</div>
-				<form class="form-horizontal" action="javascript:;">
+				<form class="form-horizontal"  enctype="multipart/form-data" action="javascript:;">
 					<div class="modal-body">
 						<input type="hidden" name="_type" value="create">
 						<input type="hidden" name="id" value="">
@@ -113,7 +113,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" style="width: 150px;">Gambar</span>
                                     </div>
-                                    <input type="file" id="gambar" name="gambar" class="form-control" disabled>
+                                    <input type="file" id="filename" name="filename" class="form-control" >
                                 </div>
                             </div>
                         </div>

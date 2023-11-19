@@ -124,62 +124,232 @@ class Controller extends BaseController
      */
     public function storeAction()
     {
-        $pdam_id = $this->session->user['pdam_id'];
+        try {
+            $pdam_id = $this->session->user['pdam_id'];
+            
+            // Ambil data dari request
+            $nama = Request::getPost('nama');
+            $kategori = Request::getPost('kategori');
+            $hpp = Request::getPost('hpp');
+            $harga_jual = Request::getPost('harga_jual');
+            $bahan_data = Request::getPost('bahan_data');
+            $bahan_data = json_decode($bahan_data, true); // Dekode data JSON menjadi array asosiatif
+            
+            // var_dump($bahan_data);
+            // die;
+            $this->db->begin();
+
+            if ($this->request->hasFiles() && $file = $this->request->getUploadedFiles()[0]) {
+                $target_dir = "UploadImage/";
+                if (!file_exists($target_dir)) {
+                    mkdir($target_dir, 0777, true);
+                }
+    
+                $allowedExtensions = ['jpg', 'png', 'webp', 'jpeg'];
+                $ext = strtolower(pathinfo($file->getName(), PATHINFO_EXTENSION));
+    
+                if (in_array($ext, $allowedExtensions)) {
+                    $name = md5(strval(rand())) . '.' . $ext;
+                    $target_file = $target_dir . $name;
+                    if ($file->moveTo($target_file)) {
+                        $gambar = $name;
+                        echo "File berhasil diunggah.";
+                    } else {
+                        echo "Gagal mengunggah file.";
+                    }
+                } else {
+                    echo "Hanya file dengan ekstensi .jpg dan .png yang diperbolehkan.";
+                }
+            }
+            
+            // Simpan data ke tabel ProdukModel
+            $produk = new ProdukModel();
+            $produk->kategori_id = $kategori;
+            $produk->nama = $nama;
+            $produk->gambar = $gambar;
+            $produk->hpp = $hpp;
+            $produk->harga_jual = $harga_jual;
+            $produk->pdam_id = $pdam_id;
+
+            
         
-        $nama = request::getPost('nama');
-        $kategori = request::getPost('kategori');
-        $hpp = request::getPost('hpp');
-        $harga_jual = request::getPost('harga_jual');
-        $bahan_data = request::getPost('bahan_data');
-
-        $this->db->begin();
-        //simpan data ke tabel pertama
-        $produk = new ProdukModel();
-        $produk->kategori_id = $kategori;
-        $produk->nama = $nama;
-        $produk->hpp = $hpp;
-        $produk->harga_jual = $harga_jual;
-        $produk->pdam_id = $pdam_id;
-
-        $produk_id = $produk->id;
-
-        foreach($bahan_data as $bahan){
-            $produkDetail = new ProDetailModel();
-            $produkDetail->produk_id = $produk_id;
-            $produkDetail->bahan_id = $bahan['bahan'];
-            $produkDetail->jumlah = $bahan['jumlah'];
-            $produkDetail->harga = $bahan['harga'];
-            $produkDetail->pdam_id = $pdam_id;
+        
+            
+            $produk->save();
+    
+            $produk_id = $produk->id;
+    
+            // Simpan data ke tabel ProDetailModel
+            foreach ($bahan_data as $bahan) {
+                $produkDetail = new ProDetailModel();
+                $produkDetail->produk_id = $produk_id;
+                $produkDetail->bahan_id = $bahan['bahan'];
+                $produkDetail->jumlah = $bahan['jumlah'];
+                $produkDetail->harga = $bahan['total'];
+                $produkDetail->pdam_id = $pdam_id;
+                $produkDetail->save();
+            }
+    
+            $this->db->commit();
+            
+            return Response::setJsonContent([
+                'message' => 'Data Terkirim',
+                'produk_id' => $produk_id,
+            ]);
+        } catch (\Exception $e) {
+            // Rollback transaksi jika terjadi kesalahan
+            $this->db->rollback();
+            
+            return Response::setJsonContent([
+                'error' => 'Gagal menyimpan data: ' . $e->getMessage(),
+            ]);
         }
-        $this->db->commit();
-        return Response::setJsonContent([
-            'message' => 'Data Terkirim',
-            'produk id' => $produk_id,
-        ]);
     }
+
+
+//     public function storeAction()
+// {
+//     if ($this->request->isPost()) {
+//         $pdam_id = $this->session->user['pdam_id'];
+
+//         $input_harga = $this->request->getPost('harga_sewa');
+        
+//         $harga_hanya_angka = preg_replace("/[^0-9]/", "", $input_harga);
+
+//         echo $harga_hanya_angka; 
+
+//         $data = [
+//             'merk' => $this->request->getPost('merk'),
+//             'jenis'       => $this->request->getPost('jenis'),
+//             'jumlah_kursi'      => $this->request->getPost('jumlah_kursi'),
+//             'cc'      => $this->request->getPost('cc'),
+//             'harga_sewa'     => $harga_hanya_angka,
+//             'gambar'     => '',
+//             'pdam_id'    => $pdam_id
+//         ];
+//         // var_dump($data);exit;
+
+//         if ($this->request->hasFiles() && $file = $this->request->getUploadedFiles()[0]) {
+//             $target_dir = "UploadImage/";
+//             if (!file_exists($target_dir)) {
+//                 mkdir($target_dir, 0777, true);
+//             }
+
+//             $allowedExtensions = ['jpg', 'png', 'webp', 'jpeg'];
+//             $ext = strtolower(pathinfo($file->getName(), PATHINFO_EXTENSION));
+
+//             if (in_array($ext, $allowedExtensions)) {
+//                 $name = md5(strval(rand())) . '.' . $ext;
+//                 $target_file = $target_dir . $name;
+//                 if ($file->moveTo($target_file)) {
+//                     $data['gambar'] = $name;
+//                     echo "File berhasil diunggah.";
+//                 } else {
+//                     echo "Gagal mengunggah file.";
+//                 }
+//             } else {
+//                 echo "Hanya file dengan ekstensi .jpg dan .png yang diperbolehkan.";
+//             }
+//         }
+        
+//         $create = new Model($data);
+//         $result = $create->save();
+    
+//         $log = new Log();
+//         $log->write("Insert Data Master-Referensi Barang-Satuan", $data, $result, "App\Modules\Defaults\Master\ReferensiBarang\Satuan\Controller", "INSERT");
+    
+//         return Response::setJsonContent([
+//             'message' => 'Success',
+//         ]);
+//     }
+// }
+
+
+    
 
     /**
      * @routePost("/update")
      */
     public function updateAction()
     {
-        // $idNya = Request::getPost('id');
-        // $pdam_id = $this->session->user['pdam_id'];
-        // $data = [
-        //     'nama'          => Request::getPost('nama'),
-        //     'kategori_id'        => Request::getPost('kategori_id'),
-        //     'hpp'         => Request::getPost('hpp'),
-        //     'pdam_id'       => $pdam_id,
-        // ];
-        // $update = Model::findFirst($idNya);
-        // $update->assign($data);
+        try {
+            $id = Request::getPost('id');
+            $pdam_id = $this->session->user['pdam_id'];
+            
+            // Ambil data dari request
+            $nama = Request::getPost('nama');
+            $kategori = Request::getPost('kategori');
+            $hpp = Request::getPost('hpp');
+            $harga_jual = Request::getPost('harga_jual');
+            $bahan_data = Request::getPost('bahan_data');
+            
+    
+            $this->db->begin();
 
-        // $result = $update->save();
-        // $log = new Log(); 
-        // $log->write("Update Data Master-Referensi Barang-Kategori", $data, $result, "App\Modules\Defaults\Master\ReferensiBarang\Kategori\Controller", "UPDATE");
-        // return Response::setJsonContent([
-        //     'message' => 'Success',
-        // ]);
+            if ($this->request->hasFiles() && $file = $this->request->getUploadedFiles()[0]) {
+                $target_dir = "UploadImage/";
+                if (!file_exists($target_dir)) {
+                    mkdir($target_dir, 0777, true);
+                }
+    
+                $allowedExtensions = ['jpg', 'png', 'webp', 'jpeg'];
+                $ext = strtolower(pathinfo($file->getName(), PATHINFO_EXTENSION));
+    
+                if (in_array($ext, $allowedExtensions)) {
+                    $name = md5(strval(rand())) . '.' . $ext;
+                    $target_file = $target_dir . $name;
+                    if ($file->moveTo($target_file)) {
+                        $gambar = $name;
+                        echo "File berhasil diunggah.";
+                    } else {
+                        echo "Gagal mengunggah file.";
+                    }
+                } else {
+                    echo "Hanya file dengan ekstensi .jpg dan .png yang diperbolehkan.";
+                }
+            }
+            
+            // Simpan data ke tabel ProdukModel
+            $produk =  ProdukModel::findFirst($id); //$update = Model::findFirst($id);
+            $produk->kategori_id = $kategori;
+            $produk->nama = $nama;
+            $produk->gambar = $gambar;
+            $produk->hpp = $hpp;
+            $produk->harga_jual = $harga_jual;
+            $produk->pdam_id = $pdam_id;
+            $produk->save();
+
+            $update->assign($data);
+
+            $result = $update->save();
+    
+            $produk_id = $produk->id;
+    
+            // Simpan data ke tabel ProDetailModel
+            foreach ($bahan_data as $bahan) {
+                $produkDetail = new ProDetailModel();
+                $produkDetail->produk_id = $produk_id;
+                $produkDetail->bahan_id = $bahan['bahan'];
+                $produkDetail->jumlah = $bahan['jumlah'];
+                $produkDetail->harga = $bahan['total'];
+                $produkDetail->pdam_id = $pdam_id;
+                $produkDetail->save();
+            }
+    
+            $this->db->commit();
+            
+            return Response::setJsonContent([
+                'message' => 'Data Terkirim',
+                'produk_id' => $produk_id,
+            ]);
+        } catch (\Exception $e) {
+            // Rollback transaksi jika terjadi kesalahan
+            $this->db->rollback();
+            
+            return Response::setJsonContent([
+                'error' => 'Gagal menyimpan data: ' . $e->getMessage(),
+            ]);
+        }
     }
 
 
@@ -188,20 +358,72 @@ class Controller extends BaseController
      */
     public function deleteAction()
     {
-        // $id = Request::get('id');
-        // $data = [
-        //     'id'            => Request::get('id')
-        // ];
-        // $delete = Model::findFirst($id);
+        $id = Request::get('id');
+        $data = [
+            'id'            => Request::get('id')
+        ];
+        $delete = Model::findFirst($id);
 
-        // $result = $delete->delete();
+        $result = $delete->delete();
 
-        // $log = new Log(); 
-        // $log->write("Delete Data Master-Referensi Barang-Barang", $data, $result, "App\Modules\Defaults\Master\ReferensiBarang\Barang\Controller", "DELETE");
+        $log = new Log(); 
+        $log->write("Delete Data Master-Referensi Barang-Barang", $data, $result, "App\Modules\Defaults\Master\ReferensiBarang\Barang\Controller", "DELETE");
 
-        // return Response::setJsonContent([
-        //     'message' => 'Success',
-        // ]);
+        return Response::setJsonContent([
+            'message' => 'Success',
+        ]);
     }
     
+
+    /**
+     * @routeGet("/databahan")
+     * @routePost("/databahan")
+     */
+    public function databahanAction()
+    {
+        $pdam_id = $this->session->user['pdam_id'];
+        $id_produk = $this->request->getPost("id"); // Ambil diFilter dari permintaan POST
+        // $newFilter = $this->request->getPost("newFilter"); // Ambil newFilter dari permintaan POST
+
+        $builder = $this->modelsManager->createBuilder()
+            ->columns('*')
+            ->from(VwDetailModel::class)
+            ->where("1=1")
+            ->andWhere("produk_id = '$id_produk' and pdam_id = '$pdam_id'");
+
+
+        $result = $builder->getQuery()->execute();
+
+        $jsonResult = [
+            'message' => 'Aksi datacardAction berhasil dipanggil.',
+            'data' => $result->toArray(),
+        ];
+
+        return $this->response->setJsonContent($jsonResult);
+    }
+
+    
+    // 
+    // public function updateAction()
+    // {
+    //     $id = Request::getPost('id');
+
+    //     $data = [
+    //         'nama'          => Request::getPost('nama'),
+    //         'updated_at' => date('Y-m-d H:i:s')
+    //     ];
+    //     $update = Model::findFirst($id);
+    //     $update->assign($data);
+
+    //     $result = $update->save();
+
+    //     $log = new Log(); 
+    //     $log->write("Update Data Master-Referensi Barang-Satuan", $data, $result, "App\Modules\Defaults\Master\ReferensiBarang\Satuan\Controller", "UPDATE");
+
+    //     return Response::setJsonContent([
+    //         'message' => 'Success',
+    //     ]);
+    // }
+
 }
+       

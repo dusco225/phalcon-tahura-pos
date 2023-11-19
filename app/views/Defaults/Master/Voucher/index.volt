@@ -128,7 +128,7 @@
                             <div class="col-sm-12" style="margin-bottom : 5px;">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" style="width: 150px;">Mulai Saat</span>
+                                        <span class="input-group-text" style="width: 150px;">Dari</span>
                                     </div>
                                     <input type="date" id="active_at" name="active_at" class="form-control" required>
                                 </div>
@@ -139,7 +139,7 @@
                             <div class="col-sm-12" style="margin-bottom : 5px;">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text" style="width: 150px;">Berakhir_saat</span>
+                                        <span class="input-group-text" style="width: 150px;">Sampai</span>
                                     </div>
                                     <input type="date" id="expired_at" name="expired_at" class="form-control" required>
                                 </div>
