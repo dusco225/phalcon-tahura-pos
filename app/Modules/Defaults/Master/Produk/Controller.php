@@ -273,7 +273,9 @@ class Controller extends BaseController
     public function updateAction()
     {
         try {
+
             $id = Request::getPost('id');
+
             $pdam_id = $this->session->user['pdam_id'];
             
             // Ambil data dari request
@@ -282,8 +284,10 @@ class Controller extends BaseController
             $hpp = Request::getPost('hpp');
             $harga_jual = Request::getPost('harga_jual');
             $bahan_data = Request::getPost('bahan_data');
+            $bahan_data = json_decode($bahan_data, true); // Dekode data JSON menjadi array asosiatif
             
-    
+            // var_dump($bahan_data);
+            // die;
             $this->db->begin();
 
             if ($this->request->hasFiles() && $file = $this->request->getUploadedFiles()[0]) {
@@ -308,33 +312,55 @@ class Controller extends BaseController
                     echo "Hanya file dengan ekstensi .jpg dan .png yang diperbolehkan.";
                 }
             }
-            
+
+        
             // Simpan data ke tabel ProdukModel
-            $produk =  ProdukModel::findFirst($id); //$update = Model::findFirst($id);
+            $produk = ProdukModel::findFirst([
+                'conditions' => 'id = :id:',
+                'bind' => ['id' => $id], // Sesuaikan dengan nilai yang sesuai
+            ]);
+            // $produk->id = $id;
             $produk->kategori_id = $kategori;
             $produk->nama = $nama;
             $produk->gambar = $gambar;
             $produk->hpp = $hpp;
             $produk->harga_jual = $harga_jual;
             $produk->pdam_id = $pdam_id;
+
+
             $produk->save();
-
-            $update->assign($data);
-
-            $result = $update->save();
     
-            $produk_id = $produk->id;
+          
     
             // Simpan data ke tabel ProDetailModel
-            foreach ($bahan_data as $bahan) {
-                $produkDetail = new ProDetailModel();
-                $produkDetail->produk_id = $produk_id;
-                $produkDetail->bahan_id = $bahan['bahan'];
-                $produkDetail->jumlah = $bahan['jumlah'];
-                $produkDetail->harga = $bahan['total'];
-                $produkDetail->pdam_id = $pdam_id;
-                $produkDetail->save();
-            }
+            // Simpan data ke tabel ProDetailModel
+foreach ($bahan_data as $bahan) {
+    $produkDetail = ProDetailModel::findFirst([
+        'conditions' => 'produk_id = :produk_id: AND bahan_id = :bahan_id:',
+        'bind' => [
+            'produk_id' => $id,
+            'bahan_id' => $bahan['bahan']
+        ],
+    ]);
+
+    if ($produkDetail) {
+        // Jika entri sudah ada, lakukan update
+        $produkDetail->jumlah = $bahan['jumlah'];
+        $produkDetail->harga = $bahan['total'];
+        $produkDetail->pdam_id = $pdam_id;
+        $produkDetail->save();
+    } else {
+        // Jika entri belum ada, buat entri baru
+        $newProdukDetail = new ProDetailModel();
+        $newProdukDetail->produk_id = $id;
+        $newProdukDetail->bahan_id = $bahan['bahan'];
+        $newProdukDetail->jumlah = $bahan['jumlah'];
+        $newProdukDetail->harga = $bahan['total'];
+        $newProdukDetail->pdam_id = $pdam_id;
+        $newProdukDetail->save();
+    }
+}
+
     
             $this->db->commit();
             
@@ -351,7 +377,6 @@ class Controller extends BaseController
             ]);
         }
     }
-
 
     /**
      * @routePost("/delete")

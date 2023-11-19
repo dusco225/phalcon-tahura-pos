@@ -115,7 +115,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="content p-2">
+			<div class="content p-4">
 				<div class="top  bg-warning p-2">
 					<div class="card-field row w-100 p-2">
 
@@ -183,24 +183,17 @@
 					</div>
 
 				</div>
-				<div class="middle row">
-					<div class="content content-left col-8">
+				<div class="middle row p-2">
+					<div class="content content-left col-8 p-2 border">
 						<figure class="highcharts-figure">
 							<div id="container"></div>
-							<p class="highcharts-description">
-								Basic line chart showing trends in a dataset. This chart includes the
-								<code>series-label</code> module, which adds a label to each line for
-								enhanced readability.
-							</p>
+							
 						</figure>
 					</div>
-					<div class="content content-right col-4">
+					<div class="content content-right col-4 p-2 border">
 						<figure class="highcharts-figure">
 							<div id="container-pie"></div>
-							<p class="highcharts-description">
-								This pie chart shows how the chart legend can be used to provide
-								information about the individual slices.
-							</p>
+							
 						</figure>
 					</div>
 					

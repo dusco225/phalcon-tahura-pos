@@ -38,9 +38,9 @@
 					<i class="fa fa-plus text-110 align-text-bottom mr-2"></i>
 					Tambah
 				</a>
-				<a href="#" class="btn btn-success mr-1 mb-2 radius-2 btn-detail" id="btn-detail" >
-					<i class="fa fa-info text-140 align-text-bottom mr-2"></i>
-					Detail
+				<a href="#" class="btn btn-warning mr-1 mb-2 radius-2 btn-detail" id="btn-detail" >
+					<i class="fa  fa-pencil-alt text-140 align-text-bottom mr-2"></i>
+					Edit
 				</a>
 
 
@@ -141,12 +141,13 @@
 												<th style="width: 10%; text-align: center;">Aksi</th>
 											</tr>
 										</thead>
-										<tr id="komposisi">
+										<tr >
 											<td></td>
 											<td></td>
 											<td></td>
 											<td style="text-align: none;"><b style=" width: 80%;" id="tambah" class="btn btn-success"><i class="fas fa-plus"></i></b></td>
 										</tr>
+										<tbody id="komposisi"></tbody>
 									</table>
 								</div>
 							</div>

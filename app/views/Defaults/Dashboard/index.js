@@ -15,6 +15,14 @@ var bulanPendapatan = bp.map(item => item.bulan);
 var totalValues = tp.map(item => parseInt(item.total));
 var produk = JSON.stringify(pr);
 console.log('ini data produk' + produk);
+// Ubah struktur data yang dimiliki ke dalam format yang diharapkan oleh Highcharts
+var newData = pr.map(item => {
+    return {
+        name: item.produk,
+        y: parseFloat(item.qty)
+    };
+});
+console.log(newData);
 // var bulanValues1 = bulan1.map(item => item.bulan);
 // var totalValues1 = total1.map(item => parseInt(item.nik));
 
@@ -25,10 +33,10 @@ Highcharts.chart('container', {
         text: 'Pendapatan Per Bulan',
         align: 'left'
     },
-    subtitle: {
-        text: 'Source: ',
-        align: 'left'
-    },
+    // subtitle: {
+    //     text: 'Source: ',
+    //     align: 'left'
+    // },
     yAxis: {
         title: {
             text: 'Pendapatan'
@@ -86,7 +94,7 @@ Highcharts.chart('container-pie', {
         type: 'pie'
     },
     title: {
-        text: 'Browser market shares in March, 2022',
+        text: 'Produk Ter Laris',
         align: 'left'
     },
     tooltip: {
@@ -110,26 +118,7 @@ Highcharts.chart('container-pie', {
     series: [{
         name: 'Brands',
         colorByPoint: true,
-        data: [{
-            name: 'Chrome',
-            y: 74.77,
-            
-        },  {
-            name: 'Edge',
-            y: 12.82
-        },  {
-            name: 'Firefox',
-            y: 4.63
-        }, {
-            name: 'Safari',
-            y: 2.44
-        }, {
-            name: 'Internet Explorer',
-            y: 2.02
-        }, {
-            name: 'Other',
-            y: 3.28
-        }]
+        data: newData,
     }]
 });
 

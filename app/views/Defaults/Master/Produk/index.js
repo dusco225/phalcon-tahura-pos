@@ -40,6 +40,7 @@ $(document).ready(function() {
             modal.find('input[name=_type]').val('edit');
             modal.find('input[name=id]').val(selected.id);
             modal.find('input[name=nama]').val(selected.nama);
+            modal.find('input[name=gambar]').val(selected.gambar);
             modal.find('input[name=hpp').val(selected.hpp);
             $("select[name=satuan]").select2("trigger", "select", { data: { id: selected.id_satuan, text : selected.nama_satuan} });
             $("select[name=kategori_id]").select2("trigger", "select", { data: { id: selected.kategori_id, text : selected.kategori} });
@@ -49,6 +50,7 @@ $(document).ready(function() {
         }
     });
     $('#btn-detail').on('click', function(){
+        $('#komposisi').empty();
         let selected = table.row({
             selected: true
         }).data();
@@ -65,7 +67,7 @@ $(document).ready(function() {
             modal.find('input[name=hpp').val(selected.hpp);
             viewBahan(selected.id);
             modal.find('input[name=harga_jual').val(selected.harga);
-            
+            dataUntung();
             convertRupiah();
             resetErrors();
             modal.modal('show');
@@ -98,7 +100,9 @@ $(document).ready(function() {
 
 
 $('#btn-add').click(function() {
+    $('#komposisi').empty();
     modal.find(`input[name="nama"]`).val('');
+    modal.find(`input[name="gambar"]`).val('');
     modal.find(`select[name="kategori"]`).val(null).trigger('change'); // Reset select2
     // modal.find(`select[name="bahan[]"]`).val(null).trigger('change'); // Reset select2
     modal.find(`input[name="jumlah[]"]`).val('1');
@@ -115,11 +119,65 @@ $('#tambah').on('click', function() {
     tambahBahan();
 });
 
-modal.find('form').on('submit', function(e) {
-    e.preventDefault();
+// modal.find('form').on('submit', function(e) {
+//     e.preventDefault();
 
-    let bahanData = []; // Inisialisasi variabel bahanData
-    let formData = new FormData(); // Buat objek FormData untuk mengirim data termasuk gambar
+//     let bahanData = []; // Inisialisasi variabel bahanData
+//     let formData = new FormData(); // Buat objek FormData untuk mengirim data termasuk gambar
+
+//     modal.find(`select[name="bahan[]"]`).each(function (index){
+//         var bahan = $(this).val();
+//         var jumlah = $(`input[name="jumlah[]"]`).eq(index).val();
+//         var total = $(`input[name="total[]"]`).eq(index).val();
+
+//         bahanData.push({bahan: bahan, jumlah: jumlah, total: total});
+//     });
+
+//     console.log(bahanData);
+
+//     // Tambahkan data bahan ke FormData
+//     formData.append('bahan_data', JSON.stringify(bahanData));
+
+//     // Tambahkan data lain ke FormData
+//     formData.append('nama', $('input[name="nama"]').val());
+//     formData.append('kategori', $('select[name="kategori"]').val());
+//     formData.append('hpp', $(`input[name="hpp"]`).val());
+//     formData.append('harga_jual', $(`input[name="hargajual"]`).val());
+
+//     // Ambil file gambar dari input dengan id 'gambar'
+//     let gambarFile = $('input[name="filename"]')[0].files[0]; // Ganti 'gambar' dengan id yang sesuai
+
+//     // Tambahkan file gambar ke FormData
+//     formData.append('gambar', gambarFile);
+
+//     $.ajax({
+//         url: defaultUrl + "store",
+//         method: 'POST',
+//         data: formData,
+//         processData: false, // Set false agar FormData tidak diproses secara otomatis
+//         contentType: false, // Set false agar tipe konten tidak diatur secara otomatis
+//         success: function(response){
+//             console.log(response);
+//         },
+//         error: function(xhr, status, error){
+//             console.error('Error: ', error);
+//             console.error('Status: ', status);
+//             console.error('XHR Response: ', xhr);
+//         }
+//     });
+// });
+
+
+modal.find("form").on("submit", function (ev) {
+    ev.preventDefault();
+
+    let submitButton = $(this).find("[type=submit]");
+    let originalContent = submitButton.html();
+
+    let type = $("[name=_type]").val();
+    let id = $("[name=id]").val();
+    let url = type == "create" ? defaultUrl + "store" : defaultUrl + "update";
+    var formData = new FormData();
 
     modal.find(`select[name="bahan[]"]`).each(function (index){
         var bahan = $(this).val();
@@ -128,7 +186,6 @@ modal.find('form').on('submit', function(e) {
 
         bahanData.push({bahan: bahan, jumlah: jumlah, total: total});
     });
-
     console.log(bahanData);
 
     // Tambahkan data bahan ke FormData
@@ -140,178 +197,36 @@ modal.find('form').on('submit', function(e) {
     formData.append('hpp', $(`input[name="hpp"]`).val());
     formData.append('harga_jual', $(`input[name="hargajual"]`).val());
 
-    // Ambil file gambar dari input dengan id 'gambar'
     let gambarFile = $('input[name="filename"]')[0].files[0]; // Ganti 'gambar' dengan id yang sesuai
-
-    // Tambahkan file gambar ke FormData
     formData.append('gambar', gambarFile);
 
-    $.ajax({
-        url: defaultUrl + "store",
-        method: 'POST',
-        data: formData,
-        processData: false, // Set false agar FormData tidak diproses secara otomatis
-        contentType: false, // Set false agar tipe konten tidak diatur secara otomatis
-        success: function(response){
-            console.log(response);
-        },
-        error: function(xhr, status, error){
-            console.error('Error: ', error);
-            console.error('Status: ', status);
-            console.error('XHR Response: ', xhr);
+    // formData.append("filename", $("#filename").prop("files")[0]);
+    $(this)
+      .serializeArray()
+      .forEach((item) => formData.append(item.name, item.value));
+
+    $.ajax({ url, data: formData, processData: false, contentType: false, type: "POST" })
+      .done(function (response) {
+        notification("success", "Data berhasil disimpan");
+        modal.modal("hide");
+        table.ajax.reload();
+      })
+      .fail(function (jqXHR) {
+        if (jqXHR && jqXHR.responseJSON && jqXHR.responseJSON.errors) {
+          let errors = jqXHR.responseJSON.errors;
+          for (let field in errors) {
+            let el = $(`[name=${field}]`);
+            el.toggleClass("brc-danger-m2");
+            el.next().text(errors[field]).show();
+            el.prev().toggleClass("text-danger-d1");
+          }
         }
-    });
-});
-
-// modal.find("form").on("submit", function (ev) {
-//     ev.preventDefault();
-  
-//     let submitButton = $(this).find("[type=submit]");
-//     let originalContent = submitButton.html();
-  
-//     let type = $("[name=_type]").val();
-//     let id = $("[name=id]").val();
-//     let url = type == "create" ? defaultUrl + "store" : defaultUrl + "update";
-  
-//     // Menggunakan FormData untuk menyimpan data formulir, termasuk file gambar
-//              modal.find(`select[name="bahan[]"]`).each(function (index){
-//                 var bahan = $(this).val();
-//                 var jumlah = $(`input[name="jumlah[]"]`).eq(index).val();
-//                 var total = $(`input[name="total[]"]`).eq(index).val();
-        
-//                 bahanData.push({bahan: bahan, jumlah: jumlah, total: total});
-//             });
-        
-//             console.log(bahanData);
-        
-//             dataToSend = {
-//                 nama : $('input[name="nama"]').val(),
-//                 kategori : $('select[name="kategori"]').val(),
-//                 hpp : $(`input[name="hpp"]`).val(),
-//                 harga_jual : $(`input[name="hargajual"]`).val(),
-//                 bahan_data: bahanData
-//             };
-//     var formData = new FormData();
-//     formData.append("filename", $("#filename").prop("files")[0]); // Mengambil file gambar dari input dengan id 'filename'
-  
-//     // Menambahkan data formulir lainnya ke FormData
-//     $(this)
-//       .serializeArray()
-//       .forEach((item) => formData.append(item.name, item.value));
-  
-//     // Melakukan permintaan AJAX dengan menggunakan FormData
-//     $.ajax({
-//       url,
-//       data: formData,
-//       processData: false, // Memastikan FormData tidak diolah secara otomatis
-//       contentType: false, // Memastikan tipe konten tidak diatur secara otomatis
-//       type: "POST",
-//     })
-//       .done(function (response) {
-//         notification("success", "Data berhasil disimpan");
-//         modal.modal("hide");
-//         table.ajax.reload();
-//       })
-//       .fail(function (jqXHR) {
-//         if (jqXHR && jqXHR.responseJSON && jqXHR.responseJSON.errors) {
-//           let errors = jqXHR.responseJSON.errors;
-//           for (let field in errors) {
-//             let el = $("[name=" + field + "]");
-//             el.toggleClass("brc-danger-m2");
-//             el.next().text(errors[field]).show();
-//             el.prev().toggleClass("text-danger-d1");
-//           }
-//         }
-//       })
-//       .always(function () {
-//         submitButton.html(originalContent);
-//         submitButton.prop("disabled", false);
-//       });
-//   });
-  
-
-
-// modal.find("form").on("submit", function (ev) {
-//     ev.preventDefault();
-
-//     let submitButton = $(this).find("[type=submit]");
-//     let originalContent = submitButton.html();
-
-//     let type = $("[name=_type]").val();
-//     let id = $("[name=id]").val();
-//     let url = type == "create" ? defaultUrl + "store" : defaultUrl + "update";
-//     var formData = new FormData();
-//     formData.append("filename", $("#filename").prop("files")[0]);
-//     $(this)
-//       .serializeArray()
-//       .forEach((item) => formData.append(item.name, item.value));
-
-//     $.ajax({ url, data: formData, processData: false, contentType: false, type: "POST" })
-//       .done(function (response) {
-//         notification("success", "Data berhasil disimpan");
-//         modal.modal("hide");
-//         table.ajax.reload();
-//       })
-//       .fail(function (jqXHR) {
-//         if (jqXHR && jqXHR.responseJSON && jqXHR.responseJSON.errors) {
-//           let errors = jqXHR.responseJSON.errors;
-//           for (let field in errors) {
-//             let el = $([name=${field}]);
-//             el.toggleClass("brc-danger-m2");
-//             el.next().text(errors[field]).show();
-//             el.prev().toggleClass("text-danger-d1");
-//           }
-//         }
-//       })
-//       .always(function () {
-//         submitButton.html(originalContent);
-//         submitButton.prop("disabled", false);
-//       });
-//   });
-
-
-    // modal.find('form').on('submit', function(ev) {
-    //     ev.preventDefault();
-    //     rupiahFields.forEach(function (field) {
-    //         var element = document.getElementById(field);
-    //         var value = element.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
-    //         element.value = value;
-    //       });
-    //     let submitButton = $(this).find('[type=submit]');
-    //     let originalContent = submitButton.html();
-    //     submitButton.html('<i class="fa fa-spin fa-spinner"></i> Menyimpan...');
-    //     submitButton.prop('disabled', true);
-
-    //     let type = $('[name=_type]').val();
-    //     let id = $('[name=id]').val();
-    //     let url = type == 'create' ?
-    //         defaultUrl + "store" :
-    //         (defaultUrl + "update");
-
-    //     $.post(url, $(this).serialize())
-    //         .done(function(response) {
-    //             notification('success', "Data berhasil disimpan");
-    //             modal.modal('hide');
-    //             table.ajax.reload();
-    //         })
-    //         .fail(function(jqXHR) {
-    //             if (jqXHR && jqXHR.responseJSON && jqXHR.responseJSON.errors) {
-    //                 let errors = jqXHR.responseJSON.errors;
-    //                 for (let field in errors) {
-    //                     let el = $(`[name=${field}]`);
-    //                     el.toggleClass('brc-danger-m2');
-    //                     el.next().text(errors[field]).show();
-    //                     el.prev().toggleClass('text-danger-d1');
-    //                 }
-    //             }
-    //         })
-    //         .always(function() {
-    //             submitButton.html(originalContent);
-    //             submitButton.prop('disabled', false);
-    //         });
-    // });
-
-    
+      })
+      .always(function () {
+        submitButton.html(originalContent);
+        submitButton.prop("disabled", false);
+      });
+  });
 });
 
 function viewBahan (id){
@@ -499,10 +414,12 @@ function tambahBahan(datanya){
         console.log(datanya.bahan_id);
         console.log(datanya.bahan);
         var siu = { data: { id: datanya.bahan_id, text : datanya.bahan, jumlah : datanya.jumlah_bahan , harga : datanya.harga_bahan} }
-        console.log(siu);
+        console.log("data-bahan="+ JSON.stringify(siu));
+        var harganya = datanya.harga_bahan / datanya.jumlah_bahan;
     var tr = $("<tr></tr>");
     var tdBahan = $(`<td></td>`);
-    var bahan = $(`<select style="width: 100%;" name="bahan[]" class="select2 select2bahan" required><option value='${datanya.bahan_id}'>${datanya.bahan}</option></select>`); // .select2("trigger", "select", { data: { id: datanya.bahan_id } });
+    var bahan = $(`<select style="width: 100%;" name="bahan[]" class="select2 select2bahan"  required><option value='${datanya.bahan_id}'>${datanya.bahan}</option></select>`); // .select2("trigger", "select", { data: { id: datanya.bahan_id } });
+    bahan.attr('data-harga', harganya);
     var tdJumlah = $(`<td></td>`);
     var jumlah = $(`<input style="width: 100%;" type="number" name="jumlah[]" | value="${datanya.jumlah}" required>`);
     var tdTotal = $(`<td></td>`);
@@ -558,10 +475,11 @@ function tambahBahan(datanya){
     tr.append(tdTotal);
     tr.append(aksi);
     // Masukkan baris baru setelah baris dengan ID 'komposisi'
-    $('#komposisi').after(tr);
+    $('#komposisi').append(tr);
 
     
     // Inisialisasi Select2 pada elemen yang baru
+    hPP();
     select2data();
 }
 
@@ -587,6 +505,9 @@ function hPP(){
     });
     
     var hargaJual = hpp * keuntungan + hpp;
+    console.log('ini hpp '+ hpp);
+    console.log('ini untng '+ keuntungan);
+    console.log('ini hgj '+ hargaJual);
 
     $(`form [name="hpp"]`).val(hpp);
     $(`form [name="hargajual"]`).val(hargaJual);
