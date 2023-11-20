@@ -1,8 +1,20 @@
 window.defaultUrl = `${baseUrl}dashboard/`;
 
 $(document).ready(function () {
-dhar();
+
 viewDatatable();
+
+$("")
+
+$.get(defaultUrl + "voucherAktif", function (data) {
+    $("#voucher").text(data);
+  });
+$.get(defaultUrl + "transaksiHari", function (data) {
+    $("#terjual").text(data);
+  });
+$.get(defaultUrl + "pendapatanHari", function (data) {
+    $("#pendapatan").text(formatRupiah(data));
+  });
 
 var tp = <?= json_encode($total_pendapatan) ?>;
 var bp = <?= json_encode($bulan_pendapatan) ?>;
@@ -49,9 +61,9 @@ Highcharts.chart('container', {
         categories: bulanPendapatan
     },
     legend: {
-        layout: 'vertical',
-        align: 'right',
-        verticalAlign: 'middle'
+        layout: 'horizontal',
+        align: 'center',
+        verticalAlign: 'bottom'
     },
     plotOptions: {
         series: {
@@ -68,7 +80,7 @@ Highcharts.chart('container', {
     responsive: {
         rules: [{
             condition: {
-                maxWidth: 500
+                maxWidth: 300
             },
             chartOptions: {
                 legend: {
@@ -209,6 +221,35 @@ function viewDatatable(){
 
 
 
-function dhar(){
-    console.log('aaaaaaaaaaaaaaaaaaaaaaaa');
+
+
+function formatRupiah(angka, prefix) {
+    var number_string = angka.replace(/[^,\d]/g, "").toString(),
+        split = number_string.split(","),
+        sisa = split[0].length % 3,
+        rupiah = split[0].substr(0, sisa),
+        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+    if (ribuan) {
+        separator = sisa ? "." : "";
+        rupiah += separator + ribuan.join(".");
+    }
+
+    rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
+    return prefix == undefined ? rupiah : prefix + rupiah;
 }
+rupiahFields.forEach(function (field) {
+    var element = document.getElementById(field);
+    element.addEventListener("keyup", function (e) {
+      element.value = formatRupiah(this.value, "Rp. ");
+    });
+  });
+
+function convertRupiah(){
+    rupiahFields.forEach(function (field) {
+      var element = document.getElementById(field);
+      element.value = formatRupiah(element.value, "Rp. ");
+    });
+}
+
+

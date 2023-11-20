@@ -2,6 +2,7 @@
 {% block title %}Kasir
 {% endblock %}
 {% block content %}
+
 	
 	<div class="page-content container-fluid container-plus">
 		<div class="row">
@@ -168,6 +169,9 @@
 													right: 0;
 													bottom: 10px;
 												}
+												.harga{
+													text-align: right;
+												}
 												.qty-box input{
 													width: 50%;
 													border: none;
@@ -189,11 +193,11 @@
 
 											
 
-											<div class="payment border border-dark">
-												<table border="2">
+										
+												<table border="0" class="w-100 bg-light">
 													<tr id="voucher">
 														<td><h5><b>Voucher</b></h5></td>
-														<td><input type="text"  class="container-fluid" name="voucher" id="voucher"></td>
+														<td><input type="text"  class="container-fluid bg-none border-none " name="voucher"  id="voucher"></td>
 													</tr>
 													<input type="hidden" name="diskon" value="0">
 													<input type="hidden" id="potongan" name="potongan" value="0">
@@ -203,23 +207,23 @@
 													</tr>
 													<tr>
 														<td><h5><b>Total</b></h5></td>
-														<td><input type="text" name="total" id="total" value="0" disabled required></td>
+														<td><input type="text" name="total" id="total" value="0" class="w-100 input bg-none border-none harga" disabled required></td>
 													</tr>
 													<tr>
 														<td><h5><b>Bayar</b></h5></td>
-														<td><input type="text" name="tunai" id="tunai" value="0" required></td>
+														<td><input type="text" name="tunai" id="tunai"  class="w-100 input   harga" required></td>
 													</tr>
 													<tr>
 														<td><h5><b>Kembalian</b></h5></td>
-														<td><input type="text" name="kembalian" id="kembalian" value="0" disabled required></td>
+														<td><input type="text" name="kembalian" id="kembalian" value="0" class="w-100 input bg-none border-none  harga" disabled required></td>
 													</tr>
-													<tr>
-														<td><button name='submit' id="submit"><h5><b>OKE</b></h5></button></td>
-														<td><button type="reset" id="btn-batal"><h5><b>BATAL</b></h5></button></td>
+													<tr style="text-align: right; " >
+														<td colspan="2"><button type="reset" id="btn-batal" class="btn btn-warning" style="margin-right: 10px;"><h5><b>BATAL</b></h5></button>
+															<button name='submit' id="submit" class="btn btn-danger"><h5><b>OKE</b></h5></button>
+														</td>
 													</tr>
 												</table>
-											</div>
-										</form>
+											</form>
 										</div>
 										{# ============================================================== #}
 									</div>

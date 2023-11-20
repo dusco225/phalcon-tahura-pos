@@ -115,61 +115,55 @@
 					</div>
 				</div>
 			</div>
+			<!--  -->
 			<div class="content p-4">
-				<div class="top  bg-warning p-2">
+				<div class="top   p-2">
+					<fieldset style="color: ;" class="border border-dark">
+						<legend><h1>Hari Ini</h1></legend>
+
+					
 					<div class="card-field row w-100 p-2">
 
-						<div class="card-wrapper bg-danger col-4">
+						<div class="card-wrapper  col-4">
 							<div class="card mb-3  m-4" style="max-width: 540px;">
 								<div class="row no-gutters">
-								  <div class="col-md-4">
-									<h1>
-										<i class="fas fa-tag w-100" style="width: 100px;"></i>
-	
-									</h1>
+								  <div class="col-md-8 p-2">
+									  <h2 class="card-title">Voucher Aktif</h2>
+									
 								  </div>
-								  <div class="col-md-8">
-									<div class="card-body">
-										<h5>X</h5>
-										<h5 class="card-title">Voucher Aktif</h5>
+								  <div class="col-md-4">
+									<div class="card-body" style="text-align: center;">
+										<h3 id="voucher">X</h3>
 									</div>
 								  </div>
 								</div>
 							</div>
 						</div>
 
-						<div class="card-wrapper bg-danger col-4">
+						<div class="card-wrapper  col-4">
 							<div class="card mb-3  m-4" style="max-width: 540px;">
 								<div class="row no-gutters">
-								  <div class="col-md-4">
-									<h1>
-										<i class="fas fa-tag w-100" style="width: 100px;"></i>
-	
-									</h1>
+								  <div class="col-md-8 p-2">
+									<h2 class="card-title"> Transaksi </h2>
 								  </div>
-								  <div class="col-md-8">
-									<div class="card-body">
-										<h5>X</h5>
-										<h5 class="card-title">Terjual Hari Ini</h5>
+								  <div class="col-md-4">
+									<div class="card-body" style="text-align: center;">
+										<h3 id="terjual">X</h3>
 									</div>
 								  </div>
 								</div>
 							</div>
 						</div>
 
-						<div class="card-wrapper bg-danger col-4">
+						<div class="card-wrapper  col-4">
 							<div class="card mb-3 col-4 m-4" style="max-width: 540px;">
 								<div class="row no-gutters">
-								  <div class="col-md-4">
-									<h1>
-										<i class="fas fa-tag w-100" style="width: 100px;"></i>
-	
-									</h1>
+								  <div class="col-md-8 p-2">
+									<h2 class="card-title">Pendapatan</h2>
 								  </div>
-								  <div class="col-md-8">
+								  <div class="col-md-4">
 									<div class="card-body">
-										<h5>X</h5>
-										<h5 class="card-title">Voucher Aktif</h5>
+										<h3 id="pendapatan">X</h3>
 									</div>
 								  </div>
 								</div>
@@ -177,14 +171,14 @@
 						</div>
 
 						
-					
-					
-					
+						
+						
 					</div>
+					</fieldset>	
 
 				</div>
 				<div class="middle row p-2">
-					<div class="content content-left col-8 p-2 border">
+					<div class="content content-left col-8 p-3 border">
 						<figure class="highcharts-figure">
 							<div id="container"></div>
 							

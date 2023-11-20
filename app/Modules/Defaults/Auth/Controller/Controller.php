@@ -109,6 +109,12 @@ class Controller extends BaseController
 
             return Response::redirect($intended);
         }
+        if($userdata['id_role'] == 3){
+            $intended = Session::get('intended') ?? '/'.$pdam->kode.'/kasir';
+            Session::remove('intended');
+
+            return Response::redirect($intended);
+        }
 
         $intended = Session::get('intended') ?? '/'.$pdam->kode.'/dashboard';
         Session::remove('intended');

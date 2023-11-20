@@ -12,9 +12,9 @@ var dataToSend; //variable untuk menampung data yang akan di kirim
 
 
 
-var rupiahFields = [
-    "harga",
-  ];
+// var rupiahFields = [
+//     "harga",
+//   ];
 
 
 $(document).ready(function() {
@@ -223,9 +223,9 @@ function viewDatacard (filter){
 
     function createCard(data) {
         var cardWrap = $(`<div class='card-wrapper p-2 col-3'></div>`); //bungkus kartu
-        var card = $(`<div class='card produk'  data-card='${JSON.stringify(data)}'></div>`); //kartu
+        var card = $(`<div class='card card produk'  data-card='${JSON.stringify(data)}'></div>`); //kartu
         var cardImgWrap = $("<div class='card-data-img-wrapper container-fluid' style='widht:100%;'></div>"); //bungkus gambar
-        var cardImg = $(`<img class='image' src='{{ url('assets') }}/image/ngops.png' style='width: 100%;'alt='Gambar Produk'>`); //bungkus gambar
+        var cardImg = $(`<img class='image' src="{{url('UploadImage')}}/${data.gambar}" style='width: 100%;'alt='Gambar Produk'>`); //bungkus gambar
         var cardBody = $("<div class='card-body card-data-body'></div>");
         var cardTextWrap = $("<div class='card-text-wrapper d-flex text-middle text-center align-items-center flex-column'></div>"); // bungkus text
         var cardTitle = $("<h5 class='card-title text-dark m-2'></h5>").html("<b>" + data.nama + "</b>"); //judul 
@@ -299,11 +299,11 @@ function viewDatacard (filter){
 function newCreateCard(data) {
     
     
-    
+    // src="` + data + '" width="150px" height="100px" 
     var cardWrap = $(`<div class='produk-wrapper  p-1'></div>`); //bungkus kartu
     var card = $("<div class='produk-data container-fluid p-1 bg-light row'></div>"); //kartu
     var cardLeft = $("<div class='produk-left container-fluid col-4 '></div>");
-    var img = $(`<img src="{{ url('assets') }}/image/ngops.png" class=" w-100 p-1 " alt="">`);
+    var img = $(`<img src="{{url('UploadImage')}}/${data.gambar}" class=" w-100 p-1 " alt="">`);
     var cardRight = $("<div class='produk-right  container-fluid col-8'></div>"); // bungkus text
     var cardTitle = $("<h5 class='produk-name text-dark'></h5>").html(`<b>` + data.nama + `</b>`); //judul 
     var cardPrice = $("<h5 class='produk-price'></h5>").text(formatRupiah(data.harga, "Rp. ")); //harga
@@ -490,6 +490,7 @@ function viewDataVoucher (){
         success: function(data) {
             // //console.log(data); // Menampilkan data dalam konsol
             
+            
             if(data.message){
                 //menampilkan pesan dari aksi datacardAction
                 //console.log("pemberitahuan", data.message,"success");
@@ -502,6 +503,11 @@ function viewDataVoucher (){
                     $(".diskon").append(voucher); //di elemen ID "card-field"
                     //console.log('VALID GAK NIH' + validasi);
                 }
+            }else{
+                var voucher = createVoucher(data);
+                    //tambahkan kartu ke elemen dengan ID
+                    // //console.log(`MASUK CETAK VOUCHER NIH` + voucher)
+                    $(".diskon").append(voucher);
             }
         },
         //menampilkan pesan kesalahan
@@ -515,14 +521,21 @@ function viewDataVoucher (){
     //membuat card
     function createVoucher(data) {
         var tr = $('.diskon');
-        var status = $("<td class='border p-1 border-dark'></td>").html('<h5><b>' + data.status + '</b></h5>');
+        var status = $("<td class=' p-1 '></td>").html('<h5><b>' + data.status + '</b></h5>');
         var potongan = $('form [name=diskon]');
 
-        if(data.status == 'Aktif'){
+        if((data.status == null) || (data.status == '') ){
+            var valid = $("<td colspan='3' align='center' class=' p-1 '></td>").html('<h5><b>' + 'Kode Tidak Valid' + '</b></h5>');
+            
+            potongan.val(0);
+            totalHarga();
+            tr.append(valid);
+            return tr;
+        }else if(data.status == 'Aktif'){
             
             var persen = data.diskon * 100;
             var kodeVoucher = $("<input type='hidden' name='voucher_kode'>").val(data.kode);
-            var diskon = $("<td class='border p-1 border-dark'></td>").html(`<input type='text' value='${persen + '%'}' disabled>`);
+            var diskon = $("<td class=' p-1 '></td>").html(`<input type='text' value='${persen + '%'}' disabled>`);
             
             potongan.val(data.diskon);
             totalHarga();
@@ -532,7 +545,7 @@ function viewDataVoucher (){
             return tr;
 
         }else{
-            var valid = $("<td colspan='3' align='center' class='border p-1 border-dark'></td>").html('<h5><b>' + 'Voucher Tidak Aktif' + '</b></h5>');
+            var valid = $("<td colspan='3' align='center' class=' p-1 '></td>").html('<h5><b>' + 'Voucher Tidak Aktif' + '</b></h5>');
             
             potongan.val(0);
             totalHarga();

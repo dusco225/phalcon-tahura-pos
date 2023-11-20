@@ -49,6 +49,16 @@ class Controller extends MiddlewareHardController
             ->execute()
             ->toArray();
 
+            // var_dump($produk);
+            // die;
+            // $voucher = VoucherModel::query()
+            // ->columns(['COUNT(*) as total_aktif'])
+            // ->where("status = 'Aktif' ")
+            // ->execute()
+            // ->toArray();
+        
+
+
         $this->view->setVars([
             'total_pendapatan' => $total_pendapatan,
             'bulan_pendapatan' => $bulan,
@@ -381,5 +391,72 @@ class Controller extends MiddlewareHardController
         
         
     }
+    /**
+     * @routeGet("/voucherAktif")
+     */
+    public function getJumlahTersediaAction()
+    {
+        $this->view->disable();
+        $tanggal = date('Y-m-d');
+        $select = "SELECT COUNT(*) AS rowcount FROM vw_voucher WHERE status COLLATE utf8mb4_general_ci = 'Aktif' COLLATE utf8mb4_general_ci;";
+        $result = $this->db->fetchAll($select);
+    
+        if (!empty($result)) {
+            // Mengakses nilai 'rowcount' dari hasil fetchAll
+            $jumlahTersedia = $result[0]['rowcount'];
+            echo $jumlahTersedia;
+        } else {
+            echo "Data tidak ditemukan";
+        }
+    }
+    
 
+/**
+     * @routeGet("/transaksiHari")
+     */
+    public function getJumlahTransaksiHariAction()
+{
+    $this->view->disable();
+    
+        $select = "SELECT COUNT(*) AS rowcount FROM transaksi WHERE date(created_at) = CURDATE();";
+        $result = $this->db->fetchAll($select);
+    
+        if (!empty($result)) {
+            // Mengakses nilai 'rowcount' dari hasil fetchAll
+            $jumlahTersedia = $result[0]['rowcount'];
+            echo $jumlahTersedia;
+        } else {
+            echo "Data tidak ditemukan";
+        }
 }
+
+/**
+     * @routeGet("/pendapatanHari")
+     */
+    public function getPendapatanHariAction()
+{
+    $this->view->disable();
+    
+        $select = "SELECT 
+        SUM(total) AS total  
+    FROM 
+        transaksi 
+    WHERE DATE(created_at) = curdate()
+    GROUP BY 
+        DATE(created_at);
+    ";
+        $result = $this->db->fetchAll($select);
+    
+        if (!empty($result)) {
+            // Mengakses nilai 'rowcount' dari hasil fetchAll
+            $jumlahTersedia = $result[0]['total'];
+            echo $jumlahTersedia;
+        } else {
+            echo "Data tidak ditemukan";
+        }
+}
+    
+
+    }
+    
+
