@@ -286,24 +286,29 @@ function viewDatacard (filter){
 
 
     //fungsi saat kartu di klik
-   //fungsi saat kartu diklik
-function onCardClick(cardData) {
-    var order = $('#order');
-    var existCard = order.find(`[data-card='${JSON.stringify(cardData)}']`);
-    
-    if (existCard.length === 0) {
-        var newCard = newCreateCard(cardData);
-        newCard.attr('data-card', JSON.stringify(cardData));
-        order.append(newCard);
-    } else {
-        var quantityInput = existCard.find('input[name="qty[]"]');
-        var currentValue = parseInt(quantityInput.val());
-        quantityInput.val(currentValue + 1);
-        isiSubtotal(existCard);
+    function onCardClick(cardData) {
+        //console.log('MASUK FUNGI ON CARD CLICK');
+        //tempat kartu mau dicetak
+        var order = $('#order');
+        
+         // Mengecek apakah kartu dengan data yang sama sudah ada dalam keranjang
+        var existCard = order.find(`[data-card='${JSON.stringify(cardData)}']`);
+        //console.log('CEK JIKA ADA KARTU YANG SAMA' + cardData.nama);
+        
+        //jika tidak ada yang sama 
+        if (existCard.length === 0) {
+            var newCard = newCreateCard(cardData); // memanggil fungsi cetak kartu
+            newCard.attr('data-card', JSON.stringify(cardData)); // menambah atribut pada kartu yang dicetak
+            order.append(newCard);
+            // mencetak kartu baru
+            // //console.log(cardData.harga);
+        } else  //jika ada yang sama
+            //tambah 1 di qty card tersebut
+        { 
+            //console.log('KARTUNYA DUPLIKAT BRO');
+        }
+        totalHarga();
     }
-    totalHarga();
-}
-
 
        
 
