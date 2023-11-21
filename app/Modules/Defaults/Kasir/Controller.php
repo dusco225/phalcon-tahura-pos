@@ -138,6 +138,18 @@ class Controller extends BaseController
         $bayar = Request::getPost('bayar');
         $kembalian = Request::getPost('kembalian');
 
+            function convertToNumber($rupiahValue) {
+                return (float) preg_replace('/[^0-9,-]/', '', $rupiahValue);
+            }
+
+            // Contoh penggunaan:
+            $formattedTotal = convertToNumber($total);
+            $formattedBayar = convertToNumber($bayar);
+            $formattedKembalian = convertToNumber($kembalian);
+            $kembalianNumber = convertToNumber($formattedKembalian);
+           
+
+
         $allData = [
             'nama' => $nama,
             'kode' => $kasir,
@@ -156,9 +168,9 @@ class Controller extends BaseController
         $transaksi = new TransaksiModel();
         $transaksi->kode_kasir = $kasir;
         $transaksi->voucher_kode = $voucher_kode;
-        $transaksi->total = $total;
-        $transaksi->bayar = $bayar;
-        $transaksi->kembalian = $kembalian;
+        $transaksi->total = $formattedTotal;
+        $transaksi->bayar = $formattedBayar;
+        $transaksi->kembalian = $formattedKembalian;
         $transaksi->created_at = date('Y-m-d H:i:s');
         $transaksi->save();
 

@@ -1,7 +1,7 @@
 {% extends 'template/dashboard.volt' %} {% block title %} Dashboard {% endblock %} {% block content %}
 <style>
 	*{
-		box-sizing: border-box;
+		/* box-sizing: border-box; */
 	}
 	input.ace-switch.ace-switch-onoff::before {
 		padding-right: 0.5rem;
@@ -87,6 +87,28 @@
 		padding-top: 1.52rem !important;
 		padding-bottom: 1.52rem !important;
 	}
+	.isi-nya .top{
+		width: 100%;
+		margin: auto;
+		color: red;
+
+	}
+	.middle{
+		padding: 10px;
+
+	}
+
+	/* .middle .content{
+		padding: 10px;
+		border: 5px solid black;
+		/* margin: 10px; */
+	/* } */ 
+
+	
+	.highcharts-figure{
+		width: 100%;
+		
+	}
 
 	/* .easy-pie-chart,
 		.easyPieChart {
@@ -116,37 +138,37 @@
 				</div>
 			</div>
 			<!--  -->
-			<div class="content p-4">
-				<div class="top   p-2">
-					<fieldset style="color: ;" class="border border-dark">
-						<legend><h1>Hari Ini</h1></legend>
+			<div class="content isi-nya container p-4">
+				<div class="top container  p-2">
+					
+						
 
 					
-					<div class="card-field row w-100 p-2">
+					<div class="container card-field row bg-dark  border border-dark">
 
-						<div class="card-wrapper  col-4">
-							<div class="card mb-3  m-4" style="max-width: 540px;">
-								<div class="row no-gutters">
-								  <div class="col-md-8 p-2">
-									  <h2 class="card-title">Voucher Aktif</h2>
-									
-								  </div>
-								  <div class="col-md-4">
-									<div class="card-body" style="text-align: center;">
-										<h3 id="voucher">X</h3>
+						<div class="card-wrapper col-4">
+							<div class="card mb-3 m-4" style="max-width: 540px;">
+								<div class=" no-gutters">
+									<div class="bg bg-warning p-2">
+										<h2 class="card-title text-center">Voucher Aktif</h2>
 									</div>
-								  </div>
+									<div class="">
+										<div class="card-body text-center">
+											<h3 id="voucher">X</h3>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
+						
 
 						<div class="card-wrapper  col-4">
 							<div class="card mb-3  m-4" style="max-width: 540px;">
-								<div class="row no-gutters">
-								  <div class="col-md-8 p-2">
-									<h2 class="card-title"> Transaksi </h2>
+								<div class="no-gutters">
+								  <div class=" p-2">
+									<h2 class="card-title text-center"> Transaksi </h2>
 								  </div>
-								  <div class="col-md-4">
+								  <div class="">
 									<div class="card-body" style="text-align: center;">
 										<h3 id="terjual">X</h3>
 									</div>
@@ -155,14 +177,15 @@
 							</div>
 						</div>
 
+						
 						<div class="card-wrapper  col-4">
-							<div class="card mb-3 col-4 m-4" style="max-width: 540px;">
-								<div class="row no-gutters">
-								  <div class="col-md-8 p-2">
-									<h2 class="card-title">Pendapatan</h2>
+							<div class="card mb-3  m-4" style="max-width: 540px;">
+								<div class=" no-gutters">
+								  <div class=" p-2 text-center">
+									<h3 class="card-title">Pendapatan</h3>
 								  </div>
-								  <div class="col-md-4">
-									<div class="card-body">
+								  <div class="">
+									<div class="card-body text-center">
 										<h3 id="pendapatan">X</h3>
 									</div>
 								  </div>
@@ -174,30 +197,38 @@
 						
 						
 					</div>
-					</fieldset>	
-
+					
 				</div>
-				<div class="middle row p-2">
-					<div class="content content-left col-8 p-3 border">
-						<figure class="highcharts-figure">
-							<div id="container"></div>
-							
-						</figure>
+				<div class="middle row border border-dark p-2">
+					<div class="content-title">
+						<h1>Penjualan</h1>
 					</div>
-					<div class="content content-right col-4 p-2 border">
-						<figure class="highcharts-figure">
-							<div id="container-pie"></div>
-							
-						</figure>
+					<div class="container row">
+						<div class="content content-left col-8 p-3  ">
+							<figure class="highcharts-figure border border-warning">
+								<div id="container"></div>
+								
+							</figure>
+						</div>
+						<div class="content content-right p-2 col-4 ">
+							<figure class="highcharts-figure m-2 border border-warning">
+								<div id="container-pie"></div>
+								
+							</figure>
+						</div>
 					</div>
 					
 				</div>
-
-				<div class="card-body p-3">
+	
+				<div class="card-body p-3 border border-dark">
+					<div class="title">
+						<h1>Transaksi Hari Ini</h1>
+					</div>
 					<div class="row">
+						<div class="title"></div>
 						<div class="col-md-12">
 							<div class="table-responsive-md">
-								<table id="datatable" class="table table-bordered border-0 w-100 table-striped-secondary text-dark-m1 mb-0">
+								<table id="datatable" class="table  table-bordered border-0 w-100 table-striped-secondary text-dark-m1 mb-0">
 									<thead>
 										<tr class="bgc-info text-white text-center brc-black-tp10">
 											<th style="vertical-align: middle;" >#</th>

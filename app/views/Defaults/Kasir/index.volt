@@ -3,7 +3,23 @@
 {% endblock %}
 {% block content %}
 
-	
+	<style>
+		.cardp{
+			max-height: max-content;
+		}
+		.card-data-img-wrapper{
+			min-height: 144px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		.produk-left{
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+	</style>
 	<div class="page-content container-fluid container-plus">
 		<div class="row">
 			<div class="col-12 p-0 pl-3 pr-3">
@@ -104,8 +120,8 @@
 												}
 
 												.img-wrapper img {
-													max-width: 100%;
-													max-height: 100%;
+													/* max-width: 100%;
+													max-height: 100%; */
 												}
 												.kartu-wrapper{
 													
@@ -218,8 +234,9 @@
 														<td><input type="text" name="kembalian" id="kembalian" value="0" class="w-100 input bg-none border-none  harga" disabled required></td>
 													</tr>
 													<tr style="text-align: right; " >
-														<td colspan="2"><button type="reset" id="btn-batal" class="btn btn-warning" style="margin-right: 10px;"><h5><b>BATAL</b></h5></button>
-															<button name='submit' id="submit" class="btn btn-danger"><h5><b>OKE</b></h5></button>
+														<td colspan="2">
+															<button name='submit' id="submit" class="btn btn-danger radius style="margin-right: 10px;	"><h5><b>OKE</b></h5></button>
+															<button type="reset" id="btn-batal" class="btn btn-warning" ><h5><b>BATAL</b></h5></button>
 														</td>
 													</tr>
 												</table>

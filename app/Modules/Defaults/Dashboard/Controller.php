@@ -438,7 +438,7 @@ class Controller extends MiddlewareHardController
     $this->view->disable();
     
         $select = "SELECT 
-        SUM(total) AS total  
+        SUM(coalescetotal) AS total  
     FROM 
         transaksi 
     WHERE DATE(created_at) = curdate()

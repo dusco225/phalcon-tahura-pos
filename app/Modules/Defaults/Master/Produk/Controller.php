@@ -134,6 +134,17 @@ class Controller extends BaseController
             $harga_jual = Request::getPost('harga_jual');
             $bahan_data = Request::getPost('bahan_data');
             $bahan_data = json_decode($bahan_data, true); // Dekode data JSON menjadi array asosiatif
+
+            $rupiahValue = "Rp. 5.000,00";
+
+            // Menghilangkan karakter non-numeric kecuali koma dan minus
+            $cleanedValue = preg_replace('/[^0-9,-]/', '', $rupiahValue);
+                    
+            // Mengonversi string menjadi nilai numerik
+            $numericValue = (float) str_replace(',', '.', $cleanedValue);
+                    
+            echo $numericValue; // Output akan berupa nilai numerik dari kembalian dalam rupiah
+
             
             // var_dump($bahan_data);
             // die;
@@ -285,6 +296,16 @@ class Controller extends BaseController
             $harga_jual = Request::getPost('harga_jual');
             $bahan_data = Request::getPost('bahan_data');
             $bahan_data = json_decode($bahan_data, true); // Dekode data JSON menjadi array asosiatif
+            $rupiahValue = "Rp. 5.000,00";
+
+            // Menghilangkan karakter non-numeric kecuali koma dan minus
+            $cleanedValue = preg_replace('/[^0-9,-]/', '', $rupiahValue);
+
+            // Mengonversi string menjadi nilai numerik
+            $numericValue = (float) str_replace(',', '.', $cleanedValue);
+
+            echo $numericValue; // Output akan berupa nilai numerik dari kembalian dalam rupiah
+
             
             // var_dump($bahan_data);
             // die;

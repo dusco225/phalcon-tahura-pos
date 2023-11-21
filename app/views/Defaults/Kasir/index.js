@@ -12,9 +12,9 @@ var dataToSend; //variable untuk menampung data yang akan di kirim
 
 
 
-// var rupiahFields = [
-//     "harga",
-//   ];
+var rupiahFields = [
+    "tunai",
+  ];
 
 
 $(document).ready(function() {
@@ -52,7 +52,7 @@ function voucherKeyup() {
     viewDataVoucher(kodeVoucher);//panggil fungsi voucher
 }
 
-function tunaiKeyup() {
+function tunaiKeyup() { 
     pembayaran();
 }
 
@@ -60,9 +60,15 @@ function tunaiKeyup() {
 // Attach the debounced event handler to the input element
 $('input[name=filter]').on('keyup', debounce(filterKeyup, 1000)); // Adjust the delay (in milliseconds) as needed
 $('input[name=voucher]').on('input', debounce(voucherKeyup, 300)); // Adjust the delay (in milliseconds) as needed
-$('input[name=tunai]').on('input', debounce(tunaiKeyup, 500)); // Adjust the delay (in milliseconds) as needed
+$('input[name=tunai]').on('input', debounce(tunaiKeyup, 100)); // Adjust the delay (in milliseconds) as needed
 ;
 
+
+$(`input[name="tunai"]`).on('keyup', function(){
+ var tunai = $(this).val();
+var formattedTunai = formatRupiah(tunai.toString(), "Rp. ")
+$(this).val(formattedTunai);
+});
 //menghlangkan filter
 $('#unfilter').on('click',function(){
             diFilter = '';
@@ -75,7 +81,13 @@ $(`#btn-batal`).on('click', function(){
 
 $('#formForm').on('submit', function(e){
     e.preventDefault(); //mencegah perilaku default pengiriman form tradisional
-
+    var bayar = convertToNumber($(`input[name="total"]`).val());
+    var total = convertToNumber($(`input[name="tunai"]`).val());
+    if(bayar > total){
+        return alert('Uang Kurang');
+    }else if(total > bayar - 100000){
+        return alert('Uang Lebih');
+    }
     //mengumpulkan data produk dari elemen input
     $(`input[name="produk_id[]"]`).each(function (index) {
         var produkId = $(this).val();
@@ -97,6 +109,7 @@ $('#formForm').on('submit', function(e){
         total: $(`input[name="total"]`).val(),
         produk_data: produkData
     };
+    
     
     //tambah ajax
     $.ajax({
@@ -166,16 +179,22 @@ $('#formForm').on('submit', function(e){
 
 
 //index.js
-
 function pembayaran(){
-    //console.log('MASUK BLAY')
-    var tunai = Number($(`form [name="tunai"]`).val()) ;
-    total =  Number($(`form [name="total"]`).val());
-    var kembalian = tunai - total ;
+    var tunai = $(`form [name="tunai"]`).val();
+    var total =  $(`form [name="total"]`).val();
+        // var formattedKembalian = formatRupiah(kembalian.toString(), "Rp. ");
+        var tunaiNumber = convertToNumber(tunai);
+        var totalNumber = convertToNumber(total);
 
-    $(`#kembalian`).val(kembalian); 
-    //console.log(kembalian);
+    var kembalian = tunaiNumber - totalNumber;
+
+    // Format kembalian menjadi rupiah
+    formattedKembalian = formatKembalian(kembalian.toString(), "Rp. ")    
+
+    // Set nilai formattedKembalian ke elemen dengan ID kembalian
+    $(`#kembalian`).val(formattedKembalian);
 }
+
 
 
 //fungsi tampilan kartu
@@ -223,7 +242,7 @@ function viewDatacard (filter){
 
     function createCard(data) {
         var cardWrap = $(`<div class='card-wrapper p-2 col-3'></div>`); //bungkus kartu
-        var card = $(`<div class='card card produk'  data-card='${JSON.stringify(data)}'></div>`); //kartu
+        var card = $(`<div class='card cardp produk'  data-card='${JSON.stringify(data)}'></div>`); //kartu
         var cardImgWrap = $("<div class='card-data-img-wrapper container-fluid' style='widht:100%;'></div>"); //bungkus gambar
         var cardImg = $(`<img class='image' src="{{url('UploadImage')}}/${data.gambar}" style='width: 100%;'alt='Gambar Produk'>`); //bungkus gambar
         var cardBody = $("<div class='card-body card-data-body'></div>");
@@ -267,30 +286,24 @@ function viewDatacard (filter){
 
 
     //fungsi saat kartu di klik
-    function onCardClick(cardData) {
-        //console.log('MASUK FUNGI ON CARD CLICK');
-        //tempat kartu mau dicetak
-        var order = $('#order');
-        
-         // Mengecek apakah kartu dengan data yang sama sudah ada dalam keranjang
-        var existCard = order.find(`[data-card='${JSON.stringify(cardData)}']`);
-        //console.log('CEK JIKA ADA KARTU YANG SAMA' + cardData.nama);
-        
-        //jika tidak ada yang sama 
-        if (existCard.length === 0) {
-            var newCard = newCreateCard(cardData); // memanggil fungsi cetak kartu
-            newCard.attr('data-card', JSON.stringify(cardData)); // menambah atribut pada kartu yang dicetak
-            order.append(newCard);
-            // mencetak kartu baru
-            // //console.log(cardData.harga);
-        } else  //jika ada yang sama
-        var jumlah = this.$(`input [name="qty[]"]`).val()
-        jumlah ++;
-        { 
-            //console.log('KARTUNYA DUPLIKAT BRO');
-        }
-        totalHarga();
+   //fungsi saat kartu diklik
+function onCardClick(cardData) {
+    var order = $('#order');
+    var existCard = order.find(`[data-card='${JSON.stringify(cardData)}']`);
+    
+    if (existCard.length === 0) {
+        var newCard = newCreateCard(cardData);
+        newCard.attr('data-card', JSON.stringify(cardData));
+        order.append(newCard);
+    } else {
+        var quantityInput = existCard.find('input[name="qty[]"]');
+        var currentValue = parseInt(quantityInput.val());
+        quantityInput.val(currentValue + 1);
+        isiSubtotal(existCard);
     }
+    totalHarga();
+}
+
 
        
 
@@ -392,6 +405,7 @@ function newCreateCard(data) {
 
 //funsi total harga
 function totalHarga() {
+    // formatRupiah();
     //console.log('masuk fungsi total harga');
     // Array.from($('form [name=subtotal]')).reduce((acc, i) => acc + Number(i.value), 0)
     // Array.from($('form [name=subtotal]')).reduce((total, el) => total + Number(el.value), 0)
@@ -408,7 +422,9 @@ function totalHarga() {
     $(`#potongan`).val(potongan);
     var hasil = total - potongan ;
     //console.log('hasilnyah ' +hasil );
-    $('#total').val(hasil);
+     var formattedTotal = formatRupiah(total.toString(), "Rp. ");
+    $('#total').val(formattedTotal);
+
     pembayaran();
     console.log('INI DEFAULT URL' + defaultUrl);
     console.log('INI BASE URL' + baseUrl);
@@ -592,6 +608,30 @@ function confirmDelete() {
     });
 }
 
+
+function formatKembalian(angka, prefix) {
+    // Check if the value is negative
+    const isNegative = angka < 0;
+
+    // Convert the number to a positive value for formatting
+    const number_string = Math.abs(angka).toString();
+    const split = number_string.split(",");
+    const sisa = split[0].length % 3;
+    let rupiah = split[0].substr(0, sisa);
+    const ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+    if (ribuan) {
+        separator = sisa ? "." : "";
+        rupiah += separator + ribuan.join(".");
+    }
+
+    rupiah = split[1] !== undefined ? rupiah + "," + split[1] : rupiah;
+
+    // Add the prefix and '-' sign if necessary
+    const formatted = (isNegative ? "-" : "") + (prefix === undefined ? rupiah : prefix + rupiah);
+    return formatted;
+}
+
 function formatRupiah(angka, prefix) {
     var number_string = angka.replace(/[^,\d]/g, "").toString(),
         split = number_string.split(","),
@@ -609,7 +649,7 @@ function formatRupiah(angka, prefix) {
 }
 rupiahFields.forEach(function (field) {
     var element = document.getElementById(field);
-    element.addEventListener("keyup", function (e) {
+    element.addEventListener("change", function (e) {
       element.value = formatRupiah(this.value, "Rp. ");
     });
   });
@@ -620,5 +660,18 @@ function convertRupiah(){
       element.value = formatRupiah(element.value, "Rp. ");
     });
 }
+
+function convertToNumber(rupiahValue) {
+    return Number(rupiahValue.replace(/[^\d,-]+/g, ""));
+}
+// function convertToNumber(rupiahValue) {
+//     return Number(rupiahValue.replace(/[^0-9,-]+/g,""));
+// }
+
+// Contoh penggunaan:
+// var formattedKembalian = formatRupiah(kembalian.toString(), "Rp. ");
+// var kembalianNumber = convertToNumber(formattedKembalian);
+// console.log(kembalianNumber); // Output akan berupa nilai numerik dari kembalian dalam rupiah
+
 
 

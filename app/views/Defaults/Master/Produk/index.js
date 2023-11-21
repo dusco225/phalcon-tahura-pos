@@ -423,7 +423,7 @@ function tambahBahan(datanya){
     var tdJumlah = $(`<td></td>`);
     var jumlah = $(`<input style="width: 100%;" type="number" name="jumlah[]" | value="${datanya.jumlah}" required>`);
     var tdTotal = $(`<td></td>`);
-    var total = $(`<input style="width: 100%;" type="text" id="total" name="total[]" value="${datanya.harga}" disabled>`);
+    var total = $(`<input style="width: 100%;" type="text" id="total" name="total[]" value="${formatRupiah(datanya.harga.toString(), "Rp. ")}" disabled>`);
     var aksi = $(`<td><b style=" width: 80%;" id="kurang" class="btn btn-danger"><i class="fas fa-minus"></i></b></td>`);
     }else{
         console.log('tambah bro');
@@ -444,18 +444,27 @@ function tambahBahan(datanya){
         digunakan = jumlah.val();
         
         $(this).attr('data-harga', bahanHarga);
-        console.log('DATANYA BRO '+ bahanHarga);
-        total.val(bahanHarga * digunakan);
+        console.log('DATANYA BRO '+ digunakan);
+        var dataHasil = bahanHarga * digunakan;
+        // console.log('ini hasil' + hasil);
+        var formattedHasil = formatRupiah(dataHasil.toString(), "Rp. " );
+        console.log('ini format hasil' + formattedHasil);
+        total.val(formattedHasil);
         hPP();
     });
     //------------------------------------
     //mengambil data jumlah digunakan
     jumlah.on('input', function(){
+        if($(this).val() < 1){
+            alert('Jumlah Tidak Valid');
+            $(this).val(1);
+        }
         var digunakan = $(this).val();
         var dataBahan = bahan.data('harga');
 
         subtotal = dataBahan * digunakan;
-        total.val(subtotal);
+        var formattedSubTotal = formatRupiah(subtotal.toString(), "Rp. "); 
+        total.val(formattedSubTotal);
         hPP();
     });
     //-------------------------------
@@ -500,17 +509,20 @@ function hPP(){
     var keuntungan = parseFloat($(`input[name="untung"]`).val());
     console.log(keuntungan)
     Array.from($(`form [name="total[]"]`)).forEach(function(el){
-        total = Number(el.value);
+        total = convertToNumber(el.value);
         hpp += total;
     });
+
+    
     
     var hargaJual = hpp * keuntungan + hpp;
     console.log('ini hpp '+ hpp);
     console.log('ini untng '+ keuntungan);
     console.log('ini hgj '+ hargaJual);
-
-    $(`form [name="hpp"]`).val(hpp);
-    $(`form [name="hargajual"]`).val(hargaJual);
+    formattedHpp = formatRupiah(hpp.toString(), "Rp. ")
+    formattedHj = formatRupiah(hargaJual.toString(), "Rp. ")
+    $(`form [name="hpp"]`).val(formattedHpp);
+    $(`form [name="hargajual"]`).val(formattedHj);
 }
 
 
@@ -596,7 +608,7 @@ function formatRupiah(angka, prefix) {
 
     rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
     return prefix == undefined ? rupiah : prefix + rupiah;
-}
+}   
 rupiahFields.forEach(function (field) {
     var element = document.getElementById(field);
     element.addEventListener("change", function (e) {
@@ -610,6 +622,16 @@ function convertRupiah(){
       element.value = formatRupiah(element.value, "Rp. ");
     });
 }
+
+function convertToNumber(rupiahValue) {
+    return Number(rupiahValue.replace(/[^0-9,-]+/g,""));
+}
+
+// Contoh penggunaan:
+// var formattedKembalian = formatRupiah(kembalian.toString(), "Rp. ");
+// var kembalianNumber = convertToNumber(formattedKembalian);
+// console.log(kembalianNumber); // Output akan berupa nilai numerik dari kembalian dalam rupiah
+
 
 
 
