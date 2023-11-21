@@ -79,6 +79,11 @@ $(`#btn-batal`).on('click', function(){
     $(`#order`).empty();
 });
 
+// $(`input[name="qty[]"]`).on('input', function(){
+//     isiSubtotal();
+//     totalHarga();
+// });
+
 $('#formForm').on('submit', function(e){
     e.preventDefault(); //mencegah perilaku default pengiriman form tradisional
     var bayar = convertToNumber($(`input[name="total"]`).val());
@@ -285,6 +290,8 @@ function viewDatacard (filter){
 }
 
 
+
+
     //fungsi saat kartu di klik
     function onCardClick(cardData) {
         //console.log('MASUK FUNGI ON CARD CLICK');
@@ -305,6 +312,19 @@ function viewDatacard (filter){
         } else  //jika ada yang sama
             //tambah 1 di qty card tersebut
         { 
+            var quantityInput = existCard.find(`input[name="qty[]"]`);
+            var currentValue = parseInt(quantityInput.val());
+            quantityInput.val(currentValue + 1);
+            var subTotalInput = existCard.find(`input[name="subtotal[]"]`);
+            var harga = Number(cardData.harga);
+            // var isi = harga
+            // console.log(harga);
+            subTotalInput.val(quantityInput.val() * harga)
+            // console.log(cardData);
+            // isiSubtotal()
+
+
+
             //console.log('KARTUNYA DUPLIKAT BRO');
         }
         totalHarga();
@@ -431,8 +451,8 @@ function totalHarga() {
     $('#total').val(formattedTotal);
 
     pembayaran();
-    console.log('INI DEFAULT URL' + defaultUrl);
-    console.log('INI BASE URL' + baseUrl);
+    // console.log('INI DEFAULT URL' + defaultUrl);
+    // console.log('INI BASE URL' + baseUrl);
 }
 
 
