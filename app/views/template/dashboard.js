@@ -1,6 +1,7 @@
 // window.baseUrl = "{{ url() }}";
 window.baseUrl = "{{ url() }}{{ module }}/";
 
+
 $('.dropdown-toggle').dropdown();
 
 $('.date-picker-sql').datepicker({

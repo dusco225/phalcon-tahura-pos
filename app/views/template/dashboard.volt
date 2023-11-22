@@ -71,6 +71,10 @@
 	</head>
 
 	<body>
+		<script>
+			var dariPhp = parseInt(`<?php  $nama = $this->session->user['id_role']; echo $nama;?>`);
+			console.log('ini data dari template ' + dariPhp);
+		</script>
 		<div class="loading hide">Loading&#8230;</div>
 		<div class="sidebar d-none">
 			<nav class="sidebar-nav"></div>
@@ -82,17 +86,22 @@
 						class="navbar-inner brc-grey-l2 shadow-md">
 
 						<!-- this button collapses/expands sidebar in desktop mode -->
-						<button type="button" class="btn btn-burger align-self-center d-none d-xl-flex mx-2 px-0" data-toggle="sidebar" data-target="#sidebar" aria-controls="sidebar" aria-expanded="true" aria-label="Toggle sidebar">
-							<span class="bars"></span>
-						</button>
+						{% set nama = this.session.user['id_role'] %}
+						{% if nama != 2 %}
+						    <button type="button" class="btn btn-burger align-self-center d-none d-xl-flex mx-2 px-0" data-toggle="sidebar" data-target="#sidebar" aria-controls="sidebar" aria-expanded="true" aria-label="Toggle sidebar">
+						        <span class="bars"></span>
+						    </button>
+						 {% endif %}
 
-						<div
-							class="d-flex h-100 align-items-center justify-content-xl-between">
+						<div class="d-flex h-100 align-items-center justify-content-xl-between">
 							<!-- this button shows/hides sidebar in mobile mode -->
+							{% if nama != 2 %}
 							<button type="button" class="btn btn-burger static burger-arrowed collapsed d-flex d-xl-none ml-2 bgc-h-white-l31" data-toggle-mobile="sidebar" data-target="#sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle sidebar">
 								<span class="bars text-white"></span>
 							</button>
+							{% endif %}
 
+							
 							<a
 								class="navbar-brand ml-2 text-white" href="#">
 								{{ config.appName }} 
@@ -110,12 +119,7 @@
 							<div class="navbar-nav">
 								<ul
 									class="nav nav-compact-2">
-									<!-- <li class="nav-item">
-																		                <a class="nav-link dropdown-toggle mr-1px" href="{{ url('auth/logout') }}">
-																		                  <i class="fa fa-sign-out-alt mr-1"></i>
-																		                  Sign Out
-																		                </a>
-																		              </li> -->
+								
 									<li class="nav-item user user-menu">
 										<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 											<i class="fa fa-user"></i>&nbsp;
@@ -147,20 +151,22 @@
 				</nav>
 				<div
 					class="main-container bgc-white">
-
+					{% set nama = this.session.user['id_role'] %}
+					{% if nama != 2 %}
 					<!-- Sidebar -->
 					<div id="sidebar" class="sidebar sidebar-fixed expandable sidebar-light collapsed" data-backdrop="true" data-dismiss="true" data-swipe="true">
 						<div class="sidebar-inner">
 
 							<div class="ace-scroll flex-grow-1 mt-1px" data-ace-scroll="{}">
-								{% block navigation %}
+							
 									{% include 'template/navigation-dynamic.volt' %}
-								{% endblock %}
+							
 							</div>
 							<!-- /.ace-scroll -->
 
 						</div>
 					</div>
+					{% endif %}
 
 
 					<!-- Main Content -->
@@ -263,6 +269,11 @@
 					window.location.href = url2;
 					console.log(url2);
 				})
+
+				
+								
+
+							
             </script>
 			{% block inline_script %}
 

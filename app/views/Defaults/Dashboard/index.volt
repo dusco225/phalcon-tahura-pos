@@ -270,14 +270,14 @@
 							
 						</div>
 						
-						<div class="right col-4 " >
+						<div class="right col-4 p-0 m-0" >
 								
-								<div class="content content-right " style="height: 92%;" >
+								<div class="content content-right " style="height: 96%; padding: 0; margin: 0;" >
 									<figure class="highcharts-figure shadow border rounded-lg pb-1  " style="height: 100%;" >
 										<div class="title  bg-light p-2 text-xs rounded	 border-info  bt font-weight-bold text-primary text-uppercase " style="width: 100%;" >
 											<h4 style="width: 100%;"><b>Produk Ter Laris</b></h4>
 										</div>
-										<div id="container-pie" style="height: 100%;"></div>
+										<div id="container-pie" class="" style="height: 93%;"></div>
 										
 									</figure>
 								</div>
