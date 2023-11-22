@@ -42,7 +42,7 @@ console.log(newData);
 
 Highcharts.chart('container', {
     title: {
-        text: 'Pendapatan Per Bulan',
+        text: null,
         align: 'left'
     },
     // subtitle: {
@@ -51,7 +51,7 @@ Highcharts.chart('container', {
     // },
     yAxis: {
         title: {
-            text: 'Pendapatan'
+            text: null
         }
     },
     xAxis: {
@@ -60,11 +60,12 @@ Highcharts.chart('container', {
         },
         categories: bulanPendapatan
     },
-    legend: {
-        layout: 'horizontal',
-        align: 'center',
-        verticalAlign: 'bottom'
-    },
+    // legend: {
+    //     nu,
+    //     layout: 'horizontal',
+    //     align: 'center',
+    //     verticalAlign: 'bottom'
+    // },
     plotOptions: {
         series: {
             label: {
@@ -106,7 +107,7 @@ Highcharts.chart('container-pie', {
         type: 'pie'
     },
     title: {
-        text: 'Produk Ter Laris',
+        text: null,
         align: 'left'
     },
     tooltip: {

@@ -87,11 +87,41 @@
 		padding-top: 1.52rem !important;
 		padding-bottom: 1.52rem !important;
 	}
-	.isi-nya .top{
+	.isi-nya .card-field, .isi-nya .card-wrap{
 		width: 100%;
 		margin: auto;
-		color: red;
+		/* color: red; */
 
+	}
+
+	.top .card, .bottom .card{
+		border-left: 5px solid;
+		 border-top: none;
+		  border-right: none;
+		   border-bottom: none;
+	}
+	.bt{
+		border-top: 5px solid;
+		 border-left: none;
+		  border-right: none;
+		   border-bottom: none;
+
+	}
+	/* Menggeser dropdown ke kanan */
+.dataTables_length {
+    /* float: right; */
+	text-align: right;
+    /* Atur margin atau padding sesuai kebutuhan */
+    /* margin-right: ; Contoh pengaturan margin ke kanan */
+}
+
+	
+	
+
+	.isi-nya{
+		margin: 0;
+		padding: 0px;
+		width:100%;
 	}
 	.middle{
 		padding: 10px;
@@ -138,115 +168,243 @@
 				</div>
 			</div>
 			<!--  -->
-			<div class="content isi-nya container p-4">
-				<div class="top container  p-2">
-					
-						
+			<div class="content isi-nya container-fluid p-2">
+				<div class="top m-2 row">
 
 					
-					<div class="container card-field row bg-dark  border border-dark">
 
-						<div class="card-wrapper col-4">
-							<div class="card mb-3 m-4" style="max-width: 540px;">
-								<div class=" no-gutters">
-									<div class="bg bg-warning p-2">
-										<h2 class="card-title text-center">Voucher Aktif</h2>
+						<div class="card-wrapper col-3">
+							<div class="card  border-info left shadow  py-2" >
+								<div class="card-body">
+									<div class="row no-gutters align-items-center">
+										<div class="col mr-2"> 
+											<div class="text-xs font-weight-bold text-primary text-uppercase  ">
+												<h4><b>Voucher Aktif</b></h4>
+											</div>
+											<div class="h5 mb-0 font-weight-bold text-gray-800 " ><h4 id="voucher"></h3></div>
+											<div class="row">
+											</div>
+										</div>
+										<div class="col-auto ">
+											<h1>
+												<i class="fas fa-tag"></i>
+
+											</h1>
+
+										</div>
 									</div>
-									<div class="">
-										<div class="card-body text-center">
-											<h3 id="voucher">X</h3>
+								</div>
+							</div>
+						</div>
+
+						<div class="card-wrapper col-3">
+							<div class="card  border-info left shadow  py-2" >
+								<div class="card-body">
+									<div class="row no-gutters align-items-center">
+										<div class="col mr-2"> 
+											<div class="text-xs font-weight-bold text-primary text-uppercase  ">
+												<h4><b>Bulan Ini</b></h4>
+											</div>
+											<div class=" mb-0 font-weight-bold text-gray-800 " ><h4 id="voucher">Rp. 1.000.000.000</h4></div>
+											<div class="row">
+											</div>
+										</div>
+										<div class="col-auto ">
+											<h1>
+												<i class="fas fa-tag"></i>
+
+											</h1>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+						<div class="card-wrapper col-3">
+							<div class="card  border-info left shadow  py-2" >
+								<div class="card-body">
+									<div class="row no-gutters align-items-center">
+										<div class="col mr-2"> 
+											<div class="text-xs font-weight-bold text-primary text-uppercase  ">
+												<h4><b>Voucher Aktif</b></h4>
+											</div>
+											<div class="h5 mb-0 font-weight-bold text-gray-800 " ><h4 id="voucher">X</h4></div>
+											<div class="row">
+											</div>
+										</div>
+										<div class="col-auto ">
+											<h1>
+												<i class="fas fa-tag"></i>
+
+											</h1>
+
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 						
+						<div class="card-wrapper col-3">
+							<div class="card  border-info left shadow  py-2" >
+								<div class="card-body">
+									<div class="row no-gutters align-items-center">
+										<div class="col mr-2"> 
+											<div class="text-xs font-weight-bold text-primary text-uppercase  ">
+												<h4><b>Voucher Aktif</b></h4>
+											</div>
+											<div class="h5 mb-0 font-weight-bold text-gray-800 " ><h4 id="voucher">X</h4></div>
+											<div class="row">
+											</div>
+										</div>
+										<div class="col-auto ">
+											<h1>
+												<i class="fas fa-tag"></i>
 
-						<div class="card-wrapper  col-4">
-							<div class="card mb-3  m-4" style="max-width: 540px;">
-								<div class="no-gutters">
-								  <div class=" p-2">
-									<h2 class="card-title text-center"> Transaksi </h2>
-								  </div>
-								  <div class="">
-									<div class="card-body" style="text-align: center;">
-										<h3 id="terjual">X</h3>
+											</h1>
+
+										</div>
 									</div>
-								  </div>
 								</div>
 							</div>
 						</div>
-
-						
-						<div class="card-wrapper  col-4">
-							<div class="card mb-3  m-4" style="max-width: 540px;">
-								<div class=" no-gutters">
-								  <div class=" p-2 text-center">
-									<h3 class="card-title">Pendapatan</h3>
-								  </div>
-								  <div class="">
-									<div class="card-body text-center">
-										<h3 id="pendapatan">X</h3>
-									</div>
-								  </div>
-								</div>
-							</div>
-						</div>
-
-						
 						
 						
 					</div>
 					
 				</div>
-				<div class="middle row border border-dark p-2">
-					<div class="content-title">
-						<h1>Penjualan</h1>
-					</div>
-					<div class="container row">
-						<div class="content content-left col-8 p-3  ">
-							<figure class="highcharts-figure border border-warning">
+				<div class="middle row border border-dark ">
+						<div class="content content-left col-8 P-2  ">
+							<figure class="highcharts-figure shadow  rounded border border-warning" style="border-radius: 20px;">
+								<div class="title  bg-light p-2" style="width: 100%;" >
+									<h3 style="width: 100%;">siuu</h3>
+								</div>
 								<div id="container"></div>
 								
 							</figure>
 						</div>
 						<div class="content content-right p-2 col-4 ">
-							<figure class="highcharts-figure m-2 border border-warning">
+							<figure class="highcharts-figure  shadow rounded border border-warning">
+								<div class="title  bg-light p-2" style="width: 100%;" >
+									<h3 style="width: 100%;">siuu</h3>
+								</div>
 								<div id="container-pie"></div>
 								
 							</figure>
 						</div>
-					</div>
-					
 				</div>
 	
-				<div class="card-body p-3 border border-dark">
-					<div class="title">
-						<h1>Transaksi Hari Ini</h1>
-					</div>
-					<div class="row">
-						<div class="title"></div>
-						<div class="col-md-12">
-							<div class="table-responsive-md">
-								<table id="datatable" class="table  table-bordered border-0 w-100 table-striped-secondary text-dark-m1 mb-0">
-									<thead>
-										<tr class="bgc-info text-white text-center brc-black-tp10">
-											<th style="vertical-align: middle;" >#</th>
-											<th style="vertical-align: middle;">Kasir</th>
-											<th style="vertical-align: middle;">Voucher</th>
-											<th style="vertical-align: middle;">Total</th>
-											<th style="vertical-align: middle;">Bayar</th>
-											<th style="vertical-align: middle;">Kembalian</th>
-										</tr>
-									</thead>
-									<tbody></tbody>
-								
-								</table>
+	
+					
+						
+					<div class="bottom">
+						<div class="title rounded-top bt bg-light p-2" style="">
+							<h3>Live Transaksi</h3>
+						</div>
+						<div class="row">
+							<div class="left col-9 p-2">
+								<div class="row p-2">
+									<div class="col-md-12">
+										<div class="table-responsive-md">
+											<div class="title"> HHH</div>
+											<!-- <div class="row">
+												<div class="col-sm-12 col-md-6">
+													<div class="dataTables_length" id="datatable_length">
+														<label>
+															<select name="datatable_length" aria-controls="datatable" class="custom-select custom-select-sm form-control form-control-sm">
+																<option value="10">10</option>
+																<option value="20">20</option>
+																<option value="30">30</option>
+																<option value="50">50</option>
+																<option value="100">100</option>
+																<option value="200">200</option>
+																<option value="300">300</option>
+															</select>
+															 data
+															</label>
+														</div>
+													</div>
+													<div class="col-sm-12 col-md-6"></div>
+												</div> -->
+											<table id="datatable" class="table table-sm table-bordered border-0 w-100 table-striped-secondary text-dark-m1 mb-0">
+												
+												<thead>
+													<tr class="bgc-info text-white text-center brc-black-tp10">
+														<th style="vertical-align: middle;" >#</th>
+														<th style="vertical-align: middle;">Kasir</th>
+														<th style="vertical-align: middle;">Voucher</th>
+														<th style="vertical-align: middle;">Total</th>
+														<th style="vertical-align: middle;">Bayar</th>
+														<th style="vertical-align: middle;">Kembalian</th>
+													</tr>
+												</thead>
+												<tbody></tbody>
+											
+											</table>
+										</div>
+					
+									</div>
+								</div>
 							</div>
+							<div class="right col-3 m-2	">
+								
+								<div class="card-wrapper p-2">
+									<div class="card  border-info left shadow  py-2" >
+										<div class="card-body">
+											<div class="row no-gutters align-items-center">
+												<div class="col mr-2"> 
+													<div class="text-xs font-weight-bold text-primary text-uppercase  ">
+														<h4><b>Voucher Aktif</b></h4>
+													</div>
+													<div class="h5 mb-0 font-weight-bold text-gray-800 " ><h4 id="voucher">X</h4></div>
+													<div class="row">
+													</div>
+												</div>
+												<div class="col-auto ">
+													<h1>
+														<i class="fas fa-tag"></i>
 		
+													</h1>
+		
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+						
+								<div class="card-wrapper p-2">
+									<div class="card  border-info left shadow  py-2" >
+										<div class="card-body">
+											<div class="row no-gutters align-items-center">
+												<div class="col mr-2"> 
+													<div class="text-xs font-weight-bold text-primary text-uppercase  ">
+														<h4><b>Voucher Aktif</b></h4>
+													</div>
+													<div class="h5 mb-0 font-weight-bold text-gray-800 " ><h4 id="voucher">X</h4></div>
+													<div class="row">
+													</div>
+												</div>
+												<div class="col-auto ">
+													<h1>
+														<i class="fas fa-tag"></i>
+		
+													</h1>
+		
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+							
+								
+							</div>
+
 						</div>
 					</div>
-				</div>
+					
+	
 				
 			</div>
 		</div>
