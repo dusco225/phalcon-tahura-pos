@@ -9,19 +9,9 @@
 		}
 		.card-data-img-wrapper{
 			min-height: 144px;
-			max-height: 144px;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			
-		}
-		.card-data-img-wrapper img{
-			margin: 15px;
-			padding: 15px;
-		}
-		.produk-data{
-			max-height: 82px;
-			min-height: 81px;
 		}
 		.produk-left{
 			display: flex;
@@ -135,15 +125,15 @@
 
 	</style>
 	<div class="page-content container-fluid container-plus bg-dark">
-	<div class="row ">
-		<div class="col-8 " style="background-color: #ECE3CE ;">
-			
+	<div class="row">
+		<div class="col-9 bg-warning">
+			<h1>hhh</h1>
 			<div class="content">
 				<div class="filter row p-2 bg-secondary" >
-					<div class="left col-6 p-2 bg-info">
+					<div class="left col-6 bg-info">
 						<input type="text" name="filter" id="" class="w-100">
 					</div>
-					<div class="right col-6 p-2 bg-success">
+					<div class="right col-6 bg-success">
 						<div class="page-kategori page-tools mt-3 mt-sm-0 mb-sm-n1 card-toolbar">
 																			 <!-- tombol netral filter  -->
 								<button id="unfilter" class="btn mr-1 kategori mb-2 radius-2" data-toggle="modal" style="float:right">
@@ -163,62 +153,8 @@
 					
 			</div>
 		</div>
-		<div class="col-4 bg-light">
-			<div class="title p-2 border-bottom row ">
-				<div class="text col-8">
-					<h1 class="m-2 u "><b>Cart</b></h1>
-
-				</div>
-					
-				
-			</div>
-			<form action="" id="formForm" class=" ">
-
-			
-				<div id="order" class="container-fluid overflow-auto" style="min-height: 290px; max-height: 290px;">
-				</div>
-
-				<div class="payment border">
-					<table border="0" class="w-100 bg-light">
-						<tr id="voucher">
-							<td><h5><b>Voucher</b></h5></td>
-							<td><input type="text"  class="container-fluid bg-none border-none " name="voucher"  id="voucher"></td>
-						</tr>
-						<input type="hidden" name="diskon" value="0">
-						<input type="hidden" id="potongan" name="potongan" value="0">
- 
-						<tr class="diskon">
- 
-						</tr>
-						<tr>
-							<td><h5><b>Total</b></h5></td>
-							<td><input type="text" name="total" id="total" value="0" class="w-100 input bg-none border-none harga" disabled required></td>
-						</tr>
-						<tr>
-							<td><h5><b>Bayar</b></h5></td>
-							<td><input type="text" name="tunai" id="tunai"  class="w-100 input   harga" required></td>
-						</tr>
-						<tr>
-							<td><h5><b>Kembalian</b></h5></td>
-							<td><input type="text" name="kembalian" id="kembalian" value="0" class="w-100 input bg-none border-none  harga" disabled required></td>
-						</tr>
-						<tr style="text-align: right; " >
-							<td colspan="2">
-								
-								
-							</td>
-						</tr>
-					  
-					</table>
-					  <div class="kirim p-1">
-						 <button name='submit' id="submit" class="btn btn-danger rounded-pill " style=" width:100%;	"><h5><b>OKE</b></h5></button>
-						</div>
-						<div class="batal p-1">
-						 <button type="reset" id="btn-batal" class="btn btn-warning rounded-pill " style=" width:100%;" ><h5><b>BATAL</b></h5></button>
-						</div>
-						
-				</div>
-			   </form>
+		<div class="col-3 bg-danger">
+			<h1>hihi</h1>
 			
 		</div>
 	</div>	
@@ -227,6 +163,59 @@
 
 
 	{# ________________________________________________________________________________________________ #}
+
+	<!-- <div class="cart container-fluid p-1" >
+		
+											<form action="" id="formForm" class="container-fluid">
+
+			
+											 <div id="order" class="container-fluid p-1 bg-danger">
+											 </div>
+
+											
+											
+
+											
+
+										
+												<table border="0" class="w-100 bg-light">
+													<tr id="voucher">
+														<td><h5><b>Voucher</b></h5></td>
+														<td><input type="text"  class="container-fluid bg-none border-none " name="voucher"  id="voucher"></td>
+													</tr>
+													<input type="hidden" name="diskon" value="0">
+													<input type="hidden" id="potongan" name="potongan" value="0">
+
+													<tr class="diskon">
+
+													</tr>
+													<tr>
+														<td><h5><b>Total</b></h5></td>
+														<td><input type="text" name="total" id="total" value="0" class="w-100 input bg-none border-none harga" disabled required></td>
+													</tr>
+													<tr>
+														<td><h5><b>Bayar</b></h5></td>
+														<td><input type="text" name="tunai" id="tunai"  class="w-100 input   harga" required></td>
+													</tr>
+													<tr>
+														<td><h5><b>Kembalian</b></h5></td>
+														<td><input type="text" name="kembalian" id="kembalian" value="0" class="w-100 input bg-none border-none  harga" disabled required></td>
+													</tr>
+													<tr style="text-align: right; " >
+														<td colspan="2">
+															<button name='submit' id="submit" class="btn btn-danger radius style="margin-right: 10px;	"><h5><b>OKE</b></h5></button>
+															<button type="reset" id="btn-batal" class="btn btn-warning" ><h5><b>BATAL</b></h5></button>
+														</td>
+													</tr>
+												</table>
+											</form>
+										</div> -->
+	
+<!-- <div class="page-filter">
+									<input type="text" name="filter" id="">
+								</div> -->
+
+
 
 
 

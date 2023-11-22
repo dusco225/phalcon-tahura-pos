@@ -104,7 +104,10 @@
 							
 							<a
 								class="navbar-brand ml-2 text-white" href="#">
-								{{ config.appName }} 
+								<b>
+									{{ config.appName }} 
+
+								</b>
 							</a>
 						</div>
 

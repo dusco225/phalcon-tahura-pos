@@ -77,7 +77,6 @@ $('#unfilter').on('click',function(){
         });
 $(`#btn-batal`).on('click', function(){
     $(`#order`).empty();
-    $('#formForm')[0].reset();
 });
 
 // $(`input[name="qty[]"]`).on('input', function(){
@@ -247,9 +246,9 @@ function viewDatacard (filter){
     //membuat kartu atau card
 
     function createCard(data) {
-        var cardWrap = $(`<div class='card-wrapper pr-3 pl-3 pt-1 pb-1  col-3'></div>`); //bungkus kartu
-        var card = $(`<div class='card cardp produk shadow'  data-card='${JSON.stringify(data)}'></div>`); //kartu
-        var cardImgWrap = $("<div class='card-data-img-wrapper ' style='widht:100%;'></div>"); //bungkus gambar
+        var cardWrap = $(`<div class='card-wrapper p-2 col-3'></div>`); //bungkus kartu
+        var card = $(`<div class='card cardp produk'  data-card='${JSON.stringify(data)}'></div>`); //kartu
+        var cardImgWrap = $("<div class='card-data-img-wrapper container-fluid' style='widht:100%;'></div>"); //bungkus gambar
         var cardImg = $(`<img class='image' src="{{url('UploadImage')}}/${data.gambar}" style='width: 100%;'alt='Gambar Produk'>`); //bungkus gambar
         var cardBody = $("<div class='card-body card-data-body'></div>");
         var cardTextWrap = $("<div class='card-text-wrapper d-flex text-middle text-center align-items-center flex-column'></div>"); // bungkus text
@@ -339,8 +338,8 @@ function newCreateCard(data) {
     
     
     // src="` + data + '" width="150px" height="100px" 
-    var cardWrap = $(`<div class='produk-wrapper '></div>`); //bungkus kartu
-    var card = $("<div class='produk-data  p-1 m-1 bg-light border shadow rounded-lg row' style='widht:100%;'></div>"); //kartu
+    var cardWrap = $(`<div class='produk-wrapper  p-1'></div>`); //bungkus kartu
+    var card = $("<div class='produk-data container-fluid p-1 bg-light row'></div>"); //kartu
     var cardLeft = $("<div class='produk-left container-fluid col-4 '></div>");
     var img = $(`<img src="{{url('UploadImage')}}/${data.gambar}" class=" w-100 p-1 " alt="">`);
     var cardRight = $("<div class='produk-right  container-fluid col-8'></div>"); // bungkus text
