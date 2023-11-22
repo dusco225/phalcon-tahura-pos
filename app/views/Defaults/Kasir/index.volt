@@ -110,7 +110,7 @@
 												    cursor: pointer;
 												}
 												.price{
-													color: #ef6768;
+													color: #765827;
 												}
 												.kategori{
 													border: 1px solid #f05a59;

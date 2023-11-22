@@ -3,23 +3,35 @@ window.defaultUrl = `${baseUrl}dashboard/`;
 $(document).ready(function () {
 
 viewDatatable();
+pendapatan();
 
-$("")
+// $("")
 
 $.get(defaultUrl + "voucherAktif", function (data) {
     $("#voucher").text(data);
   });
-$.get(defaultUrl + "transaksiHari", function (data) {
-    $("#terjual").text(data);
+$.get(defaultUrl + "transaksiBulanan", function (data) {
+    console.log('ini data yang error '+data)
+    $("#transaksi").text(data);
   });
-$.get(defaultUrl + "pendapatanHari", function (data) {
-    $("#pendapatan").text(formatRupiah(data));
+$.get(defaultUrl + "pendapatanBulanan", function (data) {
+    $("#pendapatan").text(formatRupiah(data, "Rp. "));
   });
+
 
 var tp = <?= json_encode($total_pendapatan) ?>;
 var bp = <?= json_encode($bulan_pendapatan) ?>;
 var pr = <?= json_encode($produk_dibeli) ?>;
+var totalTahunBulan = <?= json_encode($bulanTahun) ?>;
 
+var tahunBulan = totalTahunBulan.map(item => item.nama_bulan);
+var pendapatanBulan = totalTahunBulan.map(item => parseInt(item.total));
+
+console.log('SATU '+ tahunBulan);
+console.log('DUA '+ pendapatanBulan);
+
+console.log('PENDAPATAN: '+ JSON.stringify(totalTahunBulan));
+console.log('PENDAPATAN object : '+ totalTahunBulan);
 console.log('AHAHA'+ JSON.stringify(tp));
 console.log('AHIIHI'+ JSON.stringify(bp));
 
@@ -56,9 +68,9 @@ Highcharts.chart('container', {
     },
     xAxis: {
         accessibility: {
-            rangeDescription: bulanPendapatan
+            rangeDescription: tahunBulan
         },
-        categories: bulanPendapatan
+        categories: tahunBulan
     },
     legend: {
         
@@ -76,7 +88,7 @@ Highcharts.chart('container', {
     },
     series: [{
         name: 'Pendapatan',
-        data: totalValues
+        data: pendapatanBulan
     }],
     responsive: {
         rules: [{
@@ -254,3 +266,8 @@ function convertRupiah(){
 }
 
 
+function pendapatan(){
+    var tahun = <?= json_encode($tahun); ?>;
+    console.log('ini tahun' + tahun)
+    $(`#pendapatan-tahun`).text(`pendapatan - ` + tahun )
+}

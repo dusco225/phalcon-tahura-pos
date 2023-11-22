@@ -21,13 +21,24 @@ class Controller extends MiddlewareHardController
      */
     public function indexAction($id)
     {
-        $this->view->setVar('module', $id);
+        $tahun = date('Y');
         $this->view->tahun = $this->session->user['tahun'];
+        $this->view->setVar('module', $id);
+        // $this->view->setVar('tahun', $tahun);
         $total_pendapatan = TransaksiModel::query()
             ->columns(['MONTH(created_at) as bulan', 'SUM(total) as total'])
             ->groupBy('bulan')
             ->execute()
             ->toArray();
+
+            $totalPendapatanTahunan = TransaksiModel::query()
+            ->columns(['YEAR(created_at) as tahun', 'MONTH(created_at) as bulan', 'MONTHNAME(created_at) as nama_bulan', 'SUM(total) as total'])
+            ->where('YEAR(created_at) = YEAR(curdate())')
+            ->groupBy('tahun, bulan, nama_bulan')
+            ->orderBy('bulan')
+            ->execute()
+            ->toArray();
+        
 
         $bulan = TransaksiModel::query()
             ->distinct(true)
@@ -64,6 +75,8 @@ class Controller extends MiddlewareHardController
             'bulan_pendapatan' => $bulan,
             'produk' => $produk,
             'produk_dibeli' => $produk_dibeli,
+            'bulanTahun'=>$totalPendapatanTahunan,
+            'tahun' => $tahun,
         ]);
     }
 
@@ -431,20 +444,42 @@ class Controller extends MiddlewareHardController
 }
 
 /**
-     * @routeGet("/pendapatanHari")
+     * @routeGet("/pendapatanBulanan")
      */
-    public function getPendapatanHariAction()
+    public function getPendapatanBulananAction()
 {
     $this->view->disable();
     
         $select = "SELECT 
-        SUM(coalescetotal) AS total  
+        SUM(total) AS total  
     FROM 
         transaksi 
-    WHERE DATE(created_at) = curdate()
+    WHERE 
+        MONTH(created_at) = MONTH(CURDATE()) AND YEAR(created_at) = YEAR(CURDATE())
     GROUP BY 
-        DATE(created_at);
+        YEAR(created_at),
+        MONTH(created_at);
     ";
+        $result = $this->db->fetchAll($select);
+    
+        if (!empty($result)) {
+            // Mengakses nilai 'rowcount' dari hasil fetchAll
+            $jumlahTersedia = $result[0]['total'];
+            echo $jumlahTersedia;
+            
+        } else {
+            echo "Data tidak ditemukan";
+        }
+}
+
+/**
+     * @routeGet("/transaksiBulanan")
+     */
+    public function getTransaksiBulananAction()
+{
+    $this->view->disable();
+    
+        $select = "SELECT COUNT(*) AS total FROM transaksi WHERE month(created_at) = month(CURDATE());";
         $result = $this->db->fetchAll($select);
     
         if (!empty($result)) {
