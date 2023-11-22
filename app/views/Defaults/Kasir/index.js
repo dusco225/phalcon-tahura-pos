@@ -90,7 +90,7 @@ $('#formForm').on('submit', function(e){
     var total = convertToNumber($(`input[name="tunai"]`).val());
     if(bayar > total){
         return alert('Uang Kurang');
-    }else if(total > bayar - 100000){
+    }else if(bayar < total - 100000){
         return alert('Uang Lebih');
     }
     //mengumpulkan data produk dari elemen input

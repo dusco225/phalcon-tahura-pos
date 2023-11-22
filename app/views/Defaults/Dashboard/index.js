@@ -60,12 +60,12 @@ Highcharts.chart('container', {
         },
         categories: bulanPendapatan
     },
-    // legend: {
-    //     nu,
-    //     layout: 'horizontal',
-    //     align: 'center',
-    //     verticalAlign: 'bottom'
-    // },
+    legend: {
+        
+        layout: 'horizontal',
+        align: 'center',
+        verticalAlign: 'bottom'
+    },
     plotOptions: {
         series: {
             label: {

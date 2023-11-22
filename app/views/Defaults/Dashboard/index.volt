@@ -274,20 +274,20 @@
 					</div>
 					
 				</div>
-				<div class="middle row border border-dark ">
-						<div class="content content-left col-8 P-2  ">
-							<figure class="highcharts-figure shadow  rounded border border-warning" style="border-radius: 20px;">
-								<div class="title  bg-light p-2" style="width: 100%;" >
-									<h3 style="width: 100%;">siuu</h3>
+				<div class="middle row  m-2">
+						<div class="content content-left col-8  ">
+							<figure class="highcharts-figure shadow  rounded " style="border-radius: 20px;">
+								<div class="title  bg-light p-2 text-xs font-weight-bold text-primary text-uppercase " style="width: 100%;" >
+									<h3 style="width: 100%;"><b>Pendapatan</b></h3>
 								</div>
 								<div id="container"></div>
 								
 							</figure>
 						</div>
-						<div class="content content-right p-2 col-4 ">
-							<figure class="highcharts-figure  shadow rounded border border-warning">
-								<div class="title  bg-light p-2" style="width: 100%;" >
-									<h3 style="width: 100%;">siuu</h3>
+						<div class="content content-right  col-4 ">
+							<figure class="highcharts-figure  shadow rounded ">
+								<div class="title  bg-light p-2 text-xs font-weight-bold text-primary text-uppercase " style="width: 100%;" >
+									<h3 style="width: 100%;"><b>Produk Ter Laris</b></h3>
 								</div>
 								<div id="container-pie"></div>
 								
