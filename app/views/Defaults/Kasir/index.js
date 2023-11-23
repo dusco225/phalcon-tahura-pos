@@ -41,15 +41,28 @@ function debounce(func, delay) {
 // Your event handler
 function filterKeyup() {
   newFilter = $('input[name=filter]').val();
+  console.log('filter kkey aktip')
+
+  if(newFilter != ''){
+      viewDatacard(newFilter);
+  }else{
+    viewDatacard();
+  }
   ////console.log('FILTER BRAY ' + newFilter);
-  viewDatacard(newFilter);
 }
 
 function voucherKeyup() {
     kodeVoucher = $(this).val();
     $('form [name=diskon]').val(0);
     // ////console.log('VALIDASI VOUCHER BRAY '+ kodeVoucher);
-    viewDataVoucher(kodeVoucher);//panggil fungsi voucher
+    
+    if(($(this).val() == null)||($(this).val() == '')){
+        // console.log('kekosongan terpanggil')
+        $('form [name=diskon]').val(0);
+        $(`#diskon`).val(0)
+    }else{
+        viewDataVoucher(kodeVoucher);//panggil fungsi voucher
+    }
 }
 
 function tunaiKeyup() { 
@@ -158,6 +171,19 @@ $('#formForm').on('submit', function(e){
     });
 });
 
+$(`.btn-kategori`).on('click', function(){
+    $('.btn-kategori').removeClass('dipilih');
+    
+    // Menambahkan kelas 'active' hanya pada tombol yang diklik
+    $(this).addClass('dipilih');
+});
+
+$(`#bersih`).on('click', function(){
+    console.log('cleaning dipanggil')
+    newFilter = $(`input[name=filter]`).val('');
+    viewDatacard(newFilter);//panggil fungsi card data
+});
+
     $("#btn-refresh-data").click(function () {
         $('#filterModal').find('input[type=checkbox]').prop("checked", false);
         $('input[name=search_kode]').val('');
@@ -229,7 +255,7 @@ function viewDatacard (filter){
             if(data.data && data.data.length > 0) {
                 for (var i = 0; i < data.data.length; i++) {
                     var cardWrap = createCard(data.data[i]);
-                    var filterCard = filter;
+                    
                     //tambahkan kartu ke elemen dengan ID
                     $("#card-field").append(cardWrap); //di elemen ID "card-field"
                     //console.log('DARI MANA ' + filterCard);
@@ -491,7 +517,7 @@ function viewDataKategori (){
     function createFilter(data) {
         // ----
         
-        var tombol = $(`<button class="btn  kategori  mr-2  radius-2 p-3 " data-toggle="modal" ></button>`);
+        var tombol = $(`<button class="btn  kategori btn-kategori mr-2  radius-2 p-3 " data-toggle="modal" ></button>`);
         var icon = $(`<i class='fa ${data.icon} text-110 align-text-bottom mr-2 '></i>`);
         var tebal = $(`<b ></b>`).text(data.nama);
     
@@ -503,6 +529,10 @@ function viewDataKategori (){
         //console.log("NAMA KATEGORI: " + data.nama)
 
         tombol.on('click',function(){
+            $('.btn-kategori').removeClass('dipilih');
+    
+            // Menambahkan kelas 'active' hanya pada tombol yang diklik
+            $(this).addClass('dipilih');
             diFilter = data.nama.toLowerCase();
             viewDatacard(diFilter);
         });
@@ -520,7 +550,7 @@ function viewDataKategori (){
 
 //fungi validasi voucher
 function viewDataVoucher (){
-    $(".diskon").empty();
+    $("#diskon").empty();
     //console.log('MASUK DUNGSI VOUCHER COYY');
     $.ajax({
         url: defaultUrl + "datavoucher", // Ganti dengan URL aksi yang sesuai
@@ -540,17 +570,19 @@ function viewDataVoucher (){
             }
             if(data.data && data.data.length > 0) {
                 for (var i = 0; i < data.data.length; i++) {
-                    var voucher = createVoucher(data.data[i]);
+                    // var voucher = createVoucher(data.data[i]);
+                     createVoucher(data.data[i]);
                     //tambahkan kartu ke elemen dengan ID
                     // //console.log(`MASUK CETAK VOUCHER NIH` + voucher)
-                    $(".diskon").append(voucher); //di elemen ID "card-field"
+                    // $(".diskon").append(voucher); //di elemen ID "card-field"
                     //console.log('VALID GAK NIH' + validasi);
                 }
             }else{
-                var voucher = createVoucher(data);
+                // var voucher = createVoucher(data);
+                 createVoucher(data);
                     //tambahkan kartu ke elemen dengan ID
                     // //console.log(`MASUK CETAK VOUCHER NIH` + voucher)
-                    $(".diskon").append(voucher);
+                    // $(".diskon").append(voucher);
             }
         },
         //menampilkan pesan kesalahan
@@ -569,32 +601,32 @@ function viewDataVoucher (){
         var potongan = $('form [name=diskon]');
 
         if((data.status == null) || (data.status == '') ){
-            var valid = $("<td colspan='3' align='center' class=' p-1 '></td>").html('<h5><b>' + 'Kode Tidak Valid' + '</b></h5>');
-            
+            // var valid = $("<td colspan='3' align='center' class=' p-1 '></td>").html('<h5><b>' + 'Kode Tidak Valid' + '</b></h5>');
+            idDiskon.val('Kode Tidak Valid')
             potongan.val(0);
             totalHarga();
-            tr.append(valid);
-            return tr;
+            // tr.append(valid);
+            // return tr;
         }else if(data.status == 'Aktif'){
             
             var persen = data.diskon * 100;
             var kodeVoucher = $("<input type='hidden' name='voucher_kode'>").val(data.kode);
-            var diskon = $("<td class=' p-1 '></td>").html(`<input type='text' value='${persen + '%'}' disabled>`);
-            
+            // var diskon = $("<td class=' p-1 '></td>").html(`<input type='text' value='${persen + '%'}' disabled>`);
+            idDiskon.val(persen + '%')
             potongan.val(data.diskon);
             totalHarga();
             tr.append(kodeVoucher);
-            tr.append(status);
-            tr.append(diskon);
-            return tr;
+            // tr.append(status);
+            // tr.append(diskon);
+            // return tr;
 
         }else{
             var valid = $("<td colspan='3' align='center' class=' p-1 '></td>").html('<h5><b>' + 'Voucher Tidak Aktif' + '</b></h5>');
-            
+            idDiskon.val('Voucher Tidak Aktif')
             potongan.val(0);
             totalHarga();
-            tr.append(valid);
-            return tr;
+            // tr.append(valid);
+            // return tr;
         }
         // Menggabungkan elemen-elemen ke dalam baris
             

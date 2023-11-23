@@ -144,7 +144,7 @@
 	min-height: 478px;
 	
 }
-.search .left button, .search .right button{
+.search .left .wadah, .search .right button{
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -153,6 +153,41 @@
 	/* border-bottom: 1px solid black; */
 	color:  #65451F;
 }
+
+.dipilih{
+	background-color: #4F6F52;
+}
+.dipilih i, .dipilih b{
+	color: #fff;
+}
+
+/* scroll bar gpt */
+/* Untuk browser yang mendukung properti scrollbar-width */
+.overflow-auto::-webkit-scrollbar {
+  width: 5px; /* Atur lebar scrollbar */
+}
+
+/* Atur lebar scrollbar untuk browser yang tidak mendukung properti scrollbar-width */
+.overflow-auto {
+  scrollbar-width: thin;
+}
+
+/* Warna latar belakang scrollbar */
+.overflow-auto::-webkit-scrollbar-track {
+  background: #fff;
+}
+
+/* Warna scroll handle atau thumb */
+.overflow-auto::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 10px;
+}
+
+/* Ketika scroll handle diklik */
+.overflow-auto::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
 
 
 	</style>
@@ -164,9 +199,9 @@
 				<div class="filter row p-2 shadow" style="background-color: #EAC696; border-top: 2px solid #65451F ; border-bottom: 2px solid #65451F ;">
 					<div class="left col-5 p-3  position-relative  p-0 m-0" style="border-right: 2px solid #65451F;">
 						<div class="search row bg-light p-0 m-0 " style="border-radius: 8px;">
-							<div class="left col-1  p-0 m-0"><button class=" btn w-100 h-100 "><h4 class=""><i class="fas fa-search "></i></h4></button></div>
+							<div class="left col-1  p-0 m-0"><div class=" wadah w-100 h-100 "><h4 class=""><i class="fas fa-search "></i></h4></div></div>
 							<div class="middel col-10 p-0 m-0" ><input type="text" name="filter" id="filter" class="form-control w-100 h-100 " placeholder="Search..." style="border: 0; background: transparent;"></div>
-							<div class="right col-1 p-0 m-0" ><button class=" btn w-100 h-100"><h4><i class="far fa-times-circle"></i></h4></button></div>
+							<div class="right col-1 p-0 m-0" ><button class=" btn w-100 h-100" id="bersih"><h4><i class="far fa-times-circle"></i></h4></button></div>
 						</div>
 						
 					
@@ -178,7 +213,7 @@
 						<div class="page-kategori  overflow-auto col-12 p-0 m-0 " style="max-width: 473px;">
 								
 							<!-- tombol netral filter  -->
-								<button id="unfilter" class="btn kategori radius-2 p-3 mr-1 "  >
+								<button id="unfilter" class="btn kategori btn-kategori dipilih radius-2 p-3 mr-1 "  >
 									<i class='fa fa-align-justify text-110 align-text-bottom '></i>
 									<b>Semua</b>
 								</button>
@@ -220,33 +255,34 @@
 						<table border="0" class="w-100  table mt-1 ">
 							<tr id="voucher" >
 								<td><h5><b>Voucher</b></h5></td>
-								<td><input type="text"  class="w-100 h-100 input  " style="border: 0; background: transparent; font-weight: bold;" name="voucher"  id="voucher"></td>
+								<td><input type="text" placeholder="Voucher..." class="w-100 h-100 rounded p-1  input  " style="border: 1px solid #65451F; background: transparent; font-weight: bold;  font-size: 1.25rem;" name="voucher"  id="voucher"></td>
 							</tr>
 							<input type="hidden" name="diskon" value="0">
 							<input type="hidden" id="potongan" name="potongan" value="0">
 	 
 							<tr class="diskon">
 								<td><h5><b>Diskon</b></h5></td>
-								<td><input type="text" value="0" id="diskon" class="w-100 h-100 input  harga price" style="border: 0; background: transparent; font-weight: bold;" disabled required></td>
+								<td><input type="text" value="0" id="diskon" class="w-100 h-100 input  harga price" style="border: 0; background: transparent;  font-size: 1.25rem; font-weight: bold;" disabled required></td>
 	 
 							</tr>
 							<tr>
 								<td><h5><b>Total</b></h5></td>
-								<td><input type="text" name="total" id="total" value="0" class="w-100 h-100 input  harga price" style="border: 0; background: transparent; font-weight: bold;" disabled required></td>
+								<td><input type="text" name="total" id="total" value="0" class="w-100 h-100 input  harga price" style="border: 0; background: transparent; font-size: 1.25rem; font-weight: bold;" disabled required></td>
 							</tr>
 							<tr>
 								<td><h5><b>Bayar</b></h5></td>
-								<td><input type="text" name="tunai" id="tunai"  class="w-100 h-100 input  harga" style="border: 0; background: transparent;  font-weight: bold;" required></td>
+								<td><input type="text" name="tunai" id="tunai" placeholder="Bayar Rp. " class="w-100 h-100 p-1 m-0 rounded input  harga" style="border: 1px solid ; background: transparent;  font-size: 1.25rem; font-weight: bold;" required></td>
 							</tr>
 							<tr>
 								<td><h5><b>Kembalian</b></h5></td>
-								<td><input type="text" name="kembalian" id="kembalian" value="0" class="w-100 h-100 input  harga" style="border: 0; background: transparent;  font-weight: bold; color:  ;" disabled required></td>
+								<td>
+									<input type="text" name="kembalian" id="kembalian" value="0" class="w-100 h-100 input harga" style="border: 0; background: transparent; font-size: 1.25rem; font-weight: bold;" disabled required>
+
+								</td>
 							</tr>
-							
-						  
 						</table>
-						  <div class="kirim p-1">
-							 <button name='submit' id="submit" class="btn btn-success rounded-pill " style=" width:100%;	 "><h5><b>OKE</b></h5></button>
+						  <div class="kirim p-2">
+							 <button name='submit' id="submit" class="btn btn-success rounded-pill " style=" width:100%;	 "><h5><b><i class="fas fa-print mr-2"></i>Cetak Struk</b></h5></button>
 							</div>						
 						
 					</div>

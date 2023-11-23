@@ -81,7 +81,7 @@
 			<div
 				class="body-container">
 				<!-- Navbar -->
-				<nav class="navbar navbar-sm navbar-expand-lg navbar-fixed " style="background-color: #3A4D39 ;">
+				<nav class="navbar navbar-sm navbar-expand-lg navbar-fixed " style="background-color: #004225;">
 					<div
 						class="navbar-inner brc-grey-l2 shadow-md">
 
