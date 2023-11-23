@@ -52,7 +52,7 @@ $pdf->Line(10, 48, $pdf->GetPageWidth() - 10, 48); // Koordinat y = 50, x dari 1
 // var_dump($sampai,$dari);
 // die;
 $pdf->Ln(10);
-if($dari == $sampai){
+if($dari == $sampai && $dari != null){
     $pdf->Cell(190,5,"Tanggal : ". date('Y-m-d', strtotime($dari)),0,0,'C');
     $pdf->Ln(10);
 }elseif($dari && $sampai){

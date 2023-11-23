@@ -81,7 +81,7 @@
 			<div
 				class="body-container">
 				<!-- Navbar -->
-				<nav class="navbar navbar-sm navbar-expand-lg navbar-fixed navbar-blue">
+				<nav class="navbar navbar-sm navbar-expand-lg navbar-fixed " style="background-color: #3A4D39 ;">
 					<div
 						class="navbar-inner brc-grey-l2 shadow-md">
 
@@ -113,7 +113,7 @@
 
 
 						<!-- .navbar-menu toggler -->
-						<button class="navbar-toggler mx-1 p-25" type="button" data-toggle="collapse" data-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navbar menu">
+						<button class="navbar-toggler mx-1 p-25 " type="button" data-toggle="collapse" data-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navbar menu">
 							<i class="fa fa-user text-white"></i>
 						</button>
 
@@ -121,10 +121,10 @@
 						<div class="ml-auto mr-lg-2 navbar-menu collapse navbar-collapse navbar-backdrop" id="navbarMenu">
 							<div class="navbar-nav">
 								<ul
-									class="nav nav-compact-2">
+									class="nav nav-compact-2 ">
 								
 									<li class="nav-item user user-menu">
-										<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+										<a class="nav-link dropdown-toggle text-white" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 											<i class="fa fa-user"></i>&nbsp;
 											<span class="nav-user-name">{{ session.user['nama'] }}</span>
 

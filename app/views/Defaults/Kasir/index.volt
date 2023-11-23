@@ -23,6 +23,12 @@
 			max-height: 82px;
 			min-height: 81px;
 		}
+		.produk-left img{
+			/* width: 100%; */
+			/* padding: 10px; */
+			max-height: 75px;
+			
+		}
 		.produk-left{
 			display: flex;
 			align-items: center;
@@ -48,13 +54,14 @@
     cursor: pointer;
 }
 .price{
-	color: #765827;
+	color: #65451F;
+	/* color:#f05a59; */
 }
 .kategori{
-	border: 1px solid #f05a59;
+	border: 2px solid #4F6F52;
 }
 .kategori i , .kategori b {
-	color:#f05a59;
+	color:#4F6F52;
 }
 .img-wrapper img {
 	/* max-width: 100%;
@@ -106,7 +113,8 @@
 	/* font-size: 50%; */
 }
 .produk-price{
-	color:#f05a59;
+	color:#65451F;
+	/* color:#f05a59; */
 	margin-top: 15px;
 }
 .qty-box{
@@ -131,23 +139,47 @@
 	text-align: center;
 }
 
+.card-field{
+	max-height: 478px;
+	min-height: 478px;
+	
+}
+.search .left button, .search .right button{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.payment table tr input{
+	/* border-bottom: 1px solid black; */
+	color:  #65451F;
+}
 
 
 	</style>
-	<div class="page-content container-fluid container-plus bg-dark">
+	<div class="page-content container-fluid container-plus " style="background-color: #739072;">
 	<div class="row ">
-		<div class="col-8 " style="background-color: #ECE3CE ;">
+		<div class="col-8 " style="background-color: #739072;">
 			
 			<div class="content">
-				<div class="filter row p-2 bg-secondary" >
-					<div class="left col-6 p-2 bg-info">
-						<input type="text" name="filter" id="" class="w-100">
+				<div class="filter row p-2 shadow" style="background-color: #EAC696; border-top: 2px solid #65451F ; border-bottom: 2px solid #65451F ;">
+					<div class="left col-5 p-3  position-relative  p-0 m-0" style="border-right: 2px solid #65451F;">
+						<div class="search row bg-light p-0 m-0 " style="border-radius: 8px;">
+							<div class="left col-1  p-0 m-0"><button class=" btn w-100 h-100 "><h4 class=""><i class="fas fa-search "></i></h4></button></div>
+							<div class="middel col-10 p-0 m-0" ><input type="text" name="filter" id="filter" class="form-control w-100 h-100 " placeholder="Search..." style="border: 0; background: transparent;"></div>
+							<div class="right col-1 p-0 m-0" ><button class=" btn w-100 h-100"><h4><i class="far fa-times-circle"></i></h4></button></div>
+						</div>
+						
+					
 					</div>
-					<div class="right col-6 p-2 bg-success">
-						<div class="page-kategori page-tools mt-3 mt-sm-0 mb-sm-n1 card-toolbar">
-																			 <!-- tombol netral filter  -->
-								<button id="unfilter" class="btn mr-1 kategori mb-2 radius-2" data-toggle="modal" style="float:right">
-									<i class='fa fa-align-justify text-110 align-text-bottom mr-2'></i>
+					
+					
+					
+					<div class="right  col-7 p-2 ml-1 row " >
+						<div class="page-kategori  overflow-auto col-12 p-0 m-0 " style="max-width: 473px;">
+								
+							<!-- tombol netral filter  -->
+								<button id="unfilter" class="btn kategori radius-2 p-3 mr-1 "  >
+									<i class='fa fa-align-justify text-110 align-text-bottom '></i>
 									<b>Semua</b>
 								</button>
 															 <!-- CATEGORI DARI AJAX KATEGORI  -->
@@ -156,67 +188,68 @@
 						</div>
 				</div>
 				<div class="produk">
-					<div id="card-field" class="card-field row p-3">
+					<div id="card-field" class="card-field overflow-auto row p-3">
 												{# hasil dari ajax cardata disini #}
 					</div>
 				</div>
 					
 			</div>
 		</div>
-		<div class="col-4 bg-light">
-			<div class="title p-2 border-bottom row ">
-				<div class="text col-8">
-					<h1 class="m-2 u "><b>Cart</b></h1>
+		<div class="col-4  " style="background-color: #EAC696; border-left: 2px solid #65451F; border-top: 2px solid #65451F;">
+			<div class="title p-1 m-1  row " style="border-bottom: 2px solid #65451F;">
+				<div class="text col-10">
+					<h1 class="m-2 u " style="display: inline;"><b>Cart</b></h1>
+					
+					
+				</div>
+				<div class="batal col-2">
+					<button type="reset" id="btn-batal" class="btn btn-danger rounded-lg " style="display: flex; justify-content: center; align-items: center;"  ><h2 style="display: flex; justify-content: center; align-items: center;"><i class="fas fa-trash"></i></h2></button>
 
 				</div>
-					
+				
 				
 			</div>
 			<form action="" id="formForm" class=" ">
 
 			
-				<div id="order" class="container-fluid overflow-auto" style="min-height: 290px; max-height: 290px;">
+				<div id="order" class="container-fluid overflow-auto" style="min-height: 230px; max-height: 230px;">
 				</div>
 
-				<div class="payment border">
-					<table border="0" class="w-100 bg-light">
-						<tr id="voucher">
-							<td><h5><b>Voucher</b></h5></td>
-							<td><input type="text"  class="container-fluid bg-none border-none " name="voucher"  id="voucher"></td>
-						</tr>
-						<input type="hidden" name="diskon" value="0">
-						<input type="hidden" id="potongan" name="potongan" value="0">
- 
-						<tr class="diskon">
- 
-						</tr>
-						<tr>
-							<td><h5><b>Total</b></h5></td>
-							<td><input type="text" name="total" id="total" value="0" class="w-100 input bg-none border-none harga" disabled required></td>
-						</tr>
-						<tr>
-							<td><h5><b>Bayar</b></h5></td>
-							<td><input type="text" name="tunai" id="tunai"  class="w-100 input   harga" required></td>
-						</tr>
-						<tr>
-							<td><h5><b>Kembalian</b></h5></td>
-							<td><input type="text" name="kembalian" id="kembalian" value="0" class="w-100 input bg-none border-none  harga" disabled required></td>
-						</tr>
-						<tr style="text-align: right; " >
-							<td colspan="2">
-								
-								
-							</td>
-						</tr>
-					  
-					</table>
-					  <div class="kirim p-1">
-						 <button name='submit' id="submit" class="btn btn-danger rounded-pill " style=" width:100%;	"><h5><b>OKE</b></h5></button>
-						</div>
-						<div class="batal p-1">
-						 <button type="reset" id="btn-batal" class="btn btn-warning rounded-pill " style=" width:100%;" ><h5><b>BATAL</b></h5></button>
-						</div>
+				<div class="payment   p-1" style="background-color:#EAC696; border-top: 2px solid #65451F; border-bottom: 2px solid #65451F;">
+					<div class="content border rounded-lg shadow" style="background-color:#ECE3CE;">
+						<table border="0" class="w-100  table mt-1 ">
+							<tr id="voucher" >
+								<td><h5><b>Voucher</b></h5></td>
+								<td><input type="text"  class="w-100 h-100 input  " style="border: 0; background: transparent; font-weight: bold;" name="voucher"  id="voucher"></td>
+							</tr>
+							<input type="hidden" name="diskon" value="0">
+							<input type="hidden" id="potongan" name="potongan" value="0">
+	 
+							<tr class="diskon">
+								<td><h5><b>Diskon</b></h5></td>
+								<td><input type="text" value="0" id="diskon" class="w-100 h-100 input  harga price" style="border: 0; background: transparent; font-weight: bold;" disabled required></td>
+	 
+							</tr>
+							<tr>
+								<td><h5><b>Total</b></h5></td>
+								<td><input type="text" name="total" id="total" value="0" class="w-100 h-100 input  harga price" style="border: 0; background: transparent; font-weight: bold;" disabled required></td>
+							</tr>
+							<tr>
+								<td><h5><b>Bayar</b></h5></td>
+								<td><input type="text" name="tunai" id="tunai"  class="w-100 h-100 input  harga" style="border: 0; background: transparent;  font-weight: bold;" required></td>
+							</tr>
+							<tr>
+								<td><h5><b>Kembalian</b></h5></td>
+								<td><input type="text" name="kembalian" id="kembalian" value="0" class="w-100 h-100 input  harga" style="border: 0; background: transparent;  font-weight: bold; color:  ;" disabled required></td>
+							</tr>
+							
+						  
+						</table>
+						  <div class="kirim p-1">
+							 <button name='submit' id="submit" class="btn btn-success rounded-pill " style=" width:100%;	 "><h5><b>OKE</b></h5></button>
+							</div>						
 						
+					</div>
 				</div>
 			   </form>
 			

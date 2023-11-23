@@ -248,7 +248,7 @@ function viewDatacard (filter){
 
     function createCard(data) {
         var cardWrap = $(`<div class='card-wrapper pr-3 pl-3 pt-1 pb-1  col-3'></div>`); //bungkus kartu
-        var card = $(`<div class='card cardp produk shadow'  data-card='${JSON.stringify(data)}'></div>`); //kartu
+        var card = $(`<div class='card cardp produk shadow ' style="background-color:#ECE3CE;"  data-card='${JSON.stringify(data)}'></div>`); //kartu
         var cardImgWrap = $("<div class='card-data-img-wrapper ' style='widht:100%;'></div>"); //bungkus gambar
         var cardImg = $(`<img class='image' src="{{url('UploadImage')}}/${data.gambar}" style='width: 100%;'alt='Gambar Produk'>`); //bungkus gambar
         var cardBody = $("<div class='card-body card-data-body'></div>");
@@ -339,13 +339,13 @@ function newCreateCard(data) {
     
     
     // src="` + data + '" width="150px" height="100px" 
-    var cardWrap = $(`<div class='produk-wrapper '></div>`); //bungkus kartu
-    var card = $("<div class='produk-data  p-1 m-1 bg-light border shadow rounded-lg row' style='widht:100%;'></div>"); //kartu
-    var cardLeft = $("<div class='produk-left container-fluid col-4 '></div>");
-    var img = $(`<img src="{{url('UploadImage')}}/${data.gambar}" class=" w-100 p-1 " alt="">`);
+    var cardWrap = $(`<div class='produk-wrapper p-1 '></div>`); //bungkus kartu
+    var card = $("<div class='produk-data  p-1 m-1  border shadow  row'  style='widht:100%; border-radius: 8px; background-color:#ECE3CE;' ></div>"); //kartu
+    var cardLeft = $("<div class='produk-left container-fluid col-4 w-100 '></div>");
+    var img = $(`<img src="{{url('UploadImage')}}/${data.gambar}" class=" " style="width:90%;" alt="">`);
     var cardRight = $("<div class='produk-right  container-fluid col-8'></div>"); // bungkus text
     var cardTitle = $("<h5 class='produk-name text-dark'></h5>").html(`<b>` + data.nama + `</b>`); //judul 
-    var cardPrice = $("<h5 class='produk-price'></h5>").text(formatRupiah(data.harga, "Rp. ")); //harga
+    var cardPrice = $("<h5 class='produk-price'></h5>").html('<b>'+formatRupiah(data.harga, "Rp. ")+'</b>'); //harga
     
     //data yang akan di input
     var cardId = $(`<input type='hidden' name='produk_id[]'>`).val(data.id); 
@@ -490,7 +490,8 @@ function viewDataKategori (){
     //membuat kartu/card
     function createFilter(data) {
         // ----
-        var tombol = $(`<button class="btn mr-1 kategori  mb-2 radius-2" data-toggle="modal" style="float:right"></button>`);
+        
+        var tombol = $(`<button class="btn  kategori  mr-2  radius-2 p-3 " data-toggle="modal" ></button>`);
         var icon = $(`<i class='fa ${data.icon} text-110 align-text-bottom mr-2 '></i>`);
         var tebal = $(`<b ></b>`).text(data.nama);
     
@@ -562,8 +563,9 @@ function viewDataVoucher (){
     });
     //membuat card
     function createVoucher(data) {
+        var idDiskon = $(`#diskon`) 
         var tr = $('.diskon');
-        var status = $("<td class=' p-1 '></td>").html('<h5><b>' + data.status + '</b></h5>');
+        var status = $("<td class=' p-1 '></td>").html('<h5><b> Diskon </b></h5>');
         var potongan = $('form [name=diskon]');
 
         if((data.status == null) || (data.status == '') ){
