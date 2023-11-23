@@ -17,7 +17,7 @@
 </style>
 <div class="page-content" >
 	<div class="card ccard mx-auto" style="width: 98%; position: sticky;">
-		<div class="card-header pb-1 align-middle border-t-3 brc-primary-tp3" style="border-top-left-radius: 0.4rem;
+		<div class="card-header pb-1 align-middle" style="border-top-left-radius: 0.4rem; border-top: 4px solid #004225;
 		border-top-right-radius: 0.4rem;border-bottom: 1px solid #e0e5e8 !important;" >
 			<h4 class="card-title text-dark-m3 mt-2">
 				Master - Produk
@@ -57,7 +57,7 @@
 					<div class="table-responsive-md">
 						<table id="datatable" class="table table-bordered border-0 w-100 table-striped-secondary text-dark-m1 mb-0">
 							<thead>
-								<tr class="bgc-info text-white text-center brc-black-tp10">
+								<tr class=" text-white text-center brc-black-tp10" style="background-color: #004225;">
 									<th style="vertical-align: middle;" >#</th>
 									<th style="vertical-align: middle;">Nama</th>
 									<th style="vertical-align: middle;">Kategori</th>
@@ -84,7 +84,7 @@
 
 			<!-- Modal content-->
 			<div class="modal-content radius-4">
-				<div class="modal-header bgc-primary radius-t-4">
+				<div class="modal-header  radius-t-4" style="background-color:  #004225;">
 					<h4 class="modal-title text-white">
 						<i class="fa fa-list text-white"></i>&nbsp;&nbsp; Form - Produk</h4>
 					<button type="button" class="close text-white" data-dismiss="modal">&times;</button>
@@ -198,7 +198,7 @@
 
 			<!-- Modal content-->
 			<div class="modal-content radius-4">
-				<div class="modal-header bgc-primary radius-t-4">
+				<div class="modal-header  radius-t-4" style="background-color:  #004225;">
 					<h4 class="modal-title text-white">
 						<i class="fa fa-search text-white"></i>&nbsp;&nbsp; Pencarian - Barang</h4>
 					<button type="button" class="close text-white" data-dismiss="modal">&times;</button>

@@ -98,13 +98,16 @@
 	}
 
 	.top .card {
-		border-left: 3px solid;
+		border-left: 4px solid  #004225;
+		/* border-left: 3px solid  #739072; */
 		 border-top: none;
 		  border-right: none;
 		   border-bottom: none;
 	}
 	.bt{
-		border-top: 3px solid;
+		border-top: 4px solid  #004225;
+		/* border-top: 3px solid  #739072; */
+		/* border-top: 3px solid  #004225; */
 		 border-left: none;
 		  border-right: none;
 		   border-bottom: none;
@@ -174,11 +177,11 @@
 	
 							<div class="card-wrapper col-4 ">
 								<div class="content border rounded">
-									<div class="card  border-info left shadow  py-2" >
+									<div class="card   left shadow  py-2" >
 										<div class="card-body">
 											<div class="row no-gutters align-items-center">
 												<div class="col mr-2"> 
-													<div class="text-xs font-weight-bold text-primary text-uppercase  ">
+													<div class="text-xs font-weight-bold  text-uppercase  ">
 														<h6><b>Voucher Aktif</b></h6>
 													</div>
 													<div class="h5 mb-0 font-weight-bold text-gray-800 b " ><h4><b id="voucher">x</b></h4></div>
@@ -201,11 +204,11 @@
 	
 							<div class="card-wrapper col-4">
 								<div class="content border rounded">
-									<div class="card  border-info left shadow  py-2" >
+									<div class="card   left shadow  py-2" >
 										<div class="card-body">
 											<div class="row no-gutters align-items-center">
 												<div class="col mr-2"> 
-													<div class="text-xs font-weight-bold text-primary text-uppercase  ">
+													<div class="text-xs font-weight-bold  text-uppercase  ">
 														<h6><b>Transaksi (Bulanan)</b></h6>
 													</div>
 													<div class="h5 mb-0 font-weight-bold text-gray-800 " ><h4 ><b id="transaksi">x</b></h4></div>
@@ -228,11 +231,11 @@
 	
 							<div class="card-wrapper col-4">
 								<div class="content border rounded">
-									<div class="card  border-info left shadow  py-2" >
+									<div class="card   left shadow  py-2" >
 										<div class="card-body">
 											<div class="row no-gutters align-items-center">
 												<div class="col mr-2"> 
-													<div class="text-xs font-weight-bold text-primary text-uppercase  ">
+													<div class="text-xs font-weight-bold  text-uppercase  ">
 														<h6><b>Pendapatan (bulanan)</b></h6>
 													</div>
 													<div class="h5 mb-0 font-weight-bold text-gray-800 " ><h4 ><b id="pendapatan">x</b></h4></div>
@@ -256,7 +259,7 @@
 						<div class="highchart mt-2 p-3">
 							<div class="content content-left   ">
 								<figure class="highcharts-figure shadow border rounded-lg pb-1  " style="border-radius: 20px;">
-									<div class="title  bg-light p-2 text-xs rounded	 border-info  bt font-weight-bold text-primary text-uppercase " style="width: 100%;" >
+									<div class="title  bg-light p-2 text-xs rounded	   bt font-weight-bold  text-uppercase " style="width: 100%;" >
 										<h4 style="width: 100%;"><b id="pendapatan-tahun">Pendapatan - </b></h4>
 									</div>
 									<div id="container"></div>
@@ -274,7 +277,7 @@
 								
 								<div class="content content-right " style="height: 96%; padding: 0; margin: 0;" >
 									<figure class="highcharts-figure shadow border rounded-lg pb-1  " style="height: 100%;" >
-										<div class="title  bg-light p-2 text-xs rounded	 border-info  bt font-weight-bold text-primary text-uppercase " style="width: 100%;" >
+										<div class="title  bg-light p-2 text-xs rounded	   bt font-weight-bold  text-uppercase " style="width: 100%;" >
 											<h4 style="width: 100%;"><b>Produk Ter Laris</b></h4>
 										</div>
 										<div id="container-pie" class="" style="height: 93%;"></div>
@@ -288,9 +291,9 @@
 						
 						<div class="left col-12 ">
 							<div class="card ccard mx-auto" style="width: 98%; position: sticky;">
-								<div class="card-header pb-1 align-middle border-t-3 brc-primary-tp3" style="border-top-left-radius: 0.4rem;
-												border-top-right-radius: 0.4rem;border-bottom: 1px solid #e0e5e8 !important;">
-									<h4 class="card-title text-dark-m3 mt-2  font-weight-bold text-primary text-uppercase ">
+								<div class="card-header pb-1 align-middle bt " style="border-top-left-radius: 0.4rem;
+												border-top-right-radius: 0.4rem;border-bottom: 1px solid #e0e5e8 !important; border-top: 4px solid #004225;">
+									<h4 class="card-title text-dark-m3 mt-2  font-weight-bold  text-uppercase ">
 										Live -Transaksi
 									</h4>
 								</div>
@@ -300,7 +303,7 @@
 											<div class="table-responsive-md">
 												<table id="datatable" class="table table-bordered border-0 w-100 table-striped-secondary text-dark-m1 mb-0">
 													<thead>
-														<tr class="bgc-info text-white text-center brc-black-tp10">
+														<tr class=" text-white text-center brc-black-tp10" style="background-color:#004225;">
 															<th style="vertical-align: middle;" >#</th>
 															<th style="vertical-align: middle;">Kasir</th>
 															<th style="vertical-align: middle;">Voucher</th>

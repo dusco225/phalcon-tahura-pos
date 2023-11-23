@@ -47,6 +47,7 @@ $(document).ready(function() {
     $(`#btn-reset`).on('click', function(){
         console.log('pencet euy');
         $('form')[0].reset(); // Menggunakan [0] untuk mengakses elemen DOM
+        $(`form select`).val(null).trigger('change');
     });
     
 });

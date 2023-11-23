@@ -24,6 +24,7 @@ $(document).ready(function() {
 
     viewDataKategori();//panggil fungsi kategori
     viewDatacard();//panggil fungsi card data
+    $(`form input[name="kode_voucher"]`).val('');
 
 // Your debounce function
 function debounce(func, delay) {
@@ -99,6 +100,7 @@ $(`#btn-batal`).on('click', function(){
 // });
 
 $('#formForm').on('submit', function(e){
+    produkData=[];
     e.preventDefault(); //mencegah perilaku default pengiriman form tradisional
     var bayar = convertToNumber($(`input[name="total"]`).val());
     var total = convertToNumber($(`input[name="tunai"]`).val());
@@ -122,7 +124,7 @@ $('#formForm').on('submit', function(e){
     dataToSend = {
         bayar : $(`input[name="tunai"]`).val(),
         kembalian : $(`input[name="kembalian"]`).val(),
-        voucher_kode : $(`input[name="voucher_kode"]`).val(),
+        voucher_kode : $(`form input[name="kode_voucher" ]`).val(),
         diskon : $(`input[name="diskon"]`).val(),
         potongan : $(`input[name="potongan"]`).val(),
         total: $(`input[name="total"]`).val(),
@@ -464,6 +466,7 @@ function totalHarga() {
     // //console.log(potonganHarga + 'diskon blay');
     var total = 0;
     var diskon = parseFloat($('form [name=diskon]').val());
+    console.log('lhaa ini ada' + diskon);
     Array.from($(`form [id=subtotal]`)).forEach(function(el) {
         var subtotal = Number(el.value);
         total += subtotal;
@@ -472,9 +475,11 @@ function totalHarga() {
     //console.log(total + ' diskon nyah');
     var potongan =  total * diskon ;
     $(`#potongan`).val(potongan);
+    console.log('lha ini masil lanjut' + potongan)
     var hasil = total - potongan ;
+    console.log('kayanya disini ni ' +  hasil + ' totalnya ' + total + ' potongannya ' + potongan )
     //console.log('hasilnyah ' +hasil );
-     var formattedTotal = formatRupiah(total.toString(), "Rp. ");
+     var formattedTotal = formatRupiah(hasil.toString(), "Rp. ");
     $('#total').val(formattedTotal);
 
     pembayaran();
@@ -595,14 +600,18 @@ function viewDataVoucher (){
     });
     //membuat card
     function createVoucher(data) {
+
         var idDiskon = $(`#diskon`) 
         var tr = $('.diskon');
         var status = $("<td class=' p-1 '></td>").html('<h5><b> Diskon </b></h5>');
         var potongan = $('form [name=diskon]');
+        var kodeVoucher = $("<input type='hidden' name='voucher_kode'>")
+        $(`form input[name="kode_voucher"]`).val('');
 
         if((data.status == null) || (data.status == '') ){
             // var valid = $("<td colspan='3' align='center' class=' p-1 '></td>").html('<h5><b>' + 'Kode Tidak Valid' + '</b></h5>');
             idDiskon.val('Kode Tidak Valid')
+            $(`form input[name="kode_voucher"]`).val('');
             potongan.val(0);
             totalHarga();
             // tr.append(valid);
@@ -610,7 +619,8 @@ function viewDataVoucher (){
         }else if(data.status == 'Aktif'){
             
             var persen = data.diskon * 100;
-            var kodeVoucher = $("<input type='hidden' name='voucher_kode'>").val(data.kode);
+            // kodeVoucher.val(data.kode);
+            $(`form input[name="kode_voucher"]`).val(data.kode)
             // var diskon = $("<td class=' p-1 '></td>").html(`<input type='text' value='${persen + '%'}' disabled>`);
             idDiskon.val(persen + '%')
             potongan.val(data.diskon);
@@ -623,6 +633,7 @@ function viewDataVoucher (){
         }else{
             var valid = $("<td colspan='3' align='center' class=' p-1 '></td>").html('<h5><b>' + 'Voucher Tidak Aktif' + '</b></h5>');
             idDiskon.val('Voucher Tidak Aktif')
+            $(`form input[name="kode_voucher"]`).val('');
             potongan.val(0);
             totalHarga();
             // tr.append(valid);

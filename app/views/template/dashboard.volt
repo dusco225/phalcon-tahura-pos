@@ -55,6 +55,7 @@
 		<link rel="icon" id="fav_icon"type="image/png" href="{{ url('assets') }}/image/thr.png"/>
         {% block import_css_page %}
         {% endblock %}
+		
 		<style>
 			.input-group-text {
 				font-size: 1.2rem !important;
@@ -62,6 +63,15 @@
 			.form-control {
 				font-size: 1.2rem !important;
 			}
+			.bt{
+		border-top: 4px solid  #1A5D1A;
+		/* border-top: 3px solid  #739072; */
+		/* border-top: 3px solid  #004225; */
+		 border-left: none;
+		  border-right: none;
+		   border-bottom: none;
+
+	}
 		</style>
 		<!-- "Login" page styles, specific to this page for demo only -->
 		

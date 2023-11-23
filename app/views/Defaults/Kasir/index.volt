@@ -259,6 +259,7 @@
 							</tr>
 							<input type="hidden" name="diskon" value="0">
 							<input type="hidden" id="potongan" name="potongan" value="0">
+							<input type="hidden" id="kode_voucher" name="kode_voucher" value="0">
 	 
 							<tr class="diskon">
 								<td><h5><b>Diskon</b></h5></td>
