@@ -6,27 +6,31 @@
 	<style>
 		.cardp{
 			max-height: max-content;
+			
 		}
 		.card-data-img-wrapper{
-			min-height: 144px;
+			/* min-height: 144px; */
+			min-height: 116px;
 			max-height: 144px;
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			border-radius: 8px;
 			
 		}
 		.card-data-img-wrapper img{
-			margin: 15px;
-			padding: 15px;
+			/* margin: 15px;
+			padding: 15px; */
+			border-radius: 8px;
 		}
 		.produk-data{
 			max-height: 82px;
 			min-height: 81px;
 		}
 		.produk-left img{
-			/* width: 100%; */
+			width: 100%;
 			/* padding: 10px; */
-			max-height: 75px;
+			/* max-height: 75px; */
 			
 		}
 		.produk-left{
@@ -139,9 +143,9 @@
 	text-align: center;
 }
 
-.card-field{
-	max-height: 478px;
-	min-height: 478px;
+.card-field{ 
+	max-height: 449px;
+	min-height: 449px;
 	
 }
 .search .left .wadah, .search .right button{
@@ -158,7 +162,7 @@
 	background-color: #4F6F52;
 }
 .dipilih i, .dipilih b{
-	color: #fff;
+	color:#FAEED1;
 }
 
 /* scroll bar gpt */
@@ -191,8 +195,8 @@
 
 
 	</style>
-	<div class="page-content container-fluid container-plus " style="background-color: #739072;">
-	<div class="row ">
+	<div class="page-content container-fluid container-plus p-3" style="background-color: #739072;">
+	<div class="row  ">
 		<div class="col-8 " style="background-color: #739072;">
 			
 			<div class="content">
@@ -230,9 +234,9 @@
 					
 			</div>
 		</div>
-		<div class="col-4  " style="background-color: #EAC696; border-left: 2px solid #65451F; border-top: 2px solid #65451F;">
+		<div class="col-4  " style="background-color: #EAC696; border-left: 2px solid #65451F; border-top: 2px solid #65451F;border-bottom: 2px solid #65451F;">
 			<div class="title p-1 m-1  row " style="border-bottom: 2px solid #65451F;">
-				<div class="text col-10">
+				<div class="text col-10 p-2">
 					<h1 class="m-2 u " style="display: inline;"><b>Cart</b></h1>
 					
 					
@@ -250,9 +254,11 @@
 				<div id="order" class="container-fluid overflow-auto" style="min-height: 230px; max-height: 230px;">
 				</div>
 
-				<div class="payment   p-1" style="background-color:#EAC696; border-top: 2px solid #65451F; border-bottom: 2px solid #65451F;">
-					<div class="content border rounded-lg shadow" style="background-color:#ECE3CE;">
-						<table border="0" class="w-100  table mt-1 ">
+				<!-- <div class="payment   p-1" style="background-color:#EAC696; border-top: 2px solid #65451F; border-bottom: 2px solid #65451F;"> -->
+				<div class="payment   p-1" style=" border-top: 2px solid #65451F; border-bottom: 2px solid #65451F;">
+					<!-- <div class="content border rounded-lg shadow" style="background-color:#ECE3CE;"> -->
+					<div class="content border rounded-lg shadow" style="background-color:#FAEED1;">
+						<table border="0" class="w-100  table-sm mt-1 ">
 							<tr id="voucher" >
 								<td><h5><b>Voucher</b></h5></td>
 								<td><input type="text" placeholder="Voucher..." class="w-100 h-100 rounded p-1  input  " style="border: 1px solid #65451F; background: transparent; font-weight: bold;  font-size: 1.25rem;" name="voucher"  id="voucher"></td>
@@ -283,7 +289,7 @@
 							</tr>
 						</table>
 						  <div class="kirim p-2">
-							 <button name='submit' id="submit" class="btn btn-success rounded-pill " style=" width:100%;	 "><h5><b><i class="fas fa-print mr-2"></i>Cetak Struk</b></h5></button>
+							 <button name='submit' id="submit" class="btn  rounded-pill " style=" width:100%; background-color: #4F6F52 ; color:#FAEED1; "><h5><b><i class="fas fa-print mr-2"></i>Cetak Struk</b></h5></button>
 							</div>						
 						
 					</div>

@@ -8,11 +8,11 @@ use Phalcon\Mvc\Model as BaseModel;
 use Core\Models\Behavior\SoftDelete;
 use Phalcon\Mvc\Model\Behavior\Timestampable;
 
-class VoucherModel extends BaseModel
+class VwModel extends BaseModel
 {
     public function initialize()
     {
         $this->setConnectionService('db');
-        $this->setSource('vw_vr');
+        $this->setSource('vw_transaksi_detail');
     }
 }

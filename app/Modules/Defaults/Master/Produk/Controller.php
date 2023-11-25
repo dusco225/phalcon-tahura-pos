@@ -37,7 +37,7 @@ class Controller extends BaseController
         $this->view->setVar('data-nama', $var);
     }
 
-     /**
+    /**
      * @routeGet("/datauntung")
      * @routePost("/datauntung")
      */
@@ -52,7 +52,7 @@ class Controller extends BaseController
             ->where("1=1")
             ->andWhere("pdam_id = '$pdam_id'");
 
-        
+
 
         $result = $builder->getQuery()->execute();
 
@@ -65,8 +65,8 @@ class Controller extends BaseController
     }
 
 
-    
-    
+
+
 
     /**
      * @routeGet("/datatable")
@@ -81,27 +81,27 @@ class Controller extends BaseController
         $kategori_id_search = Request::getPost('kategori_id_search');
         $barang_kategori_id_id = Request::getPost('barang_kategori_id_id');
         $nama_barang = Request::getPost('nama_barang');
-        
-        $builder = $this->modelsManager->createBuilder()
-                        ->columns('*')
-                        ->from(VwModel::class)
-                        ->where("1=1")
-                        ->andWhere("pdam_id = '$pdam_id'");
 
-        if($nama_barang) {
+        $builder = $this->modelsManager->createBuilder()
+            ->columns('*')
+            ->from(VwModel::class)
+            ->where("1=1")
+            ->andWhere("pdam_id = '$pdam_id'");
+
+        if ($nama_barang) {
             $builder->andWhere("nama LIKE '%$nama_barang%'");
         }
-        if($search_nama) {
+        if ($search_nama) {
             $builder->andWhere("nama LIKE '%$search_nama%'");
         }
-        if($search_kode) {
+        if ($search_kode) {
             $builder->andWhere("kode = '$search_kode'");
         }
 
-        if($kategori_id_search) {
-            $builder->andWhere("id_kategori = '$kategori_id_search'");
+        if ($kategori_id_search) {
+            $builder->andWhere("kategori_id = '$kategori_id_search'");
         }
-        if($barang_kategori_id_id) {
+        if ($barang_kategori_id_id) {
             $builder->andWhere("id_kategori = '$barang_kategori_id_id   '");
         }
 
@@ -116,7 +116,6 @@ class Controller extends BaseController
      */
     public function detailAction()
     {
-
     }
 
     /**
@@ -126,7 +125,7 @@ class Controller extends BaseController
     {
         try {
             $pdam_id = $this->session->user['pdam_id'];
-            
+
             // Ambil data dari request
             $nama = Request::getPost('nama');
             $kategori = Request::getPost('kategori');
@@ -139,13 +138,13 @@ class Controller extends BaseController
 
             // Menghilangkan karakter non-numeric kecuali koma dan minus
             $cleanedValue = preg_replace('/[^0-9,-]/', '', $rupiahValue);
-                    
+
             // Mengonversi string menjadi nilai numerik
             $numericValue = (float) str_replace(',', '.', $cleanedValue);
-                    
+
             echo $numericValue; // Output akan berupa nilai numerik dari kembalian dalam rupiah
 
-            
+
             // var_dump($bahan_data);
             // die;
             $this->db->begin();
@@ -155,10 +154,10 @@ class Controller extends BaseController
                 if (!file_exists($target_dir)) {
                     mkdir($target_dir, 0777, true);
                 }
-    
+
                 $allowedExtensions = ['jpg', 'png', 'webp', 'jpeg'];
                 $ext = strtolower(pathinfo($file->getName(), PATHINFO_EXTENSION));
-    
+
                 if (in_array($ext, $allowedExtensions)) {
                     $name = md5(strval(rand())) . '.' . $ext;
                     $target_file = $target_dir . $name;
@@ -172,7 +171,7 @@ class Controller extends BaseController
                     echo "Hanya file dengan ekstensi .jpg dan .png yang diperbolehkan.";
                 }
             }
-            
+
             // Simpan data ke tabel ProdukModel
             $produk = new ProdukModel();
             $produk->kategori_id = $kategori;
@@ -182,14 +181,14 @@ class Controller extends BaseController
             $produk->harga_jual = $harga_jual;
             $produk->pdam_id = $pdam_id;
 
-            
-        
-        
-            
+
+
+
+
             $produk->save();
-    
+
             $produk_id = $produk->id;
-    
+
             // Simpan data ke tabel ProDetailModel
             foreach ($bahan_data as $bahan) {
                 $produkDetail = new ProDetailModel();
@@ -200,9 +199,9 @@ class Controller extends BaseController
                 $produkDetail->pdam_id = $pdam_id;
                 $produkDetail->save();
             }
-    
+
             $this->db->commit();
-            
+
             return Response::setJsonContent([
                 'message' => 'Data Terkirim',
                 'produk_id' => $produk_id,
@@ -210,7 +209,7 @@ class Controller extends BaseController
         } catch (\Exception $e) {
             // Rollback transaksi jika terjadi kesalahan
             $this->db->rollback();
-            
+
             return Response::setJsonContent([
                 'error' => 'Gagal menyimpan data: ' . $e->getMessage(),
             ]);
@@ -218,77 +217,77 @@ class Controller extends BaseController
     }
 
 
-//     public function storeAction()
-// {
-//     if ($this->request->isPost()) {
-//         $pdam_id = $this->session->user['pdam_id'];
+    //     public function storeAction()
+    // {
+    //     if ($this->request->isPost()) {
+    //         $pdam_id = $this->session->user['pdam_id'];
 
-//         $input_harga = $this->request->getPost('harga_sewa');
-        
-//         $harga_hanya_angka = preg_replace("/[^0-9]/", "", $input_harga);
+    //         $input_harga = $this->request->getPost('harga_sewa');
 
-//         echo $harga_hanya_angka; 
+    //         $harga_hanya_angka = preg_replace("/[^0-9]/", "", $input_harga);
 
-//         $data = [
-//             'merk' => $this->request->getPost('merk'),
-//             'jenis'       => $this->request->getPost('jenis'),
-//             'jumlah_kursi'      => $this->request->getPost('jumlah_kursi'),
-//             'cc'      => $this->request->getPost('cc'),
-//             'harga_sewa'     => $harga_hanya_angka,
-//             'gambar'     => '',
-//             'pdam_id'    => $pdam_id
-//         ];
-//         // var_dump($data);exit;
+    //         echo $harga_hanya_angka; 
 
-//         if ($this->request->hasFiles() && $file = $this->request->getUploadedFiles()[0]) {
-//             $target_dir = "UploadImage/";
-//             if (!file_exists($target_dir)) {
-//                 mkdir($target_dir, 0777, true);
-//             }
+    //         $data = [
+    //             'merk' => $this->request->getPost('merk'),
+    //             'jenis'       => $this->request->getPost('jenis'),
+    //             'jumlah_kursi'      => $this->request->getPost('jumlah_kursi'),
+    //             'cc'      => $this->request->getPost('cc'),
+    //             'harga_sewa'     => $harga_hanya_angka,
+    //             'gambar'     => '',
+    //             'pdam_id'    => $pdam_id
+    //         ];
+    //         // var_dump($data);exit;
 
-//             $allowedExtensions = ['jpg', 'png', 'webp', 'jpeg'];
-//             $ext = strtolower(pathinfo($file->getName(), PATHINFO_EXTENSION));
+    //         if ($this->request->hasFiles() && $file = $this->request->getUploadedFiles()[0]) {
+    //             $target_dir = "UploadImage/";
+    //             if (!file_exists($target_dir)) {
+    //                 mkdir($target_dir, 0777, true);
+    //             }
 
-//             if (in_array($ext, $allowedExtensions)) {
-//                 $name = md5(strval(rand())) . '.' . $ext;
-//                 $target_file = $target_dir . $name;
-//                 if ($file->moveTo($target_file)) {
-//                     $data['gambar'] = $name;
-//                     echo "File berhasil diunggah.";
-//                 } else {
-//                     echo "Gagal mengunggah file.";
-//                 }
-//             } else {
-//                 echo "Hanya file dengan ekstensi .jpg dan .png yang diperbolehkan.";
-//             }
-//         }
-        
-//         $create = new Model($data);
-//         $result = $create->save();
-    
-//         $log = new Log();
-//         $log->write("Insert Data Master-Referensi Barang-Satuan", $data, $result, "App\Modules\Defaults\Master\ReferensiBarang\Satuan\Controller", "INSERT");
-    
-//         return Response::setJsonContent([
-//             'message' => 'Success',
-//         ]);
-//     }
-// }
+    //             $allowedExtensions = ['jpg', 'png', 'webp', 'jpeg'];
+    //             $ext = strtolower(pathinfo($file->getName(), PATHINFO_EXTENSION));
+
+    //             if (in_array($ext, $allowedExtensions)) {
+    //                 $name = md5(strval(rand())) . '.' . $ext;
+    //                 $target_file = $target_dir . $name;
+    //                 if ($file->moveTo($target_file)) {
+    //                     $data['gambar'] = $name;
+    //                     echo "File berhasil diunggah.";
+    //                 } else {
+    //                     echo "Gagal mengunggah file.";
+    //                 }
+    //             } else {
+    //                 echo "Hanya file dengan ekstensi .jpg dan .png yang diperbolehkan.";
+    //             }
+    //         }
+
+    //         $create = new Model($data);
+    //         $result = $create->save();
+
+    //         $log = new Log();
+    //         $log->write("Insert Data Master-Referensi Barang-Satuan", $data, $result, "App\Modules\Defaults\Master\ReferensiBarang\Satuan\Controller", "INSERT");
+
+    //         return Response::setJsonContent([
+    //             'message' => 'Success',
+    //         ]);
+    //     }
+    // }
 
 
-    
+
 
     /**
      * @routePost("/update")
      */
     public function updateAction()
     {
-        try {
+        // try {
 
             $id = Request::getPost('id');
 
             $pdam_id = $this->session->user['pdam_id'];
-            
+
             // Ambil data dari request
             $nama = Request::getPost('nama');
             $kategori = Request::getPost('kategori');
@@ -306,20 +305,18 @@ class Controller extends BaseController
 
             echo $numericValue; // Output akan berupa nilai numerik dari kembalian dalam rupiah
 
-            
+
             // var_dump($bahan_data);
             // die;
-            $this->db->begin();
-
             if ($this->request->hasFiles() && $file = $this->request->getUploadedFiles()[0]) {
                 $target_dir = "UploadImage/";
                 if (!file_exists($target_dir)) {
                     mkdir($target_dir, 0777, true);
                 }
-    
+
                 $allowedExtensions = ['jpg', 'png', 'webp', 'jpeg'];
                 $ext = strtolower(pathinfo($file->getName(), PATHINFO_EXTENSION));
-    
+
                 if (in_array($ext, $allowedExtensions)) {
                     $name = md5(strval(rand())) . '.' . $ext;
                     $target_file = $target_dir . $name;
@@ -333,8 +330,8 @@ class Controller extends BaseController
                     echo "Hanya file dengan ekstensi .jpg dan .png yang diperbolehkan.";
                 }
             }
-
-        
+            // $this->db->begin();
+            
             // Simpan data ke tabel ProdukModel
             $produk = ProdukModel::findFirst([
                 'conditions' => 'id = :id:',
@@ -343,60 +340,61 @@ class Controller extends BaseController
             // $produk->id = $id;
             $produk->kategori_id = $kategori;
             $produk->nama = $nama;
-            $produk->gambar = $gambar;
             $produk->hpp = $hpp;
+            if (isset($gambar) && !empty($gambar)) {
+                $produk->gambar = $gambar;
+            }
             $produk->harga_jual = $harga_jual;
             $produk->pdam_id = $pdam_id;
 
-
             $produk->save();
-    
-          
-    
+
+
+
             // Simpan data ke tabel ProDetailModel
             // Simpan data ke tabel ProDetailModel
-foreach ($bahan_data as $bahan) {
-    $produkDetail = ProDetailModel::findFirst([
-        'conditions' => 'produk_id = :produk_id: AND bahan_id = :bahan_id:',
-        'bind' => [
-            'produk_id' => $id,
-            'bahan_id' => $bahan['bahan']
-        ],
-    ]);
+            foreach ($bahan_data as $bahan) {
+                $produkDetail = ProDetailModel::findFirst([
+                    'conditions' => 'produk_id = :produk_id: AND bahan_id = :bahan_id:',
+                    'bind' => [
+                        'produk_id' => $id,
+                        'bahan_id' => $bahan['bahan']
+                    ],
+                ]);
 
-    if ($produkDetail) {
-        // Jika entri sudah ada, lakukan update
-        $produkDetail->jumlah = $bahan['jumlah'];
-        $produkDetail->harga = $bahan['total'];
-        $produkDetail->pdam_id = $pdam_id;
-        $produkDetail->save();
-    } else {
-        // Jika entri belum ada, buat entri baru
-        $newProdukDetail = new ProDetailModel();
-        $newProdukDetail->produk_id = $id;
-        $newProdukDetail->bahan_id = $bahan['bahan'];
-        $newProdukDetail->jumlah = $bahan['jumlah'];
-        $newProdukDetail->harga = $bahan['total'];
-        $newProdukDetail->pdam_id = $pdam_id;
-        $newProdukDetail->save();
-    }
-}
+                if ($produkDetail) {
+                    // Jika entri sudah ada, lakukan update
+                    $produkDetail->jumlah = $bahan['jumlah'];
+                    $produkDetail->harga = $bahan['total'];
+                    $produkDetail->pdam_id = $pdam_id;
+                    $produkDetail->save();
+                } else {
+                    // Jika entri belum ada, buat entri baru
+                    $newProdukDetail = new ProDetailModel();
+                    $newProdukDetail->produk_id = $id;
+                    $newProdukDetail->bahan_id = $bahan['bahan'];
+                    $newProdukDetail->jumlah = $bahan['jumlah'];
+                    $newProdukDetail->harga = $bahan['total'];
+                    $newProdukDetail->pdam_id = $pdam_id;
+                    $newProdukDetail->save();
+                }
+            }
 
-    
-            $this->db->commit();
-            
+
+            // $this->db->commit();
+
             return Response::setJsonContent([
                 'message' => 'Data Terkirim',
-                'produk_id' => $produk_id,
+                'produk_id' => $id,
             ]);
-        } catch (\Exception $e) {
-            // Rollback transaksi jika terjadi kesalahan
-            $this->db->rollback();
-            
-            return Response::setJsonContent([
-                'error' => 'Gagal menyimpan data: ' . $e->getMessage(),
-            ]);
-        }
+        // } catch (\Exception $e) {
+        //     // Rollback transaksi jika terjadi kesalahan
+        //     $this->db->rollback();
+
+        //     return Response::setJsonContent([
+        //         'error' => 'Gagal menyimpan data: ' . $e->getMessage(),
+        //     ]);
+        // }
     }
 
     /**
@@ -408,18 +406,18 @@ foreach ($bahan_data as $bahan) {
         $data = [
             'id'            => Request::get('id')
         ];
-        $delete = Model::findFirst($id);
+        $delete = ProdukModel::findFirst($id);
 
         $result = $delete->delete();
 
-        $log = new Log(); 
+        $log = new Log();
         $log->write("Delete Data Master-Referensi Barang-Barang", $data, $result, "App\Modules\Defaults\Master\ReferensiBarang\Barang\Controller", "DELETE");
 
         return Response::setJsonContent([
             'message' => 'Success',
         ]);
     }
-    
+
 
     /**
      * @routeGet("/databahan")
@@ -448,7 +446,7 @@ foreach ($bahan_data as $bahan) {
         return $this->response->setJsonContent($jsonResult);
     }
 
-    
+
     // 
     // public function updateAction()
     // {
@@ -472,4 +470,3 @@ foreach ($bahan_data as $bahan) {
     // }
 
 }
-       

@@ -275,14 +275,16 @@ function viewDatacard (filter){
     //membuat kartu atau card
 
     function createCard(data) {
-        var cardWrap = $(`<div class='card-wrapper pr-3 pl-3 pt-1 pb-1  col-3'></div>`); //bungkus kartu
-        var card = $(`<div class='card cardp produk shadow ' style="background-color:#ECE3CE;"  data-card='${JSON.stringify(data)}'></div>`); //kartu
-        var cardImgWrap = $("<div class='card-data-img-wrapper ' style='widht:100%;'></div>"); //bungkus gambar
+        // var cardWrap = $(`<div class='card-wrapper pr-3 pl-3 pt-1 pb-1  col-3'></div>`); //bungkus kartu
+        var cardWrap = $(`<div class='card-wrapper p-3 col-3'></div>`); //bungkus kartu
+        // var card = $(`<div class='card cardp produk shadow ' style="background-color:#ECE3CE;"  data-card='${JSON.stringify(data)}'></div>`); //kartu
+        var card = $(`<div class='card cardp produk shadow ' style="background-color:#FAEED1;"  data-card='${JSON.stringify(data)}'></div>`); //kartu
+        var cardImgWrap = $("<div class='card-data-img-wrapper bg-info' style='max-width:fit-content;'></div>"); //bungkus gambar
         var cardImg = $(`<img class='image' src="{{url('UploadImage')}}/${data.gambar}" style='width: 100%;'alt='Gambar Produk'>`); //bungkus gambar
-        var cardBody = $("<div class='card-body card-data-body'></div>");
-        var cardTextWrap = $("<div class='card-text-wrapper d-flex text-middle text-center align-items-center flex-column'></div>"); // bungkus text
-        var cardTitle = $("<h5 class='card-title text-dark m-2'></h5>").html("<b>" + data.nama + "</b>"); //judul 
-        var cardPrice = $("<h5 class='card-title price m-2'></h5>").html("<b>" + formatRupiah(data.harga, "Rp. ") + "</b>"); //harga
+        var cardBody = $("<div class='card-body card-data-body '></div>");
+        var cardTextWrap = $("<div class='card-text-wrapper d-flex  text-middle text-center align-items-center flex-column'></div>"); // bungkus text
+        var cardTitle = $("<h5 class='card-title text-dark '></h5>").html("<b>" + data.nama + "</b>"); //judul 
+        var cardPrice = $("<h5 class='card-title price mt-2'></h5>").html("<b>" + formatRupiah(data.harga, "Rp. ") + "</b>"); //harga
         
 
         //pengelompokan kartu
@@ -368,9 +370,12 @@ function newCreateCard(data) {
     
     // src="` + data + '" width="150px" height="100px" 
     var cardWrap = $(`<div class='produk-wrapper p-1 '></div>`); //bungkus kartu
-    var card = $("<div class='produk-data  p-1 m-1  border shadow  row'  style='widht:100%; border-radius: 8px; background-color:#ECE3CE;' ></div>"); //kartu
-    var cardLeft = $("<div class='produk-left container-fluid col-4 w-100 '></div>");
-    var img = $(`<img src="{{url('UploadImage')}}/${data.gambar}" class=" " style="width:90%;" alt="">`);
+    // var card = $("<div class='produk-data  p-1 m-1  border shadow  row'  style='widht:100%; border-radius: 8px; background-color:#ECE3CE;' ></div>"); //kartu
+    var card = $("<div class='produk-data  p-1 m-1  border shadow  row'  style='widht:100%; border-radius: 8px; background-color:#FAEED1;' ></div>"); //kartu
+    // var cardLeft = $("<div class='produk-left container-fluid col-4 w-100 '></div>");
+    var cardLeft = $("<div class='produk-left  col-4 p-0 m-0 '></div>");
+    // var img = $(`<img src="{{url('UploadImage')}}/${data.gambar}" class=" " style="width:100%;" alt="">`);
+    var img = $(`<img src="{{url('UploadImage')}}/${data.gambar}" class="p-0 m-0 rounded-lg" style="width:100%;" alt="">`);
     var cardRight = $("<div class='produk-right  container-fluid col-8'></div>"); // bungkus text
     var cardTitle = $("<h5 class='produk-name text-dark'></h5>").html(`<b>` + data.nama + `</b>`); //judul 
     var cardPrice = $("<h5 class='produk-price'></h5>").html('<b>'+formatRupiah(data.harga, "Rp. ")+'</b>'); //harga

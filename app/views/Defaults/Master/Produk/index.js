@@ -61,6 +61,8 @@ $(document).ready(function() {
         if (selected) {
             modal.find('input[name=_type]').val('edit');
             modal.find('input[name=id]').val(selected.id);
+            modal.find('input[name=filename]').val();
+            console.log('value select 2', selected.gambar)
             modal.find('input[name=nama]').val(selected.nama);
             
             $("select[name=kategori]").select2("trigger", "select", { data: { id: selected.kategori_id, text : selected.kategori} });

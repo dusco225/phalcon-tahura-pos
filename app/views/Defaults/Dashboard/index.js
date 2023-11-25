@@ -1,9 +1,80 @@
 window.defaultUrl = `${baseUrl}dashboard/`;
-
+var table;
+var tableDetail
+var order = 1;
 $(document).ready(function () {
+    let modal = $('#formModal');
 
 viewDatatable();
 pendapatan();
+
+$('#btn-add').click(function() {
+    $('#komposisi').empty();
+    modal.find(`input[name="nama"]`).val('');
+    modal.find(`input[name="gambar"]`).val('');
+    modal.find(`select[name="kategori"]`).val(null).trigger('change'); // Reset select2
+    // modal.find(`select[name="bahan[]"]`).val(null).trigger('change'); // Reset select2
+    modal.find(`input[name="jumlah[]"]`).val('1');
+    modal.find(`input[name="hpp"]`).val('');
+    modal.find(`input[name="hargajual"]`).val('');
+    modal.find(`input[name="_type"]`).val('create');
+   
+    resetErrors();
+    $('#formModal').modal('show');
+});
+
+
+$('#btn-detail').on('click', function(){
+   
+    let selected = table.row({
+        selected: true
+    }).data();
+    if(_.isEmpty(selected)) {
+        notification("warning", "Pilih Data Terlebih Dahulu");
+        return false;
+    };
+    if (selected) {
+        // console.log('ini data selected '+ JSON.stringfiy(selected));
+        // var datanya = JSON.stringify(selected);
+        // console.log(selected.id)
+        viewDatatableDetail(selected.id);
+        // modal.find('input[name=_type]').val('edit');
+        // modal.find('input[name=id]').val(selected.id);
+        // modal.find('input[name=nama]').val(selected.nama);
+        
+        // $("select[name=kategori]").select2("trigger", "select", { data: { id: selected.kategori_id, text : selected.kategori} });
+        // modal.find('input[name=hpp').val(selected.hpp);
+      
+        // modal.find('input[name=harga_jual').val(selected.harga);
+      
+        resetErrors();
+        modal.modal('show');
+    }
+});
+
+$('#btn-delete').on('click', async function() {
+    let selected = table.row({
+        selected: true
+    }).data();
+    if(_.isEmpty(selected)) {
+        notification("warning", "Pilih Data Terlebih Dahulu");
+        return false;
+    };
+    if (selected && (await confirmDelete()).value) {
+        $.post(defaultUrl + "delete?id=" + selected.id)
+            .done(function() {
+                notification('success', "Data berhasil dihapus");
+                table.ajax.reload();
+                $('#btn-edit').addClass('disabled');
+                $('#btn-delete').addClass('disabled');
+            })
+            .fail(function() {
+                notification('danger', "Data gagal dihapus");
+            });
+    }
+});
+
+
 
 // $("")
 
@@ -229,6 +300,96 @@ function viewDatatable(){
 	});
 
 }
+function viewDatatableDetail(datanya){
+    tableDetail = $("#datatabledetail").DataTable({
+        ajax: {
+            url: defaultUrl + "datatabledetail",
+            "type": "post",
+			"data": {
+                id : datanya,
+            }
+        },
+        serverSide: true,
+        processing: true,
+        responsive: true,
+        selected: false,
+        aaSorting: [],
+        columnDefs: [{
+            searchable: false,
+            targets: [0]
+        }],
+        columns: [{
+            data: 'id',
+            orderable: false,
+            render: function(data, index, row, meta) {
+                return meta.row + meta.settings._iDisplayStart + 1 + ".";
+            },
+        },
+            {
+                data: 'nama_produk'
+            },
+            
+            {
+                data: 'qty'
+            },
+             
+            {
+                data: 'harga',
+                render: function(data){
+                    return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
+                }
+            }, 
+            {
+                data: 'total',
+                render: function(data){
+                    return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
+                }
+            },
+            
+        ],
+            "createdRow": function (row, data, index) {
+                $(row).attr('data-value', encodeURIComponent(JSON.stringify(data)));
+                $("thead").css({ "vertical-align": "middle", "text-align": "center", });
+                $("td", row).css({ "vertical-align": "middle", padding: "0.5em", 'cursor': 'pointer' });
+                $("td", row).first().css({ width: "3%", "text-align": "center", });
+                //Default
+                $('td', row).eq(1).css({ 'text-align': 'left', 'font-weight': 'normal' });
+                
+                
+                
+            }
+
+    });
+
+}
+
+function resetErrors() {
+    $('.form-control').each(function(i, el) {
+        $(el).removeClass('brc-danger-m2');
+        $(el).next().text('').hide();
+        $(el).prev().removeClass('text-danger-d1');
+    });
+}
+
+function confirmDelete() {
+    let swalWithBootstrapButtons = Swal.mixin({
+        buttonsStyling: false,
+    });
+
+    return swalWithBootstrapButtons.fire({
+        title: 'Apakah anda yakin?',
+        type: 'warning',
+        showCancelButton: true,
+        scrollbarPadding: false,
+        confirmButtonText: 'Ya',
+        cancelButtonText: 'Tidak',
+        customClass: {
+            confirmButton: 'btn btn-success mx-2 px-3 radius-2',
+            cancelButton: 'btn btn-danger mx-2 px-3 radius-2'
+        }
+    });
+}
+
 
 
 

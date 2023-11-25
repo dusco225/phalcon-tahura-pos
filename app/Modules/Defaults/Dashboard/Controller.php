@@ -490,6 +490,51 @@ class Controller extends MiddlewareHardController
             echo "Data tidak ditemukan";
         }
 }
+
+ /**
+     * @routeGet("/datatabledetail")
+     * @routePost("/datatabledetail")
+     */
+    public function datatabledetailAction()
+    {
+        $pdam_id = $this->session->user['pdam_id'];
+        $detail = $this->request->getPost("id"); // Ambil diFilter dari permintaan POST
+        $builder = $this->modelsManager->createBuilder()
+        ->columns('*')
+        ->from(VwModel::class)
+        ->where("1=1")
+        ->andWhere(" trans_id ='$detail' and pdam_id = '$pdam_id'");
+
+
+
+
+$dataTables = new DataTable();
+$dataTables->fromBuilder($builder)->sendResponse();
+
+    }
+
+     /**
+     * @routePost("/delete")
+     */
+    public function deleteAction()
+    {
+        $id = Request::get('id');
+        $data = [
+            'id'            => Request::get('id')
+        ];
+        $delete = TransaksiModel::findFirst($id);
+
+        $result = $delete->delete();
+
+        $log = new Log(); 
+        $log->write("Delete Data Master-Referensi Barang-Barang", $data, $result, "App\Modules\Defaults\Master\ReferensiBarang\Barang\Controller", "DELETE");
+
+        return Response::setJsonContent([
+            'message' => 'Success',
+        ]);
+    }
+    
+    
     
 
     }

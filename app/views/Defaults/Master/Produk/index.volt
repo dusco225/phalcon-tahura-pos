@@ -207,19 +207,7 @@
 
 					<form class="form-horizontal" id="form-filter">
 
-                        <div class="input-group mb-2 input-filter">
-							<div class="input-group-prepend" style="width : 10% !important">
-								<span class="input-group-text">
-									<input type="checkbox" class="ace-switch">
-								</span>
-							</div>
-							<div class="input-group-prepend">
-								<span class="input-group-text">
-									Kode
-								</span>
-							</div>
-							<input type="text" name="search_kode" class="form-control" disabled="">
-						</div>
+                        
 
 						<div class="input-group mb-2 input-filter">
 							<div class="input-group-prepend" style="width : 10% !important">
