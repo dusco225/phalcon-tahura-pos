@@ -1,6 +1,6 @@
 window.defaultUrl = `${baseUrl}dashboard/`;
 var table;
-var tableDetail
+var tableDetail;
 var order = 1;
 $(document).ready(function () {
     let modal = $('#formModal');
@@ -25,7 +25,7 @@ $('#btn-add').click(function() {
 
 
 $('#btn-detail').on('click', function(){
-   
+    // viewDatatableDetail();
     let selected = table.row({
         selected: true
     }).data();
@@ -34,19 +34,14 @@ $('#btn-detail').on('click', function(){
         return false;
     };
     if (selected) {
-        // console.log('ini data selected '+ JSON.stringfiy(selected));
-        // var datanya = JSON.stringify(selected);
-        // console.log(selected.id)
+     
+        if ($.fn.DataTable.isDataTable('#datatabledetail')) {
+            $('#datatabledetail').DataTable().destroy();
+        }
+
+// inisialisasi kembali tabel detail dengan data yang baru
         viewDatatableDetail(selected.id);
-        // modal.find('input[name=_type]').val('edit');
-        // modal.find('input[name=id]').val(selected.id);
-        // modal.find('input[name=nama]').val(selected.nama);
-        
-        // $("select[name=kategori]").select2("trigger", "select", { data: { id: selected.kategori_id, text : selected.kategori} });
-        // modal.find('input[name=hpp').val(selected.hpp);
-      
-        // modal.find('input[name=harga_jual').val(selected.harga);
-      
+
         resetErrors();
         modal.modal('show');
     }
@@ -96,10 +91,15 @@ var pr = <?= json_encode($produk_dibeli) ?>;
 var totalTahunBulan = <?= json_encode($bulanTahun) ?>;
 
 var tahunBulan = totalTahunBulan.map(item => item.nama_bulan);
+var noBulan = totalTahunBulan.map(item => item.bulan);
 var pendapatanBulan = totalTahunBulan.map(item => parseInt(item.total));
 
+
+
+
 console.log('SATU '+ tahunBulan);
-console.log('DUA '+ pendapatanBulan);
+console.log('DUA '+ noBulan);
+console.log('TIGA '+ pendapatanBulan);
 
 console.log('PENDAPATAN: '+ JSON.stringify(totalTahunBulan));
 console.log('PENDAPATAN object : '+ totalTahunBulan);
@@ -139,9 +139,11 @@ Highcharts.chart('container', {
     },
     xAxis: {
         accessibility: {
-            rangeDescription: tahunBulan
+            rangeDescription: 'Month'
         },
         categories: tahunBulan
+        // categories: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
+
     },
     legend: {
         
@@ -153,8 +155,9 @@ Highcharts.chart('container', {
         series: {
             label: {
                 connectorAllowed: false
-            },
+            }, 
             pointStart: 0
+            // pointStart: noBulan[0]
         }
     },
     series: [{
@@ -251,18 +254,38 @@ function viewDatatable(){
                 },
             },
             {
-                data: 'kode_kasir'
+                data: 'id'
             },
             {
-                data: 'voucher_kode'
+                data: 'kode_kasir'
             },
-             
+            
+            {
+                data: 'nama_kasir'
+            },
             {
                 data: 'total',
                 render: function(data){
                     return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
                 }
             }, 
+            {
+                data: 'voucher_kode'
+            },
+            {
+                data: 'diskon',
+                render: function(data){
+                    diskon = parseFloat(data) * 100;
+                    return '<span class="price">' + diskon +"%" + '</span>';
+                }
+            }, 
+            {
+                data: 'grand_total',
+                render: function(data){
+                    return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
+                }
+            }, 
+            
             {
                 data: 'bayar',
                 render: function(data){
@@ -300,7 +323,10 @@ function viewDatatable(){
 	});
 
 }
+
+
 function viewDatatableDetail(datanya){
+    tableDetail;
     tableDetail = $("#datatabledetail").DataTable({
         ajax: {
             url: defaultUrl + "datatabledetail",

@@ -66,9 +66,9 @@ $(document).ready(function() {
             modal.find('input[name=nama]').val(selected.nama);
             
             $("select[name=kategori]").select2("trigger", "select", { data: { id: selected.kategori_id, text : selected.kategori} });
-            modal.find('input[name=hpp').val(selected.hpp);
             viewBahan(selected.id);
-            modal.find('input[name=harga_jual').val(selected.harga);
+            modal.find('input[name=hpp]').val(selected.hpp);
+            modal.find('input[name=harga_jual]').val(selected.harga);
             dataUntung();
             convertRupiah();
             resetErrors();
@@ -425,7 +425,7 @@ function tambahBahan(datanya){
     var tdJumlah = $(`<td></td>`);
     var jumlah = $(`<input style="width: 100%;" type="number" name="jumlah[]" | value="${datanya.jumlah}" required>`);
     var tdTotal = $(`<td></td>`);
-    var total = $(`<input style="width: 100%;" type="text" id="total" name="total[]" value="${formatRupiah(datanya.harga.toString(), "Rp. ")}" disabled>`);
+    var total = $(`<input style="width: 100%;" type="text" id="total" name="total[]" value="${formatRupiah(parseInt(datanya.harga).toString(), "Rp. ")}" disabled>`);
     var aksi = $(`<td><b style=" width: 80%;" id="kurang" class="btn btn-danger"><i class="fas fa-minus"></i></b></td>`);
     }else{
         console.log('tambah bro');
@@ -459,7 +459,7 @@ function tambahBahan(datanya){
     jumlah.on('input', function(){
         if($(this).val() < 1){
             alert('Jumlah Tidak Valid');
-            $(this).val(1);
+            $(this).val(1); 
         }
         var digunakan = $(this).val();
         var dataBahan = bahan.data('harga');
@@ -521,8 +521,8 @@ function hPP(){
     console.log('ini hpp '+ hpp);
     console.log('ini untng '+ keuntungan);
     console.log('ini hgj '+ hargaJual);
-    formattedHpp = formatRupiah(hpp.toString(), "Rp. ")
-    formattedHj = formatRupiah(hargaJual.toString(), "Rp. ")
+    formattedHpp = formatRupiah(parseInt(hpp).toString(), "Rp. ")
+    formattedHj = formatRupiah(parseInt(hargaJual).toString(), "Rp. ")
     $(`form [name="hpp"]`).val(formattedHpp);
     $(`form [name="hargajual"]`).val(formattedHj);
 }

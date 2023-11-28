@@ -46,14 +46,14 @@ class Controller extends MiddlewareHardController
             ->groupBy('bulan')
             ->execute()
             ->toArray();
-        $produk_dibeli = TransaksiDetailModel::query()
+        $produk_dibeli = VwModel::query()
             ->distinct(true)
             ->columns(['nama_produk as produk', 'sum(qty) as qty'])
             ->groupBy('produk')
             ->execute()
             ->toArray();
 
-        $produk = TransaksiDetailModel::query()
+        $produk = VwModel::query()
             ->distinct(true)
             ->columns(['nama_produk as produk'])
             ->groupBy('produk')
@@ -390,7 +390,7 @@ class Controller extends MiddlewareHardController
         
         $builder = $this->modelsManager->createBuilder()
                         ->columns('*')
-                        ->from(TransaksiModel::class)
+                        ->from(VwTransaksiModel::class)
                         ->where("1=1")
                         ->andWhere("DATE(created_at) = CURDATE() and pdam_id = '$pdam_id'");
 

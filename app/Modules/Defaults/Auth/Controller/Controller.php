@@ -61,6 +61,8 @@ class Controller extends BaseController
         $array = explode('/', $_SERVER['REQUEST_URI']);
         $pdam_kode = $array[2];
         $pdam = PdamModel::findFirstBykode($pdam_kode);
+        // var_dump($pdam_kode);
+        // die;
         $usernamePost = $this->request->getPost('username');
         $passwordPost = $this->request->getPost('password');
         $tahunPost = $this->request->getPost('tahun');

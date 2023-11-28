@@ -135,6 +135,7 @@ class Controller extends BaseController
         $voucher_potongan = Request::getPost('potongan');
         $produk_data = Request::getPost('produk_data'); // Harus berisi array data produk
         $total = Request::getPost('total');
+        $grand_total = Request::getPost('grand_total');
         $bayar = Request::getPost('bayar');
         $kembalian = Request::getPost('kembalian');
 
@@ -146,7 +147,7 @@ class Controller extends BaseController
             $formattedTotal = convertToNumber($total);
             $formattedBayar = convertToNumber($bayar);
             $formattedKembalian = convertToNumber($kembalian);
-            $kembalianNumber = convertToNumber($formattedKembalian);
+            $formattedGrand = convertToNumber($grand_total);
            
 
 
@@ -158,6 +159,7 @@ class Controller extends BaseController
             'diskon_voucher' => $voucher_diskon,
             'potongan_voucher' => $voucher_potongan,
             'total' => $total,
+            'grand_total' => $grand_total,
             'tunai' => $bayar,
             'kembali' => $kembalian,
 
@@ -167,8 +169,9 @@ class Controller extends BaseController
         // Simpan data ke tabel 'transaksi'
         $transaksi = new TransaksiModel();
         $transaksi->kode_kasir = $kasir;
-        $transaksi->voucher_kode = $voucher_kode;
         $transaksi->total = $formattedTotal;
+        $transaksi->voucher_kode = $voucher_kode;
+        $transaksi->grand_total = $formattedGrand;
         $transaksi->bayar = $formattedBayar;
         $transaksi->kembalian = $formattedKembalian;
         $transaksi->created_at = date('Y-m-d H:i:s');

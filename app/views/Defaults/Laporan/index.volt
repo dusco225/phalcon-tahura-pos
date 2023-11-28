@@ -74,7 +74,7 @@
 													Nama Kasir
 												</span>
 											</div>
-											<input type="text" name="nama_kasir" id="nama_kasir" disabled >
+											<input type="hidden" name="nama_kasir" id="nama_kasir" disabled required >
 											<select type="text" id="kasir" name="kasir" class="select2 select2kasir" disabled=""></select>
 										</div>
 										
@@ -130,20 +130,17 @@
 							<div class="table-responsive-md">
 								<table id="datatable" class="table table-bordered border-0 w-100 table-striped-secondary text-dark-m1 mb-0">
 									<thead>
-										<tr class="text-white text-center brc-black-tp10" style="background-color: #004225;" >
+										<tr class=" text-white text-center brc-black-tp10" style="background-color:#004225;">
 											<th style="vertical-align: middle;" >#</th>
-											<th style="vertical-align: middle;">Tanggal</th>
-											<th style="vertical-align: middle;">Id Transaksi</th>
+											<th style="vertical-align: middle;">Trans Id</th>
 											<th style="vertical-align: middle;">Kode Kasir</th>
-											<th style="vertical-align: middle;">Produk</th>
-											<th style="vertical-align: middle;">Jumlah</th>
-											<th style="vertical-align: middle;">Harga</th>
-											<th style="vertical-align: middle;">Sub Total</th>
-											<th style="vertical-align: middle;">Kode Voucher</th>
-											<th style="vertical-align: middle;">Diskon</th>
-											<th style="vertical-align: middle;">Potongan</th>
+											<th style="vertical-align: middle;">Nama Kasir</th>
 											<th style="vertical-align: middle;">Total</th>
-
+											<th style="vertical-align: middle;">Voucher</th>
+											<th style="vertical-align: middle;">Diskon</th>
+											<th style="vertical-align: middle;">Grand Total</th>
+											<th style="vertical-align: middle;">Bayar</th>
+											<th style="vertical-align: middle;">Kembalian</th>
 										</tr>
 									</thead>
 									<tbody></tbody>

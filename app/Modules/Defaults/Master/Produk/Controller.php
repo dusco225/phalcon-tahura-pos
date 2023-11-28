@@ -134,16 +134,16 @@ class Controller extends BaseController
             $bahan_data = Request::getPost('bahan_data');
             $bahan_data = json_decode($bahan_data, true); // Dekode data JSON menjadi array asosiatif
 
-            $rupiahValue = "Rp. 5.000,00";
+            
 
-            // Menghilangkan karakter non-numeric kecuali koma dan minus
-            $cleanedValue = preg_replace('/[^0-9,-]/', '', $rupiahValue);
+            function convertToNumber($rupiahValue) {
+                return (float) preg_replace('/[^0-9,-]/', '', $rupiahValue);
+            }
 
-            // Mengonversi string menjadi nilai numerik
-            $numericValue = (float) str_replace(',', '.', $cleanedValue);
-
-            echo $numericValue; // Output akan berupa nilai numerik dari kembalian dalam rupiah
-
+            // Contoh penggunaan:
+            $formattedHpp = convertToNumber($hpp);
+            $formattedHargaJual = convertToNumber($harga_jual);
+            // $formattedHargaJual = convertToNumber($total);
 
             // var_dump($bahan_data);
             // die;
@@ -176,9 +176,11 @@ class Controller extends BaseController
             $produk = new ProdukModel();
             $produk->kategori_id = $kategori;
             $produk->nama = $nama;
-            $produk->gambar = $gambar;
-            $produk->hpp = $hpp;
-            $produk->harga_jual = $harga_jual;
+            if (isset($gambar) && !empty($gambar)) {
+                $produk->gambar = $gambar;
+            }
+            $produk->hpp = $formattedHpp;
+            $produk->harga_jual = $formattedHargaJual;
             $produk->pdam_id = $pdam_id;
 
 
@@ -195,7 +197,7 @@ class Controller extends BaseController
                 $produkDetail->produk_id = $produk_id;
                 $produkDetail->bahan_id = $bahan['bahan'];
                 $produkDetail->jumlah = $bahan['jumlah'];
-                $produkDetail->harga = $bahan['total'];
+                $produkDetail->harga = convertToNumber($bahan['total']);
                 $produkDetail->pdam_id = $pdam_id;
                 $produkDetail->save();
             }
@@ -298,14 +300,9 @@ class Controller extends BaseController
             $rupiahValue = "Rp. 5.000,00";
 
             // Menghilangkan karakter non-numeric kecuali koma dan minus
-            $cleanedValue = preg_replace('/[^0-9,-]/', '', $rupiahValue);
-
-            // Mengonversi string menjadi nilai numerik
-            $numericValue = (float) str_replace(',', '.', $cleanedValue);
-
-            echo $numericValue; // Output akan berupa nilai numerik dari kembalian dalam rupiah
-
-
+            function convertToNumber($rupiahValue) {
+                return (float) preg_replace('/[^0-9,-]/', '', $rupiahValue);
+            }
             // var_dump($bahan_data);
             // die;
             if ($this->request->hasFiles() && $file = $this->request->getUploadedFiles()[0]) {
@@ -340,11 +337,11 @@ class Controller extends BaseController
             // $produk->id = $id;
             $produk->kategori_id = $kategori;
             $produk->nama = $nama;
-            $produk->hpp = $hpp;
+            $produk->hpp = convertToNumber($hpp);
             if (isset($gambar) && !empty($gambar)) {
                 $produk->gambar = $gambar;
             }
-            $produk->harga_jual = $harga_jual;
+            $produk->harga_jual = convertToNumber($harga_jual);
             $produk->pdam_id = $pdam_id;
 
             $produk->save();
@@ -365,7 +362,7 @@ class Controller extends BaseController
                 if ($produkDetail) {
                     // Jika entri sudah ada, lakukan update
                     $produkDetail->jumlah = $bahan['jumlah'];
-                    $produkDetail->harga = $bahan['total'];
+                    $produkDetail->harga = convertToNumber($bahan['total']);
                     $produkDetail->pdam_id = $pdam_id;
                     $produkDetail->save();
                 } else {
@@ -374,7 +371,7 @@ class Controller extends BaseController
                     $newProdukDetail->produk_id = $id;
                     $newProdukDetail->bahan_id = $bahan['bahan'];
                     $newProdukDetail->jumlah = $bahan['jumlah'];
-                    $newProdukDetail->harga = $bahan['total'];
+                    $newProdukDetail->harga = convertToNumber($bahan['total']);
                     $newProdukDetail->pdam_id = $pdam_id;
                     $newProdukDetail->save();
                 }

@@ -72,69 +72,60 @@ function viewDatatable(){
         columnDefs: [{
             searchable: false,
             targets: [0]
-        }],
-        columns: [{
-                data: 'id',
-                orderable: false,
-                render: function(data, index, row, meta) {
-                    return meta.row + meta.settings._iDisplayStart + 1 + ".";
-                },
+        }],columns: [{
+            data: 'id',
+            orderable: false,
+            render: function(data, index, row, meta) {
+                return meta.row + meta.settings._iDisplayStart + 1 + ".";
             },
-            {
-                data: 'tanggal'
-            },
-            {
-                data: 'trans_id'
-            },
-            {
-                data: 'kode_kasir'
-            },
-            {
-                data: 'nama_produk'
-            },
-            {
-                data: 'qty',
-                render: function(data){
-                   
-                    return '<span class="price">' + data + '</span>';
-                }
-            },
-            {
-                data: 'harga',
-                render: function(data){
-                    return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
-                }
-            },
-            {
-                data: 'sub_total',
-                render: function(data){
-                    return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
-                }
-            },
-            {
-                data: 'kode_voucher'
-            },
-            {
-                data: 'diskon',
-                render: function(data){
-                    var persen = parseFloat(data) * 100;
-                    return '<span class="price">' + persen  + '%</span>';
-                }
-            },
-            {
-                data: 'potongan',
-                render: function(data){
-                    return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
-                }
-            },
-            {
-                data: 'total',
-                render: function(data){
-                    return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
-                }
-            }, 
-            
-        ],
+        },
+        {
+            data: 'id'
+        },
+        {
+            data: 'kode_kasir'
+        },
+        
+        {
+            data: 'nama_kasir'
+        },
+        {
+            data: 'total',
+            render: function(data){
+                return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
+            }
+        }, 
+        {
+            data: 'voucher_kode'
+        },
+        {
+            data: 'diskon',
+            render: function(data){
+                diskon = parseFloat(data) * 100;
+                return '<span class="price">' + diskon +"%" + '</span>';
+            }
+        }, 
+        {
+            data: 'grand_total',
+            render: function(data){
+                return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
+            }
+        }, 
+        
+        {
+            data: 'bayar',
+            render: function(data){
+                return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
+            }
+        }, 
+        {
+            data: 'kembalian',
+            render: function(data){
+                return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
+            }
+        },
+        
+    ],
             "createdRow": function (row, data, index) {
                 $(row).attr('data-value', encodeURIComponent(JSON.stringify(data)));
                 $("thead").css({ "vertical-align": "middle", "text-align": "center", });

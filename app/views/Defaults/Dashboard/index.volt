@@ -300,8 +300,8 @@
 
 										
 
-										<a href="#" class="btn btn-info mr-1 mb-2 radius-2 btn-detail" id="btn-detail" >
-											<i class="fa  fa-pencil-alt text-140 align-text-bottom mr-2"></i>
+										<a href="#" class="btn btn-success mr-1 mb-2 radius-2 btn-detail" id="btn-detail" >
+											<i class="fa  fa-info text-140 align-text-bottom mr-2"></i>
 											Detail
 										</a>
 						
@@ -320,9 +320,13 @@
 													<thead>
 														<tr class=" text-white text-center brc-black-tp10" style="background-color:#004225;">
 															<th style="vertical-align: middle;" >#</th>
-															<th style="vertical-align: middle;">Kasir</th>
-															<th style="vertical-align: middle;">Voucher</th>
+															<th style="vertical-align: middle;">Trans Id</th>
+															<th style="vertical-align: middle;">Kode Kasir</th>
+															<th style="vertical-align: middle;">Nama Kasir</th>
 															<th style="vertical-align: middle;">Total</th>
+															<th style="vertical-align: middle;">Voucher</th>
+															<th style="vertical-align: middle;">Diskon</th>
+															<th style="vertical-align: middle;">Grand Total</th>
 															<th style="vertical-align: middle;">Bayar</th>
 															<th style="vertical-align: middle;">Kembalian</th>
 														</tr>

@@ -259,6 +259,10 @@
 					<!-- <div class="content border rounded-lg shadow" style="background-color:#ECE3CE;"> -->
 					<div class="content border rounded-lg shadow" style="background-color:#FAEED1;">
 						<table border="0" class="w-100  table-sm mt-1 ">
+							<tr>
+								<td><h5><b>Total</b></h5></td>
+								<td><input type="text" name="total" id="total" value="0" class="w-100 h-100 input  harga price" style="border: 0; background: transparent; font-size: 1.25rem; font-weight: bold;" disabled required></td>
+							</tr>
 							<tr id="voucher" >
 								<td><h5><b>Voucher</b></h5></td>
 								<td><input type="text" placeholder="Voucher..." class="w-100 h-100 rounded p-1  input  " style="border: 1px solid #65451F; background: transparent; font-weight: bold;  font-size: 1.25rem;" name="voucher"  id="voucher"></td>
@@ -273,8 +277,8 @@
 	 
 							</tr>
 							<tr>
-								<td><h5><b>Total</b></h5></td>
-								<td><input type="text" name="total" id="total" value="0" class="w-100 h-100 input  harga price" style="border: 0; background: transparent; font-size: 1.25rem; font-weight: bold;" disabled required></td>
+								<td><h5><b>Grand Total</b></h5></td>
+								<td><input type="text" name="grand_total" id="grand_total" value="0" class="w-100 h-100 input  harga price" style="border: 0; background: transparent; font-size: 1.25rem; font-weight: bold;" disabled required></td>
 							</tr>
 							<tr>
 								<td><h5><b>Bayar</b></h5></td>

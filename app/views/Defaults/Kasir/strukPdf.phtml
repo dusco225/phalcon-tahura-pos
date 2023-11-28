@@ -19,14 +19,14 @@ $total = $struk['total'];
 $tunai = $struk['tunai'];
 $kembali = $struk['kembali'];
 
-
+$pdf->SetY(4); // Posisi 15 mm dari bawah
 // Gunakan data yang diambil
 $pdf->SetFont('Courier','B',10);
 $pdf->Cell(60,6,"Tahura Cafe",0,0,'C');
 $pdf->Ln(3);
 $pdf->SetFont('Courier','',6);
 $pdf->Cell(60,6,"------------------------",0,0,'C');
-$pdf->Ln();
+$pdf->Ln(3);
 $pdf->Cell(60,6,"Jl. Ir. H. Juanda No.99, Bandung,  ",0,0,'C');
 $pdf->Ln(3);
 $pdf->Cell(60,6,"Jawa Barat 40282 ",0,0,'C');
@@ -92,12 +92,9 @@ $pdf->Cell(40,6,formatRupiah($kembali),0,0,'R');
 $pdf->Ln(3); 
 $pdf->Cell(60,6,"----------------------------------------------",0,0,'C');
 $pdf->Ln(6);
-$pdf->Cell(60,6,"Terima kasih telah mengunjungi kafe kami!.",0,0,'C');
-$pdf->Ln(3);
-$pdf->Cell(60,6,"Selamat menikmati.Sampai jumpa lagi!",0,0,'C');
+$pdf->Cell(60,6,"Selamat menikmati.Sampai jumpa lagi.",0,0,'C');
 $pdf->Ln(6);
 $pdf->Cell(60,6,"Hotline/WA : 08987133807",0,0,'C');
-
 $pdf->Ln(3);
 $pdf->Cell(60,6,"More Info : www.tahura.com",0,0,'C');
 

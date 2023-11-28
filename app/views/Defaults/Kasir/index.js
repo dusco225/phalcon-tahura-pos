@@ -102,11 +102,11 @@ $(`#btn-batal`).on('click', function(){
 $('#formForm').on('submit', function(e){
     produkData=[];
     e.preventDefault(); //mencegah perilaku default pengiriman form tradisional
-    var bayar = convertToNumber($(`input[name="total"]`).val());
-    var total = convertToNumber($(`input[name="tunai"]`).val());
-    if(bayar > total){
+    var bayar = convertToNumber($(`input[name="tunai"]`).val());
+    var total = convertToNumber($(`input[name="grand_total"]`).val());
+    if(total > bayar){
         return alert('Uang Kurang');
-    }else if(bayar < total - 100000){
+    }else if(total < bayar - 100000){
         return alert('Uang Lebih');
     }
     //mengumpulkan data produk dari elemen input
@@ -128,6 +128,7 @@ $('#formForm').on('submit', function(e){
         diskon : $(`input[name="diskon"]`).val(),
         potongan : $(`input[name="potongan"]`).val(),
         total: $(`input[name="total"]`).val(),
+        grand_total: $(`input[name="grand_total"]`).val(),
         produk_data: produkData
     };
     
@@ -215,7 +216,7 @@ $(`#bersih`).on('click', function(){
 //index.js
 function pembayaran(){
     var tunai = $(`form [name="tunai"]`).val();
-    var total =  $(`form [name="total"]`).val();
+    var total =  $(`form [name="grand_total"]`).val();
         // var formattedKembalian = formatRupiah(kembalian.toString(), "Rp. ");
         var tunaiNumber = convertToNumber(tunai);
         var totalNumber = convertToNumber(total);
@@ -470,6 +471,7 @@ function totalHarga() {
     // Array.from($('form [name=subtotal]')).reduce((total, el) => total + Number(el.value), 0)
     // //console.log(potonganHarga + 'diskon blay');
     var total = 0;
+    var hasil = 0;
     var diskon = parseFloat($('form [name=diskon]').val());
     console.log('lhaa ini ada' + diskon);
     Array.from($(`form [id=subtotal]`)).forEach(function(el) {
@@ -478,14 +480,16 @@ function totalHarga() {
     });
 
     //console.log(total + ' diskon nyah');
-    var potongan =  total * diskon ;
-    $(`#potongan`).val(potongan);
+    var potongan =  parseInt(total) * parseFloat(diskon) ;
+    $(`#potongan`).val(parseInt(potongan));
     console.log('lha ini masil lanjut' + potongan)
     var hasil = total - potongan ;
     console.log('kayanya disini ni ' +  hasil + ' totalnya ' + total + ' potongannya ' + potongan )
     //console.log('hasilnyah ' +hasil );
-     var formattedTotal = formatRupiah(hasil.toString(), "Rp. ");
+    var formattedTotal = formatRupiah(parseInt(total).toString(), "Rp. ");
+     var formattedHasil = formatRupiah(parseInt(hasil).toString(), "Rp. ");
     $('#total').val(formattedTotal);
+    $('#grand_total').val(formattedHasil);
 
     pembayaran();
     // console.log('INI DEFAULT URL' + defaultUrl);

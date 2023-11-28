@@ -42,7 +42,7 @@ class Controller extends BaseController
         
         $builder = $this->modelsManager->createBuilder()
                         ->columns('*')
-                        ->from(VwtransModel::class)
+                        ->from(VwTransaksiModel::class)
                         ->where("1=1")
                         ->andWhere("pdam_id = '$pdam_id'");
 
