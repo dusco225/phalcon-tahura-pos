@@ -25,6 +25,10 @@ $(document).ready(function() {
     viewDataKategori();//panggil fungsi kategori
     viewDatacard();//panggil fungsi card data
     $(`form input[name="kode_voucher"]`).val('');
+    // if($('input[name=voucher]') == '' || null ){
+    //     console.log('ih kosong');
+    // }
+    // voucherKeyup();
 
 // Your debounce function
 function debounce(func, delay) {
@@ -143,27 +147,15 @@ $('#formForm').on('submit', function(e){
 
             var struk = response.struk ;
             alert("Transaksi Berhasil");
-            $.ajax({
-                url: defaultUrl + "strukPdf",
-                method: 'POST',
-                data: struk,
-                success: function() {
-                    console.log("ahai ahai ");  
-                    
-                    
-                    
-                    
-                },
-                error: function( xhr, status, error) {
-                    //tanganin kesalahan jika terjadi
-                    console.error('Error: ', error);
-                    console.error('Status: ', status );
-                    console.error('XHR Response: ', xhr.responseText);
-                }
-            });
+           
             window.open(defaultUrl + "strukPdf?" + $.param(response), '_blank');            
-            $('#formForm')[0].reset();
-            $('#order').empty();
+            viewDataVoucher();
+            pembersihan();
+            // $('#formForm')[0].reset();
+            // $('#order').empty();
+            // // $('#diskon').val(0); 
+            // $('#diskon').val('siuuuuuuuuuuuuuuuuuu');             
+
         },
         error: function( xhr, status, error) {
             //tanganin kesalahan jika terjadi
@@ -172,6 +164,8 @@ $('#formForm').on('submit', function(e){
             console.error('XHR Response: ', xhr.responseText);
         }
     });
+    
+    console.log('function dilewat');
 });
 
 $(`.btn-kategori`).on('click', function(){
@@ -228,6 +222,16 @@ function pembayaran(){
 
     // Set nilai formattedKembalian ke elemen dengan ID kembalian
     $(`#kembalian`).val(formattedKembalian);
+}
+
+function pembersihan(){
+    // viewDataVoucher();
+    // window.open(defaultUrl + "strukPdf?" + $.param(response), '_blank');            
+    $('#formForm')[0].reset();
+    $('#order').empty();
+    // $('#diskon').val(0); 
+    $('#diskon').val('siuuuuuuuuuuuuuuuuuu');             
+
 }
 
 
@@ -563,7 +567,7 @@ function viewDataKategori (){
 
 
 //fungi validasi voucher
-function viewDataVoucher (){
+function viewDataVoucher (kodeVoucher){
     $("#diskon").empty();
     //console.log('MASUK DUNGSI VOUCHER COYY');
     $.ajax({
@@ -614,8 +618,10 @@ function viewDataVoucher (){
         var tr = $('.diskon');
         var status = $("<td class=' p-1 '></td>").html('<h5><b> Diskon </b></h5>');
         var potongan = $('form [name=diskon]');
-        var kodeVoucher = $("<input type='hidden' name='voucher_kode'>")
+        var kodeVoucher = $("<input type='hidden' name='voucher_kode'>");
         $(`form input[name="kode_voucher"]`).val('');
+
+        console.log('ini bisa ningan ey' + JSON.stringify(kodeVoucher));
 
         if((data.status == null) || (data.status == '') ){
             // var valid = $("<td colspan='3' align='center' class=' p-1 '></td>").html('<h5><b>' + 'Kode Tidak Valid' + '</b></h5>');
@@ -629,7 +635,7 @@ function viewDataVoucher (){
             
             var persen = data.diskon * 100;
             // kodeVoucher.val(data.kode);
-            $(`form input[name="kode_voucher"]`).val(data.kode)
+            $(`form input[name="kode_voucher"]`).val(data.kode);
             // var diskon = $("<td class=' p-1 '></td>").html(`<input type='text' value='${persen + '%'}' disabled>`);
             idDiskon.val(persen + '%')
             potongan.val(data.diskon);
@@ -641,7 +647,7 @@ function viewDataVoucher (){
 
         }else{
             var valid = $("<td colspan='3' align='center' class=' p-1 '></td>").html('<h5><b>' + 'Voucher Tidak Aktif' + '</b></h5>');
-            idDiskon.val('Voucher Tidak Aktif')
+            idDiskon.val('Voucher Tidak Aktif');
             $(`form input[name="kode_voucher"]`).val('');
             potongan.val(0);
             totalHarga();

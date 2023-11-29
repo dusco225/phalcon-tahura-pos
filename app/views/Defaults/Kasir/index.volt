@@ -207,12 +207,7 @@
 							<div class="middel col-10 p-0 m-0" ><input type="text" name="filter" id="filter" class="form-control w-100 h-100 " placeholder="Search..." style="border: 0; background: transparent;"></div>
 							<div class="right col-1 p-0 m-0" ><button class=" btn w-100 h-100" id="bersih"><h4><i class="far fa-times-circle"></i></h4></button></div>
 						</div>
-						<!-- HHHHH -->
-					
 					</div>
-					
-					
-					
 					<div class="right  col-7 p-2 ml-1 row " >
 						<div class="page-kategori  overflow-auto col-12 p-0 m-0 " style="max-width: 473px;">
 								

@@ -77,8 +77,36 @@
 											<input type="hidden" name="nama_kasir" id="nama_kasir" disabled required >
 											<select type="text" id="kasir" name="kasir" class="select2 select2kasir" disabled=""></select>
 										</div>
-										
+
 										<div class="input-group mb-2 input-filter">
+											<div class="input-group-prepend" style="width : 10% !important">
+												<span class="input-group-text">
+													<input type="checkbox" class="ace-switch">
+												</span>
+											</div>
+											<div class="input-group-prepend">
+												<span class="input-group-text">
+													Pilih Format
+												</span>
+											</div>
+											
+											<select type="text" id="format" name="format" class="form-control" disabled="true" required>
+												<option value="">-- Pilih Format --</option>
+												<option value="harian">Harian</option>
+												<option value="bulanan">Bulanan</option>
+												<option value="tahunan">tahunan</option>
+												<option value="rentang_tanggal">Rentang Tanggal</option>
+											</select>
+											<div class="baru">
+												
+											</div>
+										</div>
+
+										<div class="format-field" id="format-field">
+											
+										</div>
+										
+										<!-- <div class="input-group mb-2 input-filter">
 											<div class="input-group-prepend" style="width : 10% !important">
 												<span class="input-group-text">
 													<input type="checkbox" class="ace-switch">
@@ -96,7 +124,7 @@
 												</span>
 											</div>
 											<input type="date" name="date_until" class="form-control" disabled="" required>
-										</div>
+										</div> -->
 
 										
 
@@ -158,72 +186,6 @@
 
 	
 
-	<!-- Modal Search -->
-	<div id="filterModal" class="modal fade" role="dialog">
-		<div class="modal-dialog radius-4">
-
-			<!-- Modal content-->
-			<div class="modal-content radius-4">
-				<div class="modal-header  radius-t-4" style="background-color:  #004225;">
-					<h4 class="modal-title text-white">
-						<i class="fa fa-search text-white"></i>&nbsp;&nbsp; Pencarian - Barang</h4>
-					<button type="button" class="close text-white" data-dismiss="modal">&times;</button>
-				</div>
-				<div class="modal-body">
-
-					<form class="form-horizontal" id="form-filter">
-
-                        <div class="input-group mb-2 input-filter">
-							<div class="input-group-prepend" style="width : 10% !important">
-								<span class="input-group-text">
-									<input type="checkbox" class="ace-switch">
-								</span>
-							</div>
-							<div class="input-group-prepend">
-								<span class="input-group-text">
-									Kode
-								</span>
-							</div>
-							<input type="text" name="search_kode" class="form-control" disabled="">
-						</div>
-
-						<div class="input-group mb-2 input-filter">
-							<div class="input-group-prepend" style="width : 10% !important">
-								<span class="input-group-text">
-									<input type="checkbox" class="ace-switch">
-								</span>
-							</div>
-							<div class="input-group-prepend">
-								<span class="input-group-text">
-									Nama
-								</span>
-							</div>
-							<input type="text" name="search_nama" class="form-control" disabled="">
-						</div>
-
-                        <div class="input-group mb-2 input-filter">
-							<div class="input-group-prepend" style="width : 10% !important">
-								<span class="input-group-text">
-									<input type="checkbox" class="ace-switch">
-								</span>
-							</div>
-							<div class="input-group-prepend">
-								<span class="input-group-text">
-									Kategori
-								</span>
-							</div>
-							<select type="text" id="kategori_id_search" name="kategori_id_search" class="select2 select2kategori" disabled=""></select>
-						</div>
-
-                        
-					</form>
-				</div>
-				<div class="modal-footer radius-b-4">
-					<button type="button" class="btn btn-default submit-filter text-120 radius-2" data-dismiss="modal">Cari Data</button>
-				</div>
-			</div>
-		</div>
-	</div>
 {% endblock %}
 {% block inline_script %}
 <script>

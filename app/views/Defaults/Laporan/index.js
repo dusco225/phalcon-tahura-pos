@@ -1,6 +1,7 @@
 window.defaultUrl = `${baseUrl}laporan/`;
 var table;
-
+var formatField = $(`#formatField`);
+var format;
 $(document).ready(function() {
     let modal = $('#formModal');
     viewDatatable();
@@ -23,6 +24,87 @@ $(document).ready(function() {
          window.open(defaultUrl + "laporanPdf?" + $.param(formData), '_blank');            
         
     });
+
+    $(`form [name="format"]`).on('input', function(){
+        isi = $(this).val()
+        formatField = $(`#format-field`);
+        if(isi == ''){
+            console.log('ini kosong');
+            format = `<h1>ini kosong</h1>`;
+            $(`#format-field`).empty();
+            
+
+        }else if(isi == 'harian'){
+            console.log('ini harian');
+            format = `
+            <div class="input-group mb-2 input-filter">
+           
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    Tanggal
+                </span>
+            </div>
+            <input type="date" id="bulan" name="bulan" class="form-control">
+        </div>
+            `;
+            $(`#format-field`).empty();
+            $(`#format-field`).append(format);
+
+
+        }else if(isi == 'bulanan'){
+            console.log('ini bulanan');
+            format = `
+            <div class="input-group mb-2 input-filter">
+            
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    Bulan
+                </span>
+            </div>
+            <input type="month" id="bulan" name="bulan" class="form-control">
+        </div>
+            `;
+            $(`#format-field`).empty();
+            $(`#format-field`).append(format);
+
+        }else if(isi == 'tahunan'){
+            console.log('ini tahunan');
+            format = `
+            <div class="input-group mb-2 input-filter">
+     
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    Tahun
+                </span>
+            </div>
+            <input type="number" id="tahun" name="tahun" min="1900" max="2100" step="1">
+                    </div>
+            `;
+            $(`#format-field`).empty();
+            $(`#format-field`).append(format);
+        }else if(isi == 'rentang_tanggal'){
+            console.log('ini rentang tanggal');
+            format = `
+            <div class="input-group mb-2 input-filter">
+									
+											<div class="input-group-prepend">
+												<span class="input-group-text">
+													Tanggal
+												</span>
+											</div>
+											<input type="date" name="date_from" class="form-control" >
+											<div style="width: 7%;" class="input-group-prepend ">
+												<span class="input-group-text">
+													s.d
+												</span>
+											</div>
+											<input type="date" name="date_until" class="form-control"  required>
+										</div>
+            `;
+            $(`#format-field`).empty();
+            $(`#format-field`).append(format);
+        }
+    })
 
     $(`form [name="kasir"]`).on('change', function(){
         $(`form [name="nama_kasir"]`).val('');
