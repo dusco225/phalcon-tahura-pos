@@ -146,5 +146,29 @@ class Controller extends BaseController
 
         
     }
+
+    
+ /**
+     * @routeGet("/datatabledetail")
+     * @routePost("/datatabledetail")
+     */
+    public function datatabledetailAction()
+    {
+        $pdam_id = $this->session->user['pdam_id'];
+        $detail = $this->request->getPost("id"); // Ambil diFilter dari permintaan POST
+        $builder = $this->modelsManager->createBuilder()
+        ->columns('*')
+        ->from(VwModel::class)
+        ->where("1=1")
+        ->andWhere(" trans_id ='$detail' and pdam_id = '$pdam_id'");
+
+
+
+
+        $dataTables = new DataTable();
+        $dataTables->fromBuilder($builder)->sendResponse();
+
+    }
+
    
 }

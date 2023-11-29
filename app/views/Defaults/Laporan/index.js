@@ -1,6 +1,7 @@
 window.defaultUrl = `${baseUrl}laporan/`;
 var table;
 var formatField = $(`#formatField`);
+var  tableDetail;
 var format;
 $(document).ready(function() {
     let modal = $('#formModal');
@@ -24,6 +25,31 @@ $(document).ready(function() {
          window.open(defaultUrl + "laporanPdf?" + $.param(formData), '_blank');            
         
     });
+
+    
+$('#btn-detail').on('click', function(){
+    // viewDatatableDetail();
+    let selected = table.row({
+        selected: true
+    }).data();
+    if(_.isEmpty(selected)) {
+        notification("warning", "Pilih Data Terlebih Dahulu");
+        return false;
+    };
+    if (selected) {
+     
+        if ($.fn.DataTable.isDataTable('#datatabledetail')) {
+            $('#datatabledetail').DataTable().destroy();
+        }
+
+// inisialisasi kembali tabel detail dengan data yang baru
+        viewDatatableDetail(selected.id);
+
+        resetErrors();
+        modal.modal('show');
+    }
+});
+
 
     $(`form [name="format"]`).on('input', function(){
         isi = $(this).val()
@@ -138,7 +164,7 @@ function viewDatatable(){
     table = $("#datatable").DataTable({
         ajax: {
             url: defaultUrl + "datatable",
-            "type": "POST",
+            "type": "post",
 			"data": function (d) {
 				var formData = $("#form-filter").serializeArray();
                 $.each(formData, function (key, val) {
@@ -154,60 +180,61 @@ function viewDatatable(){
         columnDefs: [{
             searchable: false,
             targets: [0]
-        }],columns: [{
-            data: 'id',
-            orderable: false,
-            render: function(data, index, row, meta) {
-                return meta.row + meta.settings._iDisplayStart + 1 + ".";
+        }],
+        columns: [{
+                data: 'id',
+                orderable: false,
+                render: function(data, index, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1 + ".";
+                },
             },
-        },
-        {
-            data: 'id'
-        },
-        {
-            data: 'kode_kasir'
-        },
-        
-        {
-            data: 'nama_kasir'
-        },
-        {
-            data: 'total',
-            render: function(data){
-                return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
-            }
-        }, 
-        {
-            data: 'voucher_kode'
-        },
-        {
-            data: 'diskon',
-            render: function(data){
-                diskon = parseFloat(data) * 100;
-                return '<span class="price">' + diskon +"%" + '</span>';
-            }
-        }, 
-        {
-            data: 'grand_total',
-            render: function(data){
-                return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
-            }
-        }, 
-        
-        {
-            data: 'bayar',
-            render: function(data){
-                return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
-            }
-        }, 
-        {
-            data: 'kembalian',
-            render: function(data){
-                return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
-            }
-        },
-        
-    ],
+            {
+                data: 'id'
+            },
+            {
+                data: 'kode_kasir'
+            },
+            
+            {
+                data: 'nama_kasir'
+            },
+            {
+                data: 'total',
+                render: function(data){
+                    return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
+                }
+            }, 
+            {
+                data: 'voucher_kode'
+            },
+            {
+                data: 'diskon',
+                render: function(data){
+                    diskon = parseFloat(data) * 100;
+                    return '<span class="price">' + diskon +"%" + '</span>';
+                }
+            }, 
+            {
+                data: 'grand_total',
+                render: function(data){
+                    return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
+                }
+            }, 
+            
+            {
+                data: 'bayar',
+                render: function(data){
+                    return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
+                }
+            }, 
+            {
+                data: 'kembalian',
+                render: function(data){
+                    return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
+                }
+            },
+            
+        ],
             "createdRow": function (row, data, index) {
                 $(row).attr('data-value', encodeURIComponent(JSON.stringify(data)));
                 $("thead").css({ "vertical-align": "middle", "text-align": "center", });
@@ -220,9 +247,84 @@ function viewDatatable(){
                 
             }
 
-    })
+    }).on( 'click', 'tr', function () {
+		if ($(this).hasClass('selected')) {
+			$('#btn-detail').removeClass("disabled");
+			$('#btn-delete').removeClass("disabled");
+		} else {
+			$('#btn-detail').addClass("disabled");
+			$('#btn-delete').addClass("disabled");
+        }
+	});
+
 }
 
+
+
+
+function viewDatatableDetail(datanya){
+    tableDetail;
+    tableDetail = $("#datatabledetail").DataTable({
+        ajax: {
+            url: defaultUrl + "datatabledetail",
+            "type": "post",
+			"data": {
+                id : datanya,
+            }
+        },
+        serverSide: true,
+        processing: true,
+        responsive: true,
+        selected: false,
+        aaSorting: [],
+        columnDefs: [{
+            searchable: false,
+            targets: [0]
+        }],
+        columns: [{
+            data: 'id',
+            orderable: false,
+            render: function(data, index, row, meta) {
+                return meta.row + meta.settings._iDisplayStart + 1 + ".";
+            },
+        },
+            {
+                data: 'nama_produk'
+            },
+            
+            {
+                data: 'qty'
+            },
+             
+            {
+                data: 'harga',
+                render: function(data){
+                    return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
+                }
+            }, 
+            {
+                data: 'total',
+                render: function(data){
+                    return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
+                }
+            },
+            
+        ],
+            "createdRow": function (row, data, index) {
+                $(row).attr('data-value', encodeURIComponent(JSON.stringify(data)));
+                $("thead").css({ "vertical-align": "middle", "text-align": "center", });
+                $("td", row).css({ "vertical-align": "middle", padding: "0.5em", 'cursor': 'pointer' });
+                $("td", row).first().css({ width: "3%", "text-align": "center", });
+                //Default
+                $('td', row).eq(1).css({ 'text-align': 'left', 'font-weight': 'normal' });
+                
+                
+                
+            }
+
+    });
+
+}
 
 
 function select2data(){
