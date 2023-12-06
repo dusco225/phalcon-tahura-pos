@@ -96,6 +96,9 @@
 		/* color: red; */
 
 	}
+	.grafik {
+		padding-right: 15px;
+	}
 
 	.top .card {
 		border-left: 4px solid  #004225;
@@ -139,6 +142,12 @@
 		width: 100%;
 		
 	}
+	@media (max-width: 990px) {
+		.grafik{
+			padding: 0px;
+			margin-bottom: 14px;
+		}
+	}
 
 	/* .easy-pie-chart,
 		.easyPieChart {
@@ -168,14 +177,14 @@
 				</div>
 			</div>
 			<!--  -->
-			<div class="content isi-nya container-fluid p-2 ">
-				<div class="top row m-2 ">
-					<div class="left col-8 ">
+			<div class="content isi-nya container-fluid m-0 p-4 ">
+				<div class="top row ">
+					
 	
 						
 						<div class="card-field row mb-2  ">
 	
-							<div class="card-wrapper col-4 ">
+							<div class="card-wrapper col-lg-4 col-md-12 col-sm-12 col-12">
 								<div class="content border rounded">
 									<div class="card   left shadow  py-2" >
 										<div class="card-body">
@@ -202,7 +211,63 @@
 							</div>
 						
 	
-							<div class="card-wrapper col-4">
+							<div class="card-wrapper col-lg-4 col-md-12 col-sm-12 col-12 ">
+								<div class="content border rounded">
+									<div class="card   left shadow  py-2" >
+										<div class="card-body">
+											<div class="row no-gutters align-items-center">
+												<div class="col mr-2"> 
+													<div class="text-xs font-weight-bold  text-uppercase  ">
+														<h6><b>Transaksi (harian)</b></h6>
+													</div>
+													<div class="h5 mb-0 font-weight-bold text-gray-800 " ><h4 ><b id="trans_harian">x</b></h4></div>
+													<div class="row">
+													</div>
+												</div>
+												<div class="col-auto ">
+													<h1>
+														<i class="fas fa-tag"></i>
+		
+													</h1>
+		
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+	
+							<div class="card-wrapper col-lg-4 col-md-12 col-sm-12 col-12">
+								<div class="content border rounded">
+									<div class="card   left shadow  py-2" >
+										<div class="card-body">
+											<div class="row no-gutters align-items-center">
+												<div class="col mr-2"> 
+													<div class="text-xs font-weight-bold  text-uppercase  ">
+														<h6><b>Pendapatan (harian)</b></h6>
+													</div>
+													<div class="h5 mb-0 font-weight-bold text-gray-800 " ><h4 ><b id="pendapatan_harian">x</b></h4></div>
+													<div class="row">
+													</div>
+												</div>
+												<div class="col-auto ">
+													<h1>
+														<i class="fas fa-tag"></i>
+		
+													</h1>
+		
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+						<div class="card-field row mt-4 w-100  ">
+							
+							
+							<div class="card-wrapper col-6" >
 								<div class="content border rounded">
 									<div class="card   left shadow  py-2" >
 										<div class="card-body">
@@ -229,7 +294,7 @@
 							</div>
 						
 	
-							<div class="card-wrapper col-4">
+							<div class="card-wrapper col-6">
 								<div class="content border rounded">
 									<div class="card   left shadow  py-2" >
 										<div class="card-body">
@@ -255,42 +320,41 @@
 								</div>
 							</div>
 	
-						</div>
-						<div class="highchart mt-2 p-3">
-							<div class="content content-left   ">
-								<figure class="highcharts-figure shadow border rounded-lg pb-1  " style="border-radius: 20px;">
-									<div class="title  bg-light p-2 text-xs rounded	   bt font-weight-bold  text-uppercase " style="width: 100%;" >
-										<h4 style="width: 100%;"><b id="pendapatan-tahun">Pendapatan - </b></h4>
-									</div>
-									<div id="container"></div>
-									
-								</figure>
-							</div>
-						</div>
-						
 	
-							
-							
 						</div>
+			
+							
+							
 						
-						<div class="right col-4 p-0 m-0" >
-								
-								<div class="content content-right " style="height: 96%; padding: 0; margin: 0;" >
-									<figure class="highcharts-figure shadow border rounded-lg pb-1  " style="height: 100%;" >
-										<div class="title  bg-light p-2 text-xs rounded	   bt font-weight-bold  text-uppercase " style="width: 100%;" >
-											<h4 style="width: 100%;"><b>Produk Ter Laris</b></h4>
-										</div>
-										<div id="container-pie" class="" style="height: 93%;"></div>
-										
-									</figure>
+						
+						
+				</div>
+
+				<div class=" card-field middle row p-0 mt-4">
+					<div class="content content-left col-lg-8 col-md-12 col-sm-12 col-12  grafik ">
+						<figure class="highcharts-figure shadow border rounded-lg pb-1  " style="border-radius: 20px; padding: 0; margin: 0;">
+							<div class="title  bg-light p-2 text-xs rounded	   bt font-weight-bold  text-uppercase " style="width: 100%;" >
+								<h4 style="width: 100%;"><b id="pendapatan-tahun">Pendapatan - </b></h4>
+							</div>
+							<div id="container"></div>
+							
+						</figure>
+					</div>								
+						<div class="content content-right col-lg-4 col-md-12 col-sm-12 col-12  " style="height: 96%; padding: 0; margin: 0;" >
+							<figure class="highcharts-figure shadow border rounded-lg pb-1  " style="height: 100%;" >
+								<div class="title  bg-light p-2 text-xs rounded	   bt font-weight-bold  text-uppercase " style="width: 100%;" >
+									<h4 style="width: 100%;"><b>Produk Ter Laris</b></h4>
 								</div>
+								<div id="container-pie" class="" style="height: 93%;"></div>
+								
+							</figure>
 						</div>
 				</div>
 
-					<div class="bottom m-2 row">
+					<div class="bottom mt-4 row">
 						
 						<div class="left col-12 ">
-							<div class="card ccard mx-auto" style="width: 98%; position: sticky;">
+							<div class="card ccard mx-auto" style="width: 100%; position: sticky;">
 								<div class="card-header pb-1 align-middle bt " style="border-top-left-radius: 0.4rem;
 												border-top-right-radius: 0.4rem;border-bottom: 1px solid #e0e5e8 !important; border-top: 4px solid #004225;">
 									<h4 class="card-title text-dark-m3 mt-2  font-weight-bold  text-uppercase ">

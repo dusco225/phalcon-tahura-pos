@@ -12,11 +12,11 @@ use App\Modules\Defaults\Master\ReferensiData\KodePerkiraanKelompok\Model as Mod
 use App\Modules\Defaults\Master\ReferensiData\KodePerkiraanKelompok\ModelView as ViewModelKelompok;
 use App\Modules\Defaults\Master\ReferensiData\KodePerkiraan\ModelView as ViewModelPerkiraan;
 use App\Modules\Defaults\Master\Produk\Model as ModelProduk;
-use App\Modules\Defaults\Master\Bahan\Model as ModelBahan;
+use App\Modules\Defaults\Master\Bahan\VwModel as ModelBahan;
 use App\Modules\Defaults\Master\Satuan\Model as ModelSatuan;
 use App\Modules\Defaults\Master\Kategori\Model as ModelKategori;
 use App\Modules\Defaults\Master\Kasir\Model as ModelKasir;
-use App\Modules\Defaults\Kasir\TransaksiModel as ModelLaporan;
+use App\Modules\Defaults\Laporan\VwTransaksiModel as  ModelLaporan;
 use App\Modules\Defaults\Master\ReferensiData\SatuanKerja\Model as ModelSatuanKerja;
 use App\Modules\Defaults\Master\ReferensiData\KodePerkiraanSatuanKerja\ModelView as ViewModelPerkiraanSatuanKerja;
 use App\Modules\Defaults\Auth\Model\RolesModel as ModelRole;
@@ -247,13 +247,25 @@ class Controller extends BaseController
 		$nama = $this->request->get('q');
 		$page = $this->request->get('page');
 		$offset = ($page - 1) * 20;
-		$data = ModelLaporan::find(
-			array(
-				'limit' => 21,
-				'offset' => $offset,
-				'conditions' => "id LIKE '%$nama%' AND pdam_id ='$pdam_id' "
-			)
-		);
+		$kasir = $this->request->get('kasir');
+		
+		if($kasir){
+			$data = ModelLaporan::find(
+				array(
+					'limit' => 21,
+					'offset' => $offset,
+					'conditions' => "id LIKE '%$nama%' AND pdam_id ='$pdam_id' AND kode_kasir = '$kasir'"
+				)
+			);
+		}else{
+			$data = ModelLaporan::find(
+				array(
+					'limit' => 21,
+					'offset' => $offset,
+					'conditions' => "id LIKE '%$nama%' AND pdam_id ='$pdam_id'  "
+				)
+				);
+		}
 		$data_array = $data->toArray();
 		$has_more = count($data_array);
 		$json_data = array(

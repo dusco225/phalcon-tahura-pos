@@ -76,12 +76,21 @@ $('#btn-delete').on('click', async function() {
 $.get(defaultUrl + "voucherAktif", function (data) {
     $("#voucher").text(data);
   });
+
 $.get(defaultUrl + "transaksiBulanan", function (data) {
-    console.log('ini data yang error '+data)
     $("#transaksi").text(data);
   });
+
 $.get(defaultUrl + "pendapatanBulanan", function (data) {
     $("#pendapatan").text(formatRupiah(data, "Rp. "));
+  });
+
+$.get(defaultUrl + "transaksiHarian", function (data) {
+    $("#trans_harian").text(data);
+  });
+  
+$.get(defaultUrl + "pendapatanHarian", function (data) {
+    $("#pendapatan_harian").text(formatRupiah(data, "Rp. "));
   });
 
 
@@ -366,7 +375,7 @@ function viewDatatableDetail(datanya){
                 }
             }, 
             {
-                data: 'total',
+                data: 'sub_total',
                 render: function(data){
                     return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
                 }

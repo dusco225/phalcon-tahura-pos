@@ -423,7 +423,7 @@ function tambahBahan(datanya){
     var bahan = $(`<select style="width: 100%;" name="bahan[]" class="select2 select2bahan"  required><option value='${datanya.bahan_id}'>${datanya.bahan}</option></select>`); // .select2("trigger", "select", { data: { id: datanya.bahan_id } });
     bahan.attr('data-harga', harganya);
     var tdJumlah = $(`<td></td>`);
-    var jumlah = $(`<input style="width: 100%;" type="number" name="jumlah[]" | value="${datanya.jumlah}" required>`);
+    var jumlah = $(`<input style="width: 100%;" type="number" name="jumlah[]" class="form-control " value="${datanya.jumlah}" required>`);
     var tdTotal = $(`<td></td>`);
     var total = $(`<input style="width: 100%;" type="text" id="total" name="total[]" value="${formatRupiah(parseInt(datanya.harga).toString(), "Rp. ")}" disabled>`);
     var aksi = $(`<td><b style=" width: 80%;" id="kurang" class="btn btn-danger"><i class="fas fa-minus"></i></b></td>`);
@@ -457,13 +457,20 @@ function tambahBahan(datanya){
     //------------------------------------
     //mengambil data jumlah digunakan
     jumlah.on('input', function(){
+        nilai = $(this).val();
+        var selectedData = bahan.select2('data')[0];
+        console.log(selectedData)
+        console.log(formatSatuan(nilai.toString(), selectedData.satuan ))
+        // formattedNilai=formatSatuan(nilai, 'gram');;
         if($(this).val() < 1){
             alert('Jumlah Tidak Valid');
             $(this).val(1); 
+            // salah =1;
+            // formattedNilai=formatSatuan(salah, 'gram');
+            // $(this).val(formattedNilai);
         }
         var digunakan = $(this).val();
         var dataBahan = bahan.data('harga');
-
         subtotal = dataBahan * digunakan;
         var formattedSubTotal = formatRupiah(subtotal.toString(), "Rp. "); 
         total.val(formattedSubTotal);
@@ -495,7 +502,7 @@ function tambahBahan(datanya){
 }
 
 $('#kurang').on('click', function() {
-    console.log('kurang bro');
+    // console.log('kurang bro');
     var jumlahRow = $('#komposisi').length;
     if(jumlahRow > 1){
         // Menghapus baris terakhir
@@ -509,7 +516,7 @@ $('#kurang').on('click', function() {
 function hPP(){
     var hpp = 0;
     var keuntungan = parseFloat($(`input[name="untung"]`).val());
-    console.log(keuntungan)
+    // console.log(keuntungan)
     Array.from($(`form [name="total[]"]`)).forEach(function(el){
         total = convertToNumber(el.value);
         hpp += total;
@@ -518,9 +525,9 @@ function hPP(){
     
     
     var hargaJual = hpp * keuntungan + hpp;
-    console.log('ini hpp '+ hpp);
-    console.log('ini untng '+ keuntungan);
-    console.log('ini hgj '+ hargaJual);
+    // console.log('ini hpp '+ hpp);
+    // console.log('ini untng '+ keuntungan);
+    // console.log('ini hgj '+ hargaJual);
     formattedHpp = formatRupiah(parseInt(hpp).toString(), "Rp. ")
     formattedHj = formatRupiah(parseInt(hargaJual).toString(), "Rp. ")
     $(`form [name="hpp"]`).val(formattedHpp);
@@ -551,6 +558,7 @@ function select2data(){
                     i.id = i.id;
                     i.text = i.nama;
                     i.jumlah = i.jumlah;
+                    i.nama_satuan = i.nama_satuan;
                     i.harga = i.harga;
                     // $('#isinya').text(i.id);                    
                     // console.log(i);
@@ -595,6 +603,32 @@ function select2data(){
         }
     });
 }
+
+// function formatsatuan(angka, prefix){
+//     number = toString(angka) + ' ' +prefix;
+//     return number; 
+// }
+function formatSatuan(angka, satuan) {
+    var number_string = angka.toString().replace(/[^,\d]/g, ""),
+        split = number_string.split(","),
+        sisa = split[0].length % 3,
+        hasil = split[0].substr(0, sisa),
+        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+    if (ribuan) {
+        var separator = sisa ? "." : "";
+        hasil += separator + ribuan.join(".");
+    }
+
+    hasil = split[1] !== undefined ? hasil + "," + split[1] : hasil;
+
+    if (satuan !== undefined) {
+        hasil += " " + satuan;
+    }
+
+    return hasil;
+}
+ 
 
 function formatRupiah(angka, prefix) {
     var number_string = angka.replace(/[^,\d]/g, "").toString(),

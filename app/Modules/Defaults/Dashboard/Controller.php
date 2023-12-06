@@ -473,6 +473,34 @@ class Controller extends MiddlewareHardController
 }
 
 /**
+     * @routeGet("/pendapatanHarian")
+     */
+    public function getPendapatanHarianAction()
+{
+    $this->view->disable();
+    
+        $select = "SELECT 
+        SUM(total) AS total  
+    FROM 
+        transaksi 
+    WHERE 
+        DATE(created_at) = DATE(CURDATE())
+    GROUP BY 
+        DATE(created_at);
+    ";
+        $result = $this->db->fetchAll($select);
+    
+        if (!empty($result)) {
+            // Mengakses nilai 'rowcount' dari hasil fetchAll
+            $jumlahTersedia = $result[0]['total'];
+            echo $jumlahTersedia;
+            
+        } else {
+            echo "Data tidak ditemukan";
+        }
+}
+
+/**
      * @routeGet("/transaksiBulanan")
      */
     public function getTransaksiBulananAction()
@@ -480,6 +508,25 @@ class Controller extends MiddlewareHardController
     $this->view->disable();
     
         $select = "SELECT COUNT(*) AS total FROM transaksi WHERE month(created_at) = month(CURDATE());";
+        $result = $this->db->fetchAll($select);
+    
+        if (!empty($result)) {
+            // Mengakses nilai 'rowcount' dari hasil fetchAll
+            $jumlahTersedia = $result[0]['total'];
+            echo $jumlahTersedia;
+        } else {
+            echo "Data tidak ditemukan";
+        }
+}
+
+/**
+     * @routeGet("/transaksiHarian")
+     */
+    public function getTransaksiHarianAction()
+{
+    $this->view->disable();
+    
+        $select = "SELECT COUNT(*) AS total FROM transaksi WHERE date(created_at) = date(CURDATE());";
         $result = $this->db->fetchAll($select);
     
         if (!empty($result)) {

@@ -1,13 +1,15 @@
 window.defaultUrl = `${baseUrl}laporan/`;
 var table;
 var formatField = $(`#formatField`);
+// var kasirnya =  $(`form [name="nama_kasir"]`).val();
+  
 var  tableDetail;
-var format;
+var format = '';
 $(document).ready(function() {
     let modal = $('#formModal');
     viewDatatable();
     select2data();
-
+    select2dataTrans();
     $("#btn-refresh-data").click(function () {
         $('#filterModal').find('input[type=checkbox]').prop("checked", false);
         $('input[name=search_kode]').val('');
@@ -50,98 +52,120 @@ $('#btn-detail').on('click', function(){
     }
 });
 
+$(`form [name="format"]`).on('change', function(){
+    
+    
 
-    $(`form [name="format"]`).on('input', function(){
-        isi = $(this).val()
-        formatField = $(`#format-field`);
-        if(isi == ''){
-            console.log('ini kosong');
-            format = `<h1>ini kosong</h1>`;
-            $(`#format-field`).empty();
-            
+    const isi = $(this).val();
+    const formatField = $(`#format-field`);
+    
+   
 
-        }else if(isi == 'harian'){
-            console.log('ini harian');
+    let format = '';
+    switch (isi) {
+        case '':
+            // console.log('ini kosong');
+            format = ``;
+            break;
+        case 'harian':
+            // console.log('ini harian');
             format = `
             <div class="input-group mb-2 input-filter">
-           
-            <div class="input-group-prepend">
-                <span class="input-group-text">
-                    Tanggal
-                </span>
-            </div>
-            <input type="date" id="bulan" name="bulan" class="form-control">
-        </div>
-            `;
-            $(`#format-field`).empty();
-            $(`#format-field`).append(format);
-
-
-        }else if(isi == 'bulanan'){
-            console.log('ini bulanan');
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        Tanggal
+                    </span>
+                </div>
+                <input type="date" id="harian" name="harian" class="form-control">
+            </div>`;
+            break;
+        case 'bulanan':
+            // console.log('ini bulanan');
             format = `
             <div class="input-group mb-2 input-filter">
-            
-            <div class="input-group-prepend">
-                <span class="input-group-text">
-                    Bulan
-                </span>
-            </div>
-            <input type="month" id="bulan" name="bulan" class="form-control">
-        </div>
-            `;
-            $(`#format-field`).empty();
-            $(`#format-field`).append(format);
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        Bulan
+                    </span>
+                </div>
+                <input type="month" id="bulanan" name="bulanan" class="form-control">
+            </div>`;
+            break;
+        case 'tahunan':
+            // console.log('ini tahunan');
+            format = `
+            <div class="input-group mb-2 input-filter">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        Tahun
+                    </span>
+                </div>
+                <input type="number" id="tahunan" name="tahunan" min="2022" step="1" class="form-control">
+            </div>`;
+            break;
+        case 'rentang_tanggal':
+            // console.log('ini rentang tanggal');
+            format = `
+            <div class="input-group mb-2 input-filter">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                        Tanggal
+                    </span>
+                </div>
+                <input type="date" name="date_from" class="form-control">
+                <div style="width: 7%;" class="input-group-prepend ">
+                    <span class="input-group-text">
+                        s.d
+                    </span>
+                </div>
+                <input type="date" name="date_until" class="form-control" required>
+            </div>`;
+            break;
+        default:
+            break;
+    }
 
-        }else if(isi == 'tahunan'){
-            console.log('ini tahunan');
-            format = `
-            <div class="input-group mb-2 input-filter">
-     
-            <div class="input-group-prepend">
-                <span class="input-group-text">
-                    Tahun
-                </span>
-            </div>
-            <input type="number" id="tahun" name="tahun" min="1900" max="2100" step="1">
-                    </div>
-            `;
-            $(`#format-field`).empty();
-            $(`#format-field`).append(format);
-        }else if(isi == 'rentang_tanggal'){
-            console.log('ini rentang tanggal');
-            format = `
-            <div class="input-group mb-2 input-filter">
-									
-											<div class="input-group-prepend">
-												<span class="input-group-text">
-													Tanggal
-												</span>
-											</div>
-											<input type="date" name="date_from" class="form-control" >
-											<div style="width: 7%;" class="input-group-prepend ">
-												<span class="input-group-text">
-													s.d
-												</span>
-											</div>
-											<input type="date" name="date_until" class="form-control"  required>
-										</div>
-            `;
-            $(`#format-field`).empty();
-            $(`#format-field`).append(format);
-        }
-    })
+    
+    formatField.empty();
+    formatField.append(format);
+    
+    if ($(this).is(':disabled')) {
+        
+        formatField.find('input, select').prop('disabled', true);
+
+        // formatField.prop('disabled', true);
+    } else {
+        
+        formatField.find('input, select').prop('disabled', false);
+
+        // formatField.prop('disabled', false);
+    }
+});
 
     $(`form [name="kasir"]`).on('change', function(){
-        $(`form [name="nama_kasir"]`).val('');
+        $(`form [name="nama_kasir"]`).val(''); // Set nilai input menjadi kosong saat elemen select berubah
         var selectedData = $(this).select2('data')[0];
-        if((selectedData == 0) || (selectedData == '')){
-            console.log('belum select');
-        }else{
-            $(`form [name="nama_kasir"]`).val(selectedData.text);
+        console.log('sip coy');
+        
+        // Mengatur status disabled pada input saat elemen select dinonaktifkan
+        if ($(this).is(':disabled')) {
+            format = '';
+            $(`form [name="nama_kasir"]`).val(''); 
+            $(`form [name="nama_kasir"]`).prop('disabled', true);
+            select2dataTrans();
+        } else {
+            format = '';
+            $(`form [name="nama_kasir"]`).val('');
+            $(`form [name="nama_kasir"]`).val(selectedData.id); 
+            // select2data($(`form [name="nama_kasir"]`).val());
+            $(`form [name="nama_kasir"]`).prop('disabled', false);
+            select2dataTrans(selectedData.id);
         }
-    
+        
     });
+
+    
+    
     
     $(`form [name="date_until"]`).on('change', function(){
         var dari = $(`form [name="date_from"]`).val();
@@ -303,7 +327,7 @@ function viewDatatableDetail(datanya){
                 }
             }, 
             {
-                data: 'total',
+                data: 'sub_total',
                 render: function(data){
                     return '<span class="price">' + formatRupiah(data, "Rp. ") + '</span>';
                 }
@@ -326,7 +350,42 @@ function viewDatatableDetail(datanya){
 
 }
 
-
+function select2dataTrans(kasirnya){
+    $('.select2transaksi').select2({
+        
+        allowClear: true,
+        theme: "bootstrap4",
+        width: 'auto',
+        ajax: {
+            url: "{{ url('panel/referensi/getTrans') }}",
+            data: function (params) {
+                return {
+                    q: params.term,
+                    page: params.page || 1,
+                    kasir : kasirnya
+                };
+            },
+            processResults: function (response) {
+                var data = JSON.parse(response);
+                console.log(data);
+                return {
+                    results: data.data.map(function (i) {
+                    i.id = i.id;
+                    i.text = i.id;
+                    
+                    // $('#isinya').text(i.id);                    
+                    // console.log(i);
+                    return i;
+                    }),
+                    pagination: {
+                        more: data.has_more
+                    }
+                }
+            }
+        }
+        
+    });
+}
 function select2data(){
     $('.select2kasir').select2({
         allowClear: true,
@@ -360,38 +419,7 @@ function select2data(){
         }
         
     });
-    $('.select2transaksi').select2({
-        allowClear: true,
-        theme: "bootstrap4",
-        width: 'auto',
-        ajax: {
-            url: "{{ url('panel/referensi/getTrans') }}",
-            data: function (params) {
-                return {
-                    q: params.term,
-                    page: params.page || 1
-                };
-            },
-            processResults: function (response) {
-                var data = JSON.parse(response);
-                console.log(data);
-                return {
-                    results: data.data.map(function (i) {
-                    i.id = i.id;
-                    i.text = i.id;
-                    
-                    // $('#isinya').text(i.id);                    
-                    // console.log(i);
-                    return i;
-                    }),
-                    pagination: {
-                        more: data.has_more
-                    }
-                }
-            }
-        }
-        
-    });
+    
 }
 
 
@@ -418,4 +446,3 @@ function formatRupiah(angka, prefix) {
     rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
     return prefix == undefined ? rupiah : prefix + rupiah;
 }
-

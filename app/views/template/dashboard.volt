@@ -88,8 +88,7 @@
 		<div class="loading hide">Loading&#8230;</div>
 		<div class="sidebar d-none">
 			<nav class="sidebar-nav"></div>
-			<div
-				class="body-container">
+			<div class="body-container">
 				<!-- Navbar -->
 				<nav class="navbar navbar-sm navbar-expand-lg navbar-fixed " style="background-color: #004225;">
 					<div

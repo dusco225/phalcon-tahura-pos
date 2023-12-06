@@ -79,7 +79,7 @@
 													Nama Kasir
 												</span>
 											</div>
-											<input type="hidden" name="nama_kasir" id="nama_kasir" disabled required >
+											<input type="hidden" name="nama_kasir" id="nama_kasir" class="form-control"  required >
 											<select type="text" id="kasir" name="kasir" class="select2 select2kasir" disabled=""></select>
 										</div>
 

@@ -281,10 +281,10 @@ function viewDatacard (filter){
 
     function createCard(data) {
         // var cardWrap = $(`<div class='card-wrapper pr-3 pl-3 pt-1 pb-1  col-3'></div>`); //bungkus kartu
-        var cardWrap = $(`<div class='card-wrapper p-3 col-3'></div>`); //bungkus kartu
+        var cardWrap = $(`<div class='card-wrapper p-3 col-lg-3 col-md-6 col-sm-12 col-12'></div>`); //bungkus kartu
         // var card = $(`<div class='card cardp produk shadow ' style="background-color:#ECE3CE;"  data-card='${JSON.stringify(data)}'></div>`); //kartu
         var card = $(`<div class='card cardp produk shadow ' style="background-color:#FAEED1;"  data-card='${JSON.stringify(data)}'></div>`); //kartu
-        var cardImgWrap = $("<div class='card-data-img-wrapper bg-info' style='max-width:fit-content;'></div>"); //bungkus gambar
+        var cardImgWrap = $("<div class='card-data-img-wrapper ' style='max-width:fit-content;'></div>"); //bungkus gambar
         var cardImg = $(`<img class='image' src="{{url('UploadImage')}}/${data.gambar}" style='width: 100%;'alt='Gambar Produk'>`); //bungkus gambar
         var cardBody = $("<div class='card-body card-data-body '></div>");
         var cardTextWrap = $("<div class='card-text-wrapper d-flex  text-middle text-center align-items-center flex-column'></div>"); // bungkus text
