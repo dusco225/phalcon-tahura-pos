@@ -413,7 +413,7 @@ function dataUntung (){
 
 function tambahBahan(datanya){
     if(datanya != 0 && datanya != '' && datanya != null){
-        console.log(datanya.bahan_id);
+        console.log('isi datanya'+ JSON.stringify(datanya));
         console.log(datanya.bahan);
         var siu = { data: { id: datanya.bahan_id, text : datanya.bahan, jumlah : datanya.jumlah_bahan , harga : datanya.harga_bahan} }
         console.log("data-bahan="+ JSON.stringify(siu));
@@ -423,9 +423,9 @@ function tambahBahan(datanya){
     var bahan = $(`<select style="width: 100%;" name="bahan[]" class="select2 select2bahan"  required><option value='${datanya.bahan_id}'>${datanya.bahan}</option></select>`); // .select2("trigger", "select", { data: { id: datanya.bahan_id } });
     bahan.attr('data-harga', harganya);
     var tdJumlah = $(`<td></td>`);
-    var jumlah = $(`<input style="width: 100%;" type="number" name="jumlah[]" class="form-control " value="${datanya.jumlah}" required>`);
+    var jumlah = $(`<input style="width: 100%;" type="text"  name="jumlah[]" class="form-control " value="${formatRupiah(datanya.jumlah, datanya.nama_satuan + ': ')}" required>`);
     var tdTotal = $(`<td></td>`);
-    var total = $(`<input style="width: 100%;" type="text" id="total" name="total[]" value="${formatRupiah(parseInt(datanya.harga).toString(), "Rp. ")}" disabled>`);
+    var total = $(`<input style="width: 100%;" type="text" class="form-control" id="total" name="total[]" value="${formatRupiah(parseInt(datanya.harga).toString(), "Rp. ")}" disabled>`);
     var aksi = $(`<td><b style=" width: 80%;" id="kurang" class="btn btn-danger"><i class="fas fa-minus"></i></b></td>`);
     }else{
         console.log('tambah bro');
@@ -433,18 +433,20 @@ function tambahBahan(datanya){
         var tdBahan = $(`<td></td>`);
         var bahan = $(`<select style="width: 100%;" name="bahan[]" class="select2 select2bahan" required></select>`);
         var tdJumlah = $(`<td></td>`);
-        var jumlah = $(`<input style="width: 100%;" type="number" name="jumlah[]" | value="1" required>`);
+        var jumlah = $(`<input style="width: 100%;" type="text" class="form-control" name="jumlah[]" | value="1" required>`);
         var tdTotal = $(`<td></td>`);
-        var total = $(`<input style="width: 100%;" type="text" id="total" name="total[]"  disabled>`);
+        var total = $(`<input style="width: 100%;" type="text" class="form-control" id="total" name="total[]"  disabled>`);
         var aksi = $(`<td><b style=" width: 80%;" id="kurang" class="btn btn-danger"><i class="fas fa-minus"></i></b></td>`);
     }
 
     //mengambil data option yang dipilih
     bahan.on('change', function() {
+        
         var selectedData = $(this).select2('data')[0];
         bahanHarga = selectedData.harga / selectedData.jumlah;
-        digunakan = jumlah.val();
-        
+        nambah = formatRupiah(jumlah.val(), selectedData.nama_satuan + ': ');
+        jumlah.val(nambah);
+        digunakan = convertToNumber(jumlah.val());
         $(this).attr('data-harga', bahanHarga);
         console.log('DATANYA BRO '+ digunakan);
         var dataHasil = bahanHarga * digunakan;
@@ -452,29 +454,32 @@ function tambahBahan(datanya){
         var formattedHasil = formatRupiah(dataHasil.toString(), "Rp. " );
         console.log('ini format hasil' + formattedHasil);
         total.val(formattedHasil);
-        hPP();
+        hPP();  
     });
     //------------------------------------
     //mengambil data jumlah digunakan
     jumlah.on('input', function(){
+        // console.log('henshin');
         nilai = $(this).val();
         var selectedData = bahan.select2('data')[0];
-        console.log(selectedData)
-        console.log(formatSatuan(nilai.toString(), selectedData.satuan ))
-        // formattedNilai=formatSatuan(nilai, 'gram');;
-        if($(this).val() < 1){
-            alert('Jumlah Tidak Valid');
-            $(this).val(1); 
-            // salah =1;
-            // formattedNilai=formatSatuan(salah, 'gram');
-            // $(this).val(formattedNilai);
-        }
-        var digunakan = $(this).val();
+        // console.log(selectedData)
+        console.log(formatSatuan(nilai.toString(), selectedData.nama_satuan ))
+        formattedNilai= formatSatuan(nilai, 'gram');;
+        // if($(this).val() < 1){
+        //     alert('Jumlah Tidak Valid');
+        //     $(this).val(1); 
+        //     // salah =1;
+        //     // formattedNilai=formatSatuan(salah, 'gram');
+        //     // $(this).val(formattedNilai);
+        // }
+        digunakan = convertToNumber(jumlah.val());
         var dataBahan = bahan.data('harga');
         subtotal = dataBahan * digunakan;
         var formattedSubTotal = formatRupiah(subtotal.toString(), "Rp. "); 
         total.val(formattedSubTotal);
         hPP();
+        nambah = formatRupiah($(this).val(), selectedData.nama_satuan + ': ');
+        $(this).val(nambah);
     });
     //-------------------------------
     //menghapus tr

@@ -82,7 +82,12 @@ $.get(defaultUrl + "transaksiBulanan", function (data) {
   });
 
 $.get(defaultUrl + "pendapatanBulanan", function (data) {
-    $("#pendapatan").text(formatRupiah(data, "Rp. "));
+    if(data != 0){
+        $("#pendapatan").text(formatRupiah(data, "Rp. "));
+    }else{
+        console.log('ini yang jalan')
+        $("#pendapatan").text('Rp. 0');
+    }
   });
 
 $.get(defaultUrl + "transaksiHarian", function (data) {
@@ -90,7 +95,13 @@ $.get(defaultUrl + "transaksiHarian", function (data) {
   });
   
 $.get(defaultUrl + "pendapatanHarian", function (data) {
-    $("#pendapatan_harian").text(formatRupiah(data, "Rp. "));
+    if(data == 0){
+        
+        $("#pendapatan_harian").text(formatRupiah(data, "Rp. "));
+    }else{
+        
+        $("#pendapatan_harian").text('Rp. 0');
+    }
   });
 
 

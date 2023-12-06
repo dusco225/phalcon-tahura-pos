@@ -21,8 +21,11 @@ class Controller extends MiddlewareHardController
      */
     public function indexAction($id)
     {
+        $nama = $this->session->user['nama'];
+        $this->view->setVar('user', $nama );
         $tahun = date('Y');
         $this->view->tahun = $this->session->user['tahun'];
+        
         $this->view->setVar('module', $id);
         // $this->view->setVar('tahun', $tahun);
         $total_pendapatan = TransaksiModel::query()
@@ -480,6 +483,7 @@ class Controller extends MiddlewareHardController
     $this->view->disable();
     
         $select = "SELECT 
+        
         SUM(total) AS total  
     FROM 
         transaksi 

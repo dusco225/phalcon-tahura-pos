@@ -276,7 +276,7 @@
                 {% include "template/dashboard.js" %}
 				window.defaultUrl = `${baseUrl}`;
 				$("#ganti-pass").click(function () {
-					var url = defaultUrl + "pengaturan/ubah-password";
+					var url = baseUrl + "pengaturan/ubah-password";
 					var url2 = url.replace("/dashboard", "");
 					window.location.href = url2;
 					console.log(url2);

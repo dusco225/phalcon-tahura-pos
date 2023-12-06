@@ -136,8 +136,8 @@
 										<thead>
 											<tr style="background-color: #e9ecef;">
 												<th style="width: 35%; text-align: center;">Bahan</th>
-												<th style="width: 20%; text-align: center;">Jumlah</th>
-												<th style="width: 25%; text-align: center;">Total/Rp.</th>
+												<th style="width: 25%; text-align: center;">Jumlah</th>
+												<th style="width: 20%; text-align: center;">Total/Rp.</th>
 												<th style="width: 10%; text-align: center;">Aksi</th>
 											</tr>
 										</thead>

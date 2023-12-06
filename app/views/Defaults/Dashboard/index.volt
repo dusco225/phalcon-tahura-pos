@@ -177,6 +177,7 @@
 				</div>
 			</div>
 			<!--  -->
+			<h3 class="p-0 ml-3 text-nowrap text-140  text-dark-l2 ">Selamat Datang <b><?php echo $user ?></b> </h3>
 			<div class="content isi-nya container-fluid m-0 p-4 ">
 				<div class="top row ">
 					
