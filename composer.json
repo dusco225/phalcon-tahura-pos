@@ -17,5 +17,14 @@
         "setasign/fpdf": "^1.8",
         "rathouz/text-image": "^2.0",
         "endroid/qr-code": "1.*"
+    },
+    "config": {
+        "platform": {
+            "php": "7.3.9"
+        }
     }
+
 }
+    
+
+
