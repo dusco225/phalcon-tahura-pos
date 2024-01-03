@@ -156,7 +156,7 @@ $(`form [name="format"]`).on('change', function(){
         } else {
             format = '';
             $(`form [name="nama_kasir"]`).val('');
-            $(`form [name="nama_kasir"]`).val(selectedData.id); 
+            $(`form [name="nama_kasir"]`).val(selectedData.nama); 
             // select2data($(`form [name="nama_kasir"]`).val());
             $(`form [name="nama_kasir"]`).prop('disabled', false);
             select2dataTrans(selectedData.id);
@@ -234,8 +234,12 @@ function viewDatatable(){
             {
                 data: 'diskon',
                 render: function(data){
-                    diskon = parseFloat(data) * 100;
-                    return '<span class="price">' + diskon +"%" + '</span>';
+                    if(data == 0 == '' ==null){
+                        diskon = parseFloat(data) * 100;
+                        return '<span class="price">' + diskon +"%" + '</span>';
+                    }else{
+                        return '<span class="price">' + data + '</span>';
+                    }
                 }
             }, 
             {

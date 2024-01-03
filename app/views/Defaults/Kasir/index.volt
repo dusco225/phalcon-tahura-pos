@@ -12,12 +12,14 @@
 			/* min-height: 144px; */
 			min-height: 116px;
 			max-height: 144px;
+			box-sizing: border-box;
 			display: flex;
 			align-items: center;
 			justify-content: center;
 			border-radius: 8px;
 			
 		}
+		
 		.card-data-img-wrapper img{
 			/* margin: 15px;
 			padding: 15px; */
@@ -68,8 +70,13 @@
 	color:#4F6F52;
 }
 .img-wrapper img {
-	/* max-width: 100%;
-	max-height: 100%; */
+	/* max-width: 100%; */
+	/* max-height: 100%; */
+	max-height:min-content; 
+}
+.img-wrapper{
+	width: 100%;
+	height: 100%;
 }
 .kartu-wrapper{
 	
@@ -202,10 +209,10 @@
 			<div class="content">
 				<div class="filter row p-2 shadow" style="background-color: #EAC696; border-top: 2px solid #65451F ; border-bottom: 2px solid #65451F ;">
 					<div class="left col-5 p-3  position-relative  p-0 m-0" style="border-right: 2px solid #65451F;">
-						<div class="search row bg-light p-0 m-0 " style="border-radius: 8px;">
-							<div class="left col-1  p-0 m-0"><div class=" wadah w-100 h-100 "><h4 class=""><i class="fas fa-search "></i></h4></div></div>
-							<div class="middel col-10 p-0 m-0" ><input type="text" name="filter" id="filter" class="form-control w-100 h-100 " placeholder="Search..." style="border: 0; background: transparent;"></div>
-							<div class="right col-1 p-0 m-0" ><button class=" btn w-100 h-100" id="bersih"><h4><i class="far fa-times-circle"></i></h4></button></div>
+						<div class="search row bg-light p-0 m-0 " style="border-radius: 8px; background-color: #FAEED1;">
+							<div class="left col-1  p-0 m-0" style="background-color: #FAEED1;border-top-left-radius: 8px;border-bottom-left-radius: 8px;"><div class=" wadah w-100 h-100 "><h4 class=""><i class="fas fa-search "></i></h4></div></div>
+							<div class="middel col-10 p-0 m-0" ><input type="text" name="filter" id="filter" class="form-control w-100 h-100 " placeholder="Search..." style="border: 0; background: transparent; background-color: #FAEED1;"></div>
+							<div class="right col-1 p-0 m-0" style="background-color: #FAEED1;border-top-right-radius: 8px;border-bottom-right-radius: 8px; "><button class=" btn w-100 h-100" id="bersih"><h4><i class="far fa-times-circle"></i></h4></button></div>
 						</div>
 					</div>
 					<div class="right  col-7 p-2 ml-1 row " >
@@ -237,7 +244,7 @@
 					
 				</div>
 				<div class="batal col-2">
-					<button type="reset" id="btn-batal" class="btn btn-danger rounded-lg " style="display: flex; justify-content: center; align-items: center;"  ><h2 style="display: flex; justify-content: center; align-items: center;"><i class="fas fa-trash"></i></h2></button>
+					<button type="reset" id="btn-batal" class="btn btn-danger rounded-lg " style="display: flex; justify-content: center; align-items: center;"  ><h2 style="display: flex; justify-content: center; align-items: center;"><i class="fas fa-trash" style="color:#FAEED1"></i></h2></button>
 
 				</div>
 				
@@ -250,7 +257,7 @@
 				</div>
 
 				<!-- <div class="payment   p-1" style="background-color:#EAC696; border-top: 2px solid #65451F; border-bottom: 2px solid #65451F;"> -->
-				<div class="payment   p-1" style=" border-top: 2px solid #65451F; border-bottom: 2px solid #65451F;">
+				<div class="payment   p-1" style=" border-top: 2px solid #65451F;">
 					<!-- <div class="content border rounded-lg shadow" style="background-color:#ECE3CE;"> -->
 					<div class="content border rounded-lg shadow" style="background-color:#FAEED1;">
 						<table border="0" class="w-100  table-sm mt-1 ">

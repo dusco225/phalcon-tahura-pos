@@ -97,7 +97,8 @@
 
 	}
 	.grafik {
-		padding-right: 15px;
+		
+		padding: 0  25px 0  0 ;
 	}
 
 	.top .card {
@@ -183,7 +184,7 @@
 					
 	
 						
-						<div class="card-field row mb-2  ">
+						<div class="card-field row   ">
 	
 							<div class="card-wrapper col-lg-4 col-md-12 col-sm-12 col-12">
 								<div class="content border rounded">
@@ -329,10 +330,11 @@
 						
 						
 						
-				</div>
+				</div>  
 
-				<div class=" card-field middle row p-0 mt-4">
+				<div class=" card-field middle row p-0 ml-0 mt-4">
 					<div class="content content-left col-lg-8 col-md-12 col-sm-12 col-12  grafik ">
+					<!-- <div class="bg-warning pr-2 col-lg-8 col-md-12 col-sm-12 col-12  grafik "> -->
 						<figure class="highcharts-figure shadow border rounded-lg pb-1  " style="border-radius: 20px; padding: 0; margin: 0;">
 							<div class="title  bg-light p-2 text-xs rounded	   bt font-weight-bold  text-uppercase " style="width: 100%;" >
 								<h4 style="width: 100%;"><b id="pendapatan-tahun">Pendapatan - </b></h4>
@@ -342,6 +344,7 @@
 						</figure>
 					</div>								
 						<div class="content content-right col-lg-4 col-md-12 col-sm-12 col-12  " style="height: 96%; padding: 0; margin: 0;" >
+						<!-- <div class=" col-lg-4 col-md-12 col-sm-12 col-12  " style="height: 96%; padding: 0; margin: 0;" > -->
 							<figure class="highcharts-figure shadow border rounded-lg pb-1  " style="height: 100%;" >
 								<div class="title  bg-light p-2 text-xs rounded	   bt font-weight-bold  text-uppercase " style="width: 100%;" >
 									<h4 style="width: 100%;"><b>Produk Ter Laris</b></h4>
@@ -363,11 +366,14 @@
 									</h4>
 									<div class="page-tools mt-3 mt-sm-0 mb-sm-n1 card-toolbar">
 
-										
-
-										<a href="#" class="btn btn-success mr-1 mb-2 radius-2 btn-detail" id="btn-detail" >
+										<a href="#" class="btn btn-warning mr-1 mb-2 radius-2 btn-detail" id="btn-detail" >
 											<i class="fa  fa-info text-140 align-text-bottom mr-2"></i>
 											Detail
+										</a>
+										
+										<a href="#" class="btn mr-1 btn-success mb-2 radius-2" id="btn-refresh-data">
+											<i class="fa fa-sync text-110 align-text-bottom mr-2"></i>
+											Perbarui
 										</a>
 						
 						

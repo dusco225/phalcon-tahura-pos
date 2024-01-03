@@ -4,24 +4,21 @@ var tableDetail;
 var order = 1;
 $(document).ready(function () {
     let modal = $('#formModal');
+    
 
 viewDatatable();
 pendapatan();
 
-$('#btn-add').click(function() {
-    $('#komposisi').empty();
-    modal.find(`input[name="nama"]`).val('');
-    modal.find(`input[name="gambar"]`).val('');
-    modal.find(`select[name="kategori"]`).val(null).trigger('change'); // Reset select2
-    // modal.find(`select[name="bahan[]"]`).val(null).trigger('change'); // Reset select2
-    modal.find(`input[name="jumlah[]"]`).val('1');
-    modal.find(`input[name="hpp"]`).val('');
-    modal.find(`input[name="hargajual"]`).val('');
-    modal.find(`input[name="_type"]`).val('create');
-   
-    resetErrors();
-    $('#formModal').modal('show');
+$("#btn-refresh-data").click(function () {
+    $('#filterModal').find('input[type=checkbox]').prop("checked", false);
+    $('input[name=search_nama]').val('');
+    $('input[name=search_nama]').prop('disabled', true);
+    $('input[name=search_kode]').val('');
+    $('input[name=search_kode').prop('disabled', true);
+    table.ajax.reload();
 });
+
+
 
 
 $('#btn-detail').on('click', function(){
@@ -82,7 +79,7 @@ $.get(defaultUrl + "transaksiBulanan", function (data) {
   });
 
 $.get(defaultUrl + "pendapatanBulanan", function (data) {
-    if(data != 0){
+    if(data != 0 != '' !=null ){
         $("#pendapatan").text(formatRupiah(data, "Rp. "));
     }else{
         console.log('ini yang jalan')
@@ -95,7 +92,7 @@ $.get(defaultUrl + "transaksiHarian", function (data) {
   });
   
 $.get(defaultUrl + "pendapatanHarian", function (data) {
-    if(data == 0){
+    if(data  != 0 != '' !=null){
         
         $("#pendapatan_harian").text(formatRupiah(data, "Rp. "));
     }else{
@@ -295,8 +292,12 @@ function viewDatatable(){
             {
                 data: 'diskon',
                 render: function(data){
-                    diskon = parseFloat(data) * 100;
-                    return '<span class="price">' + diskon +"%" + '</span>';
+                    if(data == 0 == '' ==null){
+                        diskon = parseFloat(data) * 100;
+                        return '<span class="price">' + diskon +"%" + '</span>';
+                    }else{
+                        return '<span class="price">' + data + '</span>';
+                    }
                 }
             }, 
             {

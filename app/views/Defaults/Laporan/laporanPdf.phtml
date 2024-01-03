@@ -79,6 +79,25 @@ switch ($format) {
  default:
   break;
 }
+if($kasir_name == ''){
+
+}else{
+$pdf->Ln();
+$pdf->Cell(30, 5, "Kasir", 0, 0, 'L');
+$pdf->Cell(3, 5, ":", 0, 0, 'R');
+$pdf->Cell(60, 5, $kasir_name, 0, 0, 'L');
+
+}
+
+if($trans == ''){
+
+}else{
+$pdf->Ln();
+$pdf->Cell(30, 5, "Transaksi no", 0, 0, 'L');
+$pdf->Cell(3, 5, ":", 0, 0, 'R');
+$pdf->Cell(60, 5, $trans, 0, 0, 'L');
+
+}
 $pdf->Ln(3);
 
 
@@ -129,7 +148,7 @@ $total_semua = 0;
 // var_dump($result[20]); exit;
 foreach ($result as $data) {
 
- $pdf->Cell(8, 6, $no++, 1, 0, 'C');
+ $pdf->Cell(8, 6, $data['trans_id'], 1, 0, 'C');
  $pdf->Cell(27, 6, $data['nama_kasir'], 1, 0, 'C');
  $prod_nama = $data['nama_produk'];
  $pdf->Cell(32, 6, $prod_nama, 1, 0, 'L');

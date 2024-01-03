@@ -52,7 +52,7 @@
 		<!-- favicon -->
 		<!-- Fav Icon based on PDAM -->
   		{# <link rel="icon" type="image/png" id="fav_icon"/> #}
-		<link rel="icon" id="fav_icon"type="image/png" href="{{ url('assets') }}/image/thr.png"/>
+		<link rel="icon" id="fav_icon"type="image/png" href="{{ url('assets') }}/image/tahura-logo.png"/>
         {% block import_css_page %}
         {% endblock %}
 		

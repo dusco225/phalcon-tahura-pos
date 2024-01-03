@@ -18,23 +18,13 @@
 
 <div class="page-content" >
 	<div class="col-12 p-0 pl-3 pr-3">
-		<div class="ccard d-flex flex-column mx-1 mb-4 px-2 py-1">
-			<div class="flex-grow-1 mb-1 ml-3">
-				<div class="row">
-					<div class="col-10">
-						<div class="text-nowrap text-140 font-bold text-dark-l2 mt-2" id="title_dashboard">
-							Laporan Transaksi
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		
 			<div class="card ccard mx-auto" style="width: 98%; position: sticky;">
 				<div class="card-header pb-1 align-middle " style="border-top-left-radius: 0.4rem; border-top: 4px solid #004225;
 				border-top-right-radius: 0.4rem;border-bottom: 1px solid #e0e5e8 !important;" >
 
 					<h4 class="card-title text-dark-m3 mt-2">
-
+						Laporan-Transaksi
 					</h4>
 					<div class="page-tools mt-3 mt-sm-0 mb-sm-n1 card-toolbar">
 					
@@ -43,9 +33,14 @@
 							Perbarui
 						</a> -->
 
-						<a href="#" class="btn btn-success mr-1 mb-2 radius-2 btn-detail" id="btn-detail" >
+						<a href="#" class="btn btn-warning mr-1 mb-2 radius-2 btn-detail" id="btn-detail" >
 							<i class="fa  fa-info text-140 align-text-bottom mr-2"></i>
 							Detail
+						</a>
+						
+						<a href="#" class="btn mr-1 btn-success mb-2 radius-2" id="btn-refresh-data">
+							<i class="fa fa-sync text-110 align-text-bottom mr-2"></i>
+							Perbarui
 						</a>
 					
 						<a href="#" class="btn btn-danger mr-1 mb-2 radius-2 btn-detail" id="btn-pdf" >
@@ -63,8 +58,8 @@
 							<!-- Modal content-->
 							
 								
-								<div class="form-filter w-50 border">
-									<h4>Filter Laporan</h4>
+								<div class="form-filter w-50 border p-2 m-2">
+									
 
 									<form class="form-horizontal w-100 " id="form-filter">
 										

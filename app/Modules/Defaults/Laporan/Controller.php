@@ -104,6 +104,7 @@ class Controller extends BaseController
         
         $pdam_id = $this->session->user['pdam_id'];
         $filter_kasir       = Request::get('kasir');
+        $name_kasir       = Request::get('nama_kasir');
         $filter_from        = Request::get('date_from');
         $format             = Request::get('format');
         $filter_until       = Request::get('date_until');
@@ -114,6 +115,7 @@ class Controller extends BaseController
 
         $this->view->setVar('module', $id);
         
+        $this->view->setVar('kasir_name', $name_kasir);
         $this->view->setVar('dari', $filter_from);
         $this->view->setVar('sampai', $filter_until);
         $this->view->setVar('harian', $harian);
@@ -136,7 +138,7 @@ class Controller extends BaseController
 
 
         if($filter_transaksi) {
-            $builder->andWhere("trans_id = $filter_transaksi");
+            $builder->andWhere("trans_id = '$filter_transaksi' ");
         }
         
         if($filter_kasir) {
@@ -167,9 +169,7 @@ class Controller extends BaseController
         if($filter_kasir) {
             $builder->andWhere("kode_kasir = '$filter_kasir' ");
         }
-        if($filter_transaksi){
-            $builder->andWhere("id = '$filter_transaksi' ");
-        }
+        
         
         
 

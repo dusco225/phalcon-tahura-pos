@@ -15,12 +15,12 @@
       <div class="mh-100">
         <div class="row justify-content-center">
           <div class="col-12 mt-2">
-            <img class="mx-auto d-block" src="{{ url('assets') }}/image/thr.png" alt="LOGO {{ config.appName }}" style="height: 200px" />
+            <img class="mx-auto d-block" src="{{ url('assets') }}/image/tahura-logo.png" alt="LOGO {{ config.appName }}" style="height: 200px; border-radius: 8px;" />
           </div>
         </div>
         <div class="row justify-content-center">
           <div class="col-12 mt-2">
-            <div class="text-center font-bold fa-2x text-primary">
+            <div class="text-center font-bold fa-2x "style="color: #004225;">
               {{ config.appName }}
               <h6>(Sistem Informasi Cafe)</h6>
             </div>
@@ -74,6 +74,7 @@
 
         <div class="form-group col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3 mt-2 mt-md-1">
           <div class="d-flex align-items-center input-floating-label text-blue brc-blue-m2">
+          <!-- <div class="d-flex align-items-center input-floating-label text-blue brc-blue-m2" style="t"> -->
             <input name="password" placeholder="Password" type="password" class="form-control form-control-lg pr-4 shadow-none" id="id-login-password" required />
             <i class="fa fa-key text-grey-m2 ml-n4"></i>
             <label class="floating-label text-grey-l1 ml-n3" for="id-login-password"> Password </label>
@@ -91,7 +92,7 @@
        
 
         <div class="form-group col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
-          <button type="submit" class="btn btn-primary btn-block px-4 btn-bold mt-2 mb-4">Sign In</button>
+          <button type="submit" class="btn text-white btn-block px-4 btn-bold mt-2 mb-4" style="background-color:  #004225;">Sign In</button>
         </div>
       </form>
     </div>

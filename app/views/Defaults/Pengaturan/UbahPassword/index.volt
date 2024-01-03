@@ -9,7 +9,7 @@
 </style>
 <div class="page-content" >
 	<div class="card ccard mx-auto" style="width: 98%; position: sticky;">
-		<div class="card-header pb-1 align-middle border-t-3 brc-primary-tp3" style="border-top-left-radius: 0.4rem;
+		<div class="card-header pb-1 align-middle  " style="border-top-left-radius: 0.4rem; border-top: 4px solid  #004225;
 		border-top-right-radius: 0.4rem;border-bottom: 1px solid #e0e5e8 !important;" >
 			<h4 class="card-title text-dark-m3 mt-2">
 				Pengaturan - Ganti Password

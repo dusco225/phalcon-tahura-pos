@@ -30,7 +30,7 @@
   <!-- favicon -->
   <!-- Fav Icon based on PDAM -->
   {# <link rel="icon" type="image/png" id="fav_icon"/> #}
-  <link rel="icon" type="image/png" href="{{ url('assets') }}/image/tjm.png" />
+  <link rel="icon" type="image/png" href="{{ url('assets') }}/image/tahura-logo.png" />
 
   <!-- "Login" page styles, specific to this page for demo only -->
   {% block inline_style %}

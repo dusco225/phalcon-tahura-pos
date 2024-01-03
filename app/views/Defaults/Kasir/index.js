@@ -143,29 +143,28 @@ $('#formForm').on('submit', function(e){
         method: 'POST',
         data: dataToSend,
         success: function(response) {
-            console.log(response);
+            // console.log(response);
+            response.data
 
-            var struk = response.struk ;
-            alert("Transaksi Berhasil");
-           
-            window.open(defaultUrl + "strukPdf?" + $.param(response), '_blank');            
+            // Pastikan bahwa cetakStruk() dikonfigurasi dan digunakan dengan benar
+            cetakStruk().then(function(cetakResult) {
+                if (cetakResult.value) {
+                    window.open(defaultUrl + "strukPdf?" + $.param(response), '_blank');
+                }
+            });
+
+            // Lakukan tindakan lainnya setelah transaksi berhasil
             viewDataVoucher();
             pembersihan();
-            // $('#formForm')[0].reset();
-            // $('#order').empty();
-            // // $('#diskon').val(0); 
-            // $('#diskon').val('siuuuuuuuuuuuuuuuuuu');             
-
         },
-        error: function( xhr, status, error) {
-            //tanganin kesalahan jika terjadi
+        error: function(xhr, status, error) {
+            // Tangani kesalahan dengan lebih spesifik
             console.error('Error: ', error);
-            console.error('Status: ', status );
+            console.error('Status: ', status);
             console.error('XHR Response: ', xhr.responseText);
+            alert("Terjadi kesalahan dalam melakukan transaksi.");
         }
     });
-    
-    console.log('function dilewat');
 });
 
 $(`.btn-kategori`).on('click', function(){
@@ -230,7 +229,7 @@ function pembersihan(){
     $('#formForm')[0].reset();
     $('#order').empty();
     // $('#diskon').val(0); 
-    $('#diskon').val('siuuuuuuuuuuuuuuuuuu');             
+    $('#diskon').val('');             
 
 }
 
@@ -380,7 +379,7 @@ function newCreateCard(data) {
     // var cardLeft = $("<div class='produk-left container-fluid col-4 w-100 '></div>");
     var cardLeft = $("<div class='produk-left  col-4 p-0 m-0 '></div>");
     // var img = $(`<img src="{{url('UploadImage')}}/${data.gambar}" class=" " style="width:100%;" alt="">`);
-    var img = $(`<img src="{{url('UploadImage')}}/${data.gambar}" class="p-0 m-0 rounded-lg" style="width:100%;" alt="">`);
+    var img = $(`<img src="{{url('UploadImage')}}/${data.gambar}" class="p-0 m-0 rounded-lg" style="width:100%; height:74px" alt="">`);
     var cardRight = $("<div class='produk-right  container-fluid col-8'></div>"); // bungkus text
     var cardTitle = $("<h5 class='produk-name text-dark'></h5>").html(`<b>` + data.nama + `</b>`); //judul 
     var cardPrice = $("<h5 class='produk-price'></h5>").html('<b>'+formatRupiah(data.harga, "Rp. ")+'</b>'); //harga
@@ -675,13 +674,13 @@ function resetErrors() {
     });
 }
 
-function confirmDelete() {
+function cetakStruk() {
     let swalWithBootstrapButtons = Swal.mixin({
         buttonsStyling: false,
     });
 
     return swalWithBootstrapButtons.fire({
-        title: 'Apakah anda yakin?',
+        title: 'Cetak Struk?',
         type: 'warning',
         showCancelButton: true,
         scrollbarPadding: false,

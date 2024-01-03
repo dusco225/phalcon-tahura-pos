@@ -143,6 +143,9 @@ function viewDatatable(){
             {
                 data: 'kode'
             },
+            {
+                data: 'password'
+            },
            
         ],
             "createdRow": function (row, data, index) {

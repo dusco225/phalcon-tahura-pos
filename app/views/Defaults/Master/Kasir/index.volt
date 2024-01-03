@@ -57,6 +57,8 @@
 									<th style="vertical-align: middle;" >#</th>
 									<th style="vertical-align: middle;">Nama</th>
 									<th style="vertical-align: middle;">Kode</th>
+									<th style="vertical-align: middle;">Password</th>
+									
 								</tr>
 							</thead>
 						
