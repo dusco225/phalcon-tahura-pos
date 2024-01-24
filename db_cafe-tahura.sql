@@ -14,11 +14,6 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-
--- Dumping database structure for db_cafe-tahura
-CREATE DATABASE IF NOT EXISTS `db_cafe-tahura` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `db_cafe-tahura`;
-
 -- Dumping structure for table db_cafe-tahura.deleted
 CREATE TABLE IF NOT EXISTS `deleted` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -28,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `deleted` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=204 DEFAULT CHARSET=ascii ROW_FORMAT=DYNAMIC;
 
--- Dumping data for table db_cafe-tahura.deleted: ~0 rows (approximately)
+-- Dumping data for table db_cafe-tahura.deleted: ~1 rows (approximately)
 REPLACE INTO `deleted` (`id`, `table_name`, `data`, `created_at`) VALUES
 	(202, 'master_barang', '{"id": 11807, "kode": "BRG_005", "nama": "Barang Usulan 1", "harga": 200000.0, "satuan": "70", "pdam_id": 4, "created_at": "2023-08-03 16:49:39.000000", "created_by": "Super Admin", "updated_at": null, "kategori_id": 33}', '2023-08-09 11:29:28.502201');
 
@@ -64,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `log_akses` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC;
 
--- Dumping data for table db_cafe-tahura.log_akses: ~27 rows (approximately)
+-- Dumping data for table db_cafe-tahura.log_akses: ~40 rows (approximately)
 REPLACE INTO `log_akses` (`id`, `pdam_id`, `times`, `id_user`, `username`, `name`, `ip`, `url`, `message`, `data`, `response`, `controller`, `action`) VALUES
 	(1, 1, '2023-11-14 01:50:21', '225', 'owner', 'OWNER', '127.0.0.1', 'localhost/cafe-tahura/panel//master/kasir/update', 'Update Data Master-Referensi Barang-Satuan', '{"nama":"ELIS SUKA MAJU","kode":"k002","password":"superkasir","password_hash":"$2y$10$Ze1zOqLzYheKpNo.tjykGuYZ9aFCOf6lW63BHFyqvM4kV8FzV\\/B4e","pdam_id":"1"}', 'true', 'App\\Modules\\Defaults\\Master\\ReferensiBarang\\Satuan\\Controller', 'UPDATE'),
 	(2, 1, '2023-11-14 02:23:14', '225', 'owner', 'OWNER', '127.0.0.1', 'localhost/cafe-tahura/panel//master/kasir/store', 'Insert Data Master-Referensi Barang-Satuan', '{"nama":"Ikbal","kode":"k006","password":"masterplan","password_hash":"$2y$10$uqD7VF\\/dpbyac18NLrXjwO9SqkQslJqHYqbLdcA1HwhQtXyIg6\\/aO","pdam_id":"1"}', 'true', 'App\\Modules\\Defaults\\Master\\ReferensiBarang\\Satuan\\Controller', 'INSERT'),
@@ -144,7 +139,7 @@ CREATE TABLE IF NOT EXISTS `master_kasir` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table db_cafe-tahura.master_kasir: ~5 rows (approximately)
+-- Dumping data for table db_cafe-tahura.master_kasir: ~6 rows (approximately)
 REPLACE INTO `master_kasir` (`id`, `nama`, `kode`, `password`, `password_hash`, `pdam_id`) VALUES
 	(1, 'Andhika', 'k001', 'superkasir', '$2y$10$nSIeuoLO6.OGV27U4p8umeGufS543ZN17xw62WVcYHLJ6O23I3eQO', 1),
 	(2, 'Ahmad', 'k002', 'superkasir', '$2y$10$/m/7ZsMaAiNmQvYxGx6c5OqeH8pF9uy11PDzmuWl3X1Tg/KaMCTkq', 1),
@@ -195,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `master_produk` (
   CONSTRAINT `FK_master_produk_master_kategori` FOREIGN KEY (`kategori_id`) REFERENCES `master_kategori` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table db_cafe-tahura.master_produk: ~25 rows (approximately)
+-- Dumping data for table db_cafe-tahura.master_produk: ~26 rows (approximately)
 REPLACE INTO `master_produk` (`id`, `kategori_id`, `nama`, `gambar`, `hpp`, `harga_jual`, `pdam_id`) VALUES
 	(1, 1, 'Coffe With Boba', '0f3e652d2f7bda8a47ca2396926e8011.png', 7060, 10590, 1),
 	(14, 2, 'Kentang Goreng', '2a8da0af67c16543e377ec37ac3b8d55.png', 3600, 5400, 1),
@@ -238,7 +233,7 @@ CREATE TABLE IF NOT EXISTS `master_produk_detail` (
   CONSTRAINT `FK_master_produk_detail_master_bahan` FOREIGN KEY (`bahan_id`) REFERENCES `master_bahan` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table db_cafe-tahura.master_produk_detail: ~110 rows (approximately)
+-- Dumping data for table db_cafe-tahura.master_produk_detail: ~113 rows (approximately)
 REPLACE INTO `master_produk_detail` (`id`, `produk_id`, `bahan_id`, `jumlah`, `harga`, `pdam_id`) VALUES
 	(1, 1, 8, 7, 3500, 1),
 	(2, 1, 1, 8, 800, 1),
@@ -382,7 +377,7 @@ CREATE TABLE IF NOT EXISTS `master_voucher` (
   UNIQUE KEY `kode` (`kode`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table db_cafe-tahura.master_voucher: ~5 rows (approximately)
+-- Dumping data for table db_cafe-tahura.master_voucher: ~8 rows (approximately)
 REPLACE INTO `master_voucher` (`id`, `kode`, `diskon`, `qty`, `active_at`, `expired_at`, `pdam_id`) VALUES
 	(1, 'p001', 0.03, 4, '2023-10-30', '2023-11-03', 1),
 	(3, 'p003', 0.01, 2, '2023-10-30', '2023-11-01', 1),
@@ -408,7 +403,7 @@ CREATE TABLE IF NOT EXISTS `menu` (
   PRIMARY KEY (`id_menu`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=141 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
--- Dumping data for table db_cafe-tahura.menu: ~11 rows (approximately)
+-- Dumping data for table db_cafe-tahura.menu: ~13 rows (approximately)
 REPLACE INTO `menu` (`id_menu`, `nama_menu`, `jenis`, `parent_menu`, `link_menu`, `icon`, `urutan`, `is_aktif`, `is_tampil`, `keterangan`) VALUES
 	(1, 'Dashboard', 0, 0, 'dashboard', 'fa fa-tachometer-alt', 1, 1, 1, NULL),
 	(2, 'Master', 0, 0, NULL, 'fa-database', 2, 1, 1, NULL),
@@ -433,7 +428,7 @@ CREATE TABLE IF NOT EXISTS `menu_otorisasi` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2390 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
--- Dumping data for table db_cafe-tahura.menu_otorisasi: ~30 rows (approximately)
+-- Dumping data for table db_cafe-tahura.menu_otorisasi: ~28 rows (approximately)
 REPLACE INTO `menu_otorisasi` (`id`, `pdam_id`, `id_menu`, `id_role`) VALUES
 	(1, 1, 1, 1),
 	(2, 1, 2, 1),
@@ -500,7 +495,7 @@ CREATE TABLE IF NOT EXISTS `role` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
--- Dumping data for table db_cafe-tahura.role: ~19 rows (approximately)
+-- Dumping data for table db_cafe-tahura.role: ~20 rows (approximately)
 REPLACE INTO `role` (`id`, `pdam_id`, `satuan_kerja_id`, `role`, `status`) VALUES
 	(1, 1, 0, 'superadmin', 1),
 	(2, 0, 0, 'superadmin', 1),
@@ -535,9 +530,9 @@ CREATE TABLE IF NOT EXISTS `transaksi` (
   `created_at` datetime DEFAULT NULL,
   `pdam_id` int DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=184 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=198 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table db_cafe-tahura.transaksi: ~133 rows (approximately)
+-- Dumping data for table db_cafe-tahura.transaksi: ~166 rows (approximately)
 REPLACE INTO `transaksi` (`id`, `kode_kasir`, `voucher_kode`, `total`, `grand_total`, `bayar`, `kembalian`, `created_at`, `pdam_id`) VALUES
 	(2, '0', 'p004', 10080, NULL, NULL, NULL, '2023-11-07 09:04:19', 1),
 	(3, '0', 'p004', 23760, NULL, NULL, NULL, '2023-11-07 09:08:19', 1),
@@ -690,7 +685,21 @@ REPLACE INTO `transaksi` (`id`, `kode_kasir`, `voucher_kode`, `total`, `grand_to
 	(180, 'k005', 'p007', 24375, 22181, 25000, 2819, '2023-12-22 11:22:10', 1),
 	(181, 'k001', 'p007', 16680, 15178, 100000, 84822, '2023-12-22 15:01:43', 1),
 	(182, 'Super Admin', 'p007', 46200, 42042, 50000, 7958, '2023-12-22 17:18:15', 1),
-	(183, 'Super Admin', 'narda', 11550, 10395, 15000, 4605, '2023-12-31 00:15:02', 1);
+	(183, 'Super Admin', 'narda', 11550, 10395, 15000, 4605, '2023-12-31 00:15:02', 1),
+	(184, 'Super Admin', '', 5775, 5775, 6000, 225, '2024-01-12 10:56:36', 1),
+	(185, 'Super Admin', '', 5775, 5775, 6000, 225, '2024-01-12 10:56:45', 1),
+	(186, 'Super Admin', '', 40425, 40425, 50000, 9575, '2024-01-13 08:21:54', 1),
+	(187, 'k001', '', 33315, 33315, 100000, 66685, '2024-01-13 10:14:19', 1),
+	(188, 'k001', '', 33315, 33315, 100000, 66685, '2024-01-13 10:14:22', 1),
+	(189, 'k001', '', 33315, 33315, 100000, 66685, '2024-01-13 10:14:23', 1),
+	(190, 'k001', '', 33315, 33315, 100000, 66685, '2024-01-13 10:14:26', 1),
+	(191, 'k001', '', 33315, 33315, 100000, 66685, '2024-01-13 10:14:31', 1),
+	(192, 'k001', '', 15990, 15990, 100000, 84010, '2024-01-13 10:14:52', 1),
+	(193, 'k001', '', 15990, 15990, 100000, 84010, '2024-01-13 10:14:53', 1),
+	(194, 'k001', '', 15990, 15990, 100000, 84010, '2024-01-13 10:14:54', 1),
+	(195, 'k001', '', 11550, 11550, 100000, 88450, '2024-01-13 10:15:46', 1),
+	(196, 'Super Admin', '', 45240, 45240, 50000, 4760, '2024-01-13 14:57:09', 1),
+	(197, 'k001', '', 22650, 22650, 50000, 27350, '2024-01-22 19:55:47', 1);
 
 -- Dumping structure for table db_cafe-tahura.transaksi_detail
 CREATE TABLE IF NOT EXISTS `transaksi_detail` (
@@ -701,9 +710,9 @@ CREATE TABLE IF NOT EXISTS `transaksi_detail` (
   `sub_total` int DEFAULT NULL,
   `pdam_id` int DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=398 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=430 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table db_cafe-tahura.transaksi_detail: ~322 rows (approximately)
+-- Dumping data for table db_cafe-tahura.transaksi_detail: ~420 rows (approximately)
 REPLACE INTO `transaksi_detail` (`id`, `transaksi_id`, `produk_id`, `qty`, `sub_total`, `pdam_id`) VALUES
 	(3, 6, 17, 2, 10500, 1),
 	(4, 6, 22, 3, 18000, 1),
@@ -1092,7 +1101,39 @@ REPLACE INTO `transaksi_detail` (`id`, `transaksi_id`, `produk_id`, `qty`, `sub_
 	(394, 182, 17, 1, 5775, 1),
 	(395, 182, 15, 7, 40425, 1),
 	(396, 183, 17, 1, 5775, 1),
-	(397, 183, 15, 1, 5775, 1);
+	(397, 183, 15, 1, 5775, 1),
+	(398, 184, 17, 1, 5775, 1),
+	(399, 185, 17, 1, 5775, 1),
+	(400, 186, 17, 6, 34650, 1),
+	(401, 186, 15, 1, 5775, 1),
+	(402, 187, 1, 1, 10590, 1),
+	(403, 187, 14, 1, 5400, 1),
+	(404, 187, 15, 3, 17325, 1),
+	(405, 188, 1, 1, 10590, 1),
+	(406, 188, 14, 1, 5400, 1),
+	(407, 188, 15, 3, 17325, 1),
+	(408, 189, 1, 1, 10590, 1),
+	(409, 189, 14, 1, 5400, 1),
+	(410, 189, 15, 3, 17325, 1),
+	(411, 190, 1, 1, 10590, 1),
+	(412, 190, 14, 1, 5400, 1),
+	(413, 190, 15, 3, 17325, 1),
+	(414, 191, 1, 1, 10590, 1),
+	(415, 191, 14, 1, 5400, 1),
+	(416, 191, 15, 3, 17325, 1),
+	(417, 192, 1, 1, 10590, 1),
+	(418, 192, 14, 1, 5400, 1),
+	(419, 193, 1, 1, 10590, 1),
+	(420, 193, 14, 1, 5400, 1),
+	(421, 194, 1, 1, 10590, 1),
+	(422, 194, 14, 1, 5400, 1),
+	(423, 195, 15, 1, 5775, 1),
+	(424, 195, 17, 1, 5775, 1),
+	(425, 196, 1, 1, 10590, 1),
+	(426, 196, 17, 6, 34650, 1),
+	(427, 197, 14, 1, 5400, 1),
+	(428, 197, 19, 1, 8700, 1),
+	(429, 197, 23, 1, 8550, 1);
 
 -- Dumping structure for table db_cafe-tahura.updated
 CREATE TABLE IF NOT EXISTS `updated` (
@@ -1103,7 +1144,7 @@ CREATE TABLE IF NOT EXISTS `updated` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=203 DEFAULT CHARSET=ascii ROW_FORMAT=DYNAMIC;
 
--- Dumping data for table db_cafe-tahura.updated: ~0 rows (approximately)
+-- Dumping data for table db_cafe-tahura.updated: ~1 rows (approximately)
 REPLACE INTO `updated` (`id`, `table_name`, `data`, `created_at`) VALUES
 	(202, 'master_barang', '{"id": 11805, "kode": "BRG_0021", "nama": "Peralatan Kantor", "harga": 200000.0, "satuan": "73", "pdam_id": 4, "created_at": "2023-08-03 16:25:35.000000", "created_by": "Super Admin", "updated_at": "2023-08-09 11:29:47.000000", "kategori_id": 53}', '2023-08-09 11:30:53.900201');
 
@@ -1122,7 +1163,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `unq_user` (`username`,`pdam_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=238 DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
--- Dumping data for table db_cafe-tahura.user: ~7 rows (approximately)
+-- Dumping data for table db_cafe-tahura.user: ~8 rows (approximately)
 REPLACE INTO `user` (`id`, `pdam_id`, `satuan_kerja_id`, `username`, `nama`, `password`, `id_role`, `state`, `kasir_kode`) VALUES
 	(225, 1, NULL, 'owner', 'Owner', '$2y$10$S1o3HU1rQVLoAZ4fFYjo2evixNAk7gF4qNWKEvtG6M6R49If10Z.e', '1', 1, 'Owner'),
 	(226, 1, NULL, 'k001', 'Andhika', '$2y$10$nSIeuoLO6.OGV27U4p8umeGufS543ZN17xw62WVcYHLJ6O23I3eQO', '2', 1, 'k001'),
@@ -1261,7 +1302,8 @@ CREATE TABLE `vw_transaksi_detail` (
 
 -- Dumping structure for view db_cafe-tahura.vw_user
 -- Creating temporary table to overcome VIEW dependency errors
-CREATE TABLE `vw_user` 
+CREATE TABLE `vw_user` (
+	`id` INT(10) NOT NULL
 ) ENGINE=MyISAM;
 
 -- Dumping structure for view db_cafe-tahura.vw_voucher
@@ -1389,7 +1431,7 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vw_transaksi_detail` AS se
 -- Dumping structure for view db_cafe-tahura.vw_user
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `vw_user`;
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vw_user` AS select `satuan_kerja`.`kelompok_id` AS `satker_kelompok_id`,`satuan_kerja`.`kode` AS `satker_kode`,`satuan_kerja`.`nama` AS `satker_nama`,`satuan_kerja`.`long_kode` AS `satker_long_kode`,`user`.`id` AS `id`,`user`.`pdam_id` AS `pdam_id`,`user`.`satuan_kerja_id` AS `satuan_kerja_id`,`user`.`username` AS `username`,`user`.`nama` AS `nama`,`user`.`password` AS `password`,`user`.`id_role` AS `id_role`,`user`.`state` AS `state`,`role`.`role` AS `role` from ((`user` left join `role` on((`role`.`id` = `user`.`id_role`))) left join `master_satuan_kerja` `satuan_kerja` on((`satuan_kerja`.`id` = `user`.`satuan_kerja_id`)));
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vw_user` AS select `user`.`id` AS `id` from `user`;
 
 -- Dumping structure for view db_cafe-tahura.vw_voucher
 -- Removing temporary table and create final VIEW structure
