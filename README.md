@@ -16,14 +16,9 @@ Berikut adalah beberapa contoh penggunaan proyek ini:
   - [ ] master-> username: owner, password: superowner 
   - [ ] kasir-> username: k001, password: superkasir 
 
-## Fitur yang Belum Diimplementasikan
-
-Meskipun proyek ini adalah proyek pembelajaran, berikut adalah beberapa fitur yang belum diimplementasikan, namun mungkin akan ditambahkan di masa mendatang:
-
-- [ ] Konversi Nilai Decimal Ke Persen.
-- [ ] Produk yang di klik menambah qty di keranjang.
-- [ ] qty produk di keranjang tidak boleh kurang dari 0.
-- [ ] validasi tanggal input di master->voucher
-- [ ] master->kasir belum berjalan
-- [ ] tambahkan loading ketika proccess debounce(delay)
-
+## Tata-Cara install project aing
+- [ ] Minta ijin dulu ke sayah yah :)
+- [ ] bikin folder dengan nama bebas atau pake nama 'cafe-tahura'
+- [ ] buka folder tersebut di terminal
+- [ ] ketik ' git init '
+- [ ] ketik ' git remote add origin  '
