@@ -20,7 +20,6 @@ Berikut adalah beberapa contoh penggunaan proyek ini:
 - [ ] caranya cari sendiri yah
 
 ## Tata-Cara install project aing
-- [ ] Minta ijin dulu ke sayah yah :)
 - [ ] Kalo punya cara sendiri silahkan yah :)
 - [ ] Bikin folder di dalam htdocs (kalo pake xampp), www (kalo pake laragon)
 - [ ] Namanya bebas atau pake nama 'cafe-tahura'
